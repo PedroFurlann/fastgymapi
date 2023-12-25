@@ -5,9 +5,11 @@ import { Optional } from 'src/core/types/optional';
 export interface ExerciseProps {
   title: string;
   description: string;
-  videoId?: string | null;
+  videoUrl?: string | null;
   createdAt: Date;
   updatedAt?: Date | null;
+  coachId: UniqueEntityID;
+  athleteId?: UniqueEntityID | null;
 }
 
 export class Exercise extends Entity<ExerciseProps> {
@@ -28,12 +30,16 @@ export class Exercise extends Entity<ExerciseProps> {
     this.props.description = newDescription;
   }
 
-  get videoId() {
-    return this.props.videoId;
+  get athleteId() {
+    return this.props.athleteId;
   }
 
-  set videoId(newVideoId: string) {
-    this.props.videoId = newVideoId;
+  get videoUrl() {
+    return this.props.videoUrl;
+  }
+
+  set videoUrl(newvideoUrl: string) {
+    this.props.videoUrl = newvideoUrl;
   }
 
   get createdAt() {
