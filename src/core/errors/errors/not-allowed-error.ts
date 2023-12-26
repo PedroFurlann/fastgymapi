@@ -2,6 +2,6 @@ import { UseCaseError } from '../use-case-error';
 
 export class NotAllowedError extends Error implements UseCaseError {
   constructor() {
-    super('You are not allowed to access this resource.');
+    super('Você não tem permissão para acessar esse recurso.');
   }
 }

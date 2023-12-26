@@ -28,10 +28,16 @@ export class Exercise extends Entity<ExerciseProps> {
 
   set description(newDescription: string) {
     this.props.description = newDescription;
+    this.touch();
   }
 
   get athleteId() {
     return this.props.athleteId;
+  }
+
+  set athleteId(athleteId: UniqueEntityID) {
+    this.props.athleteId = athleteId;
+    this.touch();
   }
 
   get videoUrl() {
@@ -40,6 +46,7 @@ export class Exercise extends Entity<ExerciseProps> {
 
   set videoUrl(newvideoUrl: string) {
     this.props.videoUrl = newvideoUrl;
+    this.touch();
   }
 
   get createdAt() {
