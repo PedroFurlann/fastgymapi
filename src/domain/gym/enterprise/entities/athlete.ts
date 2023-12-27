@@ -48,4 +48,10 @@ export class Athlete extends Entity<AthleteProps> {
   private touch() {
     this.props.updatedAt = new Date();
   }
+
+  static create(props: AthleteProps, id?: UniqueEntityID) {
+    const coach = new Athlete(props, id);
+
+    return coach;
+  }
 }
