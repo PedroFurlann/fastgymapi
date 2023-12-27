@@ -27,6 +27,15 @@ export class Athlete extends Entity<AthleteProps> {
     return this.props.password;
   }
 
+  get coachId() {
+    return this.props.coachId;
+  }
+
+  set coachId(coachId: UniqueEntityID) {
+    this.props.coachId = coachId;
+    this.touch();
+  }
+
   set password(newPassword: string) {
     this.props.password = newPassword;
     this.touch();
