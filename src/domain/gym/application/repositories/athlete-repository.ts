@@ -6,4 +6,5 @@ export abstract class AthleteRepository {
   abstract update(athlete: Athlete): Promise<void>;
   abstract delete(athleteId: string): Promise<void>;
   abstract findManyByCoachId(coachId: string): Promise<Athlete[] | null>;
+  abstract findByEmail(email: string): Promise<Athlete | null>;
 }

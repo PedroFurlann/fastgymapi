@@ -4,6 +4,16 @@ import { Athlete } from 'src/domain/gym/enterprise/entities/athlete';
 export class InMemoryAthleteRepository implements AthleteRepository {
   public items: Athlete[] = [];
 
+  async findByEmail(email: string): Promise<Athlete> {
+    const athlete = this.items.find((item) => item.email === email);
+
+    if (!athlete) {
+      return null;
+    }
+
+    return athlete;
+  }
+
   async create(athlete: Athlete): Promise<void> {
     this.items.push(athlete);
   }
