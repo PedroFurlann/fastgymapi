@@ -1,5 +1,5 @@
-import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
-import { Coach, CoachProps } from 'src/domain/gym/enterprise/entities/coach';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { Coach, CoachProps } from '@/domain/gym/enterprise/entities/coach';
 import { faker } from '@faker-js/faker';
 
 export function makeCoach(

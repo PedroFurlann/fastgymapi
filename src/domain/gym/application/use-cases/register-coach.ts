@@ -1,9 +1,9 @@
-import { Either, left, right } from 'src/core/either';
-import { Coach } from '../../enterprise/entities/coach';
-import { Injectable } from '@nestjs/common';
-import { CoachRepository } from '../repositories/coach-repository';
+import { Either, left, right } from '@/core/either';
 import { HashGenerator } from '../cryptography/hash-generator';
+import { Injectable } from '@nestjs/common';
+import { Coach } from '../../enterprise/entities/coach';
 import { CoachAlreadyExistsError } from './errors/coach-alreay-exists-error';
+import { CoachRepository } from '../repositories/coach-repository';
 
 interface RegisterCoachUseCaseRequest {
   name: string;
@@ -13,12 +13,15 @@ interface RegisterCoachUseCaseRequest {
 
 type RegisterCoachUseCaseResponse = Either<
   CoachAlreadyExistsError,
-  { coach: Coach }
+  {
+    coach: Coach;
+  }
 >;
+
 @Injectable()
 export class RegisterCoachUseCase {
   constructor(
-    private coachRepository: CoachRepository,
+    private readonly coachRepository: CoachRepository,
     private readonly hashGenerator: HashGenerator,
   ) {}
 

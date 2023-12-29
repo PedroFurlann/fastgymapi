@@ -1,9 +1,9 @@
-import { faker } from '@faker-js/faker';
-import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import {
-  Athlete,
   AthleteProps,
-} from 'src/domain/gym/enterprise/entities/athlete';
+  Athlete,
+} from '@/domain/gym/enterprise/entities/athlete';
+import { faker } from '@faker-js/faker';
 
 export function makeAthlete(
   override: Partial<AthleteProps> = {},

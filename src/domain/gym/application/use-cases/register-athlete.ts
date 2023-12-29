@@ -1,10 +1,10 @@
-import { Either, left, right } from 'src/core/either';
 import { Athlete } from '../../enterprise/entities/athlete';
 import { Injectable } from '@nestjs/common';
 import { AthleteRepository } from '../repositories/athlete-repository';
 import { HashGenerator } from '../cryptography/hash-generator';
 import { AthleteAlreadyExistsError } from './errors/athlete-already-exists-error';
-import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
+import { Either, left, right } from '@/core/either';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 interface RegisterAthleteUseCaseRequest {
   name: string;

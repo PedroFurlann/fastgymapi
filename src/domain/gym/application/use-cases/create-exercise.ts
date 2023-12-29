@@ -1,8 +1,8 @@
-import { Either, right } from 'src/core/either';
-import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
 import { Exercise } from '../../enterprise/entities/exercise';
 import { Injectable } from '@nestjs/common';
 import { ExerciseRepository } from '../repositories/exercise-repository';
+import { Either, right } from '@/core/either';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 interface CreateExerciseUseCaseRequest {
   title: string;

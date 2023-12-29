@@ -1,8 +1,8 @@
-import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import {
   Exercise,
   ExerciseProps,
-} from 'src/domain/gym/enterprise/entities/exercise';
+} from '@/domain/gym/enterprise/entities/exercise';
 import { faker } from '@faker-js/faker';
 
 export function makeExercise(
