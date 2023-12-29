@@ -1,5 +1,5 @@
 import { InMemoryAthleteRepository } from '../../../../../test/repositories/in-memory-athlete-repository';
-import { FetchCoachAthletesUseCase } from './feth-coach-athletes';
+import { FetchCoachAthletesUseCase } from './fetch-coach-athletes';
 import { makeAthlete } from '../../../../../test/factories/make-athlete';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
@@ -28,8 +28,6 @@ describe('Fetch coach athletes', () => {
     const result = await sut.execute({
       coachId: 'coach-1',
     });
-
-    console.log(result.value.athletes[0]);
 
     expect(result.value.athletes).toHaveLength(2);
     expect(result.value.athletes).toEqual([
