@@ -8,6 +8,7 @@ interface CreateExerciseUseCaseRequest {
   title: string;
   description: string;
   coachId: string;
+  athleteId?: string | null;
 }
 
 type CreateExerciseUseCaseResponse = Either<null, { exercise: Exercise }>;
@@ -19,12 +20,17 @@ export class CreateExerciseUseCase {
     title,
     coachId,
     description,
+    athleteId,
   }: CreateExerciseUseCaseRequest): Promise<CreateExerciseUseCaseResponse> {
     const exercise = Exercise.create({
       title,
       description,
       coachId: new UniqueEntityID(coachId),
     });
+
+    if (athleteId) {
+      exercise.athleteId = new UniqueEntityID(athleteId);
+    }
 
     await this.exerciseRepository.create(exercise);
 
