@@ -2,7 +2,6 @@ import { makeExercise } from '../../../../../test/factories/make-exercise';
 import { InMemoryExerciseRepository } from '../../../../../test/repositories/in-memory-exercise-repository';
 import { EditExerciseUseCase } from './edit-exercise';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
-import { Exercise } from '../../enterprise/entities/exercise';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 
 let inMemoryExerciseRepository: InMemoryExerciseRepository;
@@ -24,7 +23,7 @@ describe('Edit Exercise', () => {
 
     await inMemoryExerciseRepository.create(exercise);
 
-    const newExercise = Exercise.create(
+    const newExercise = makeExercise(
       {
         coachId: exercise.coachId,
         title: 'Test title exercise',
@@ -54,7 +53,7 @@ describe('Edit Exercise', () => {
 
     await inMemoryExerciseRepository.create(exercise);
 
-    const newExercise = Exercise.create(
+    const newExercise = makeExercise(
       {
         coachId: new UniqueEntityID('coach-2'),
         title: 'Test title exercise',
