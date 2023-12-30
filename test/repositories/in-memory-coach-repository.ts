@@ -18,6 +18,16 @@ export class InMemoryCoachRepository implements CoachRepository {
     return coach;
   }
 
+  async findById(coachId: string): Promise<Coach> {
+    const coach = this.items.find((item) => item.id.toString() === coachId);
+
+    if (!coach) {
+      return null;
+    }
+
+    return coach;
+  }
+
   async update(coach: Coach): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id === coach.id);
 
