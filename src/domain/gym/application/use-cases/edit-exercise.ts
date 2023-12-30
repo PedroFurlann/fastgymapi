@@ -30,7 +30,7 @@ export class EditExerciseUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    if (exercise.id.toString() !== coachId) {
+    if (exercise.coachId.toString() !== coachId) {
       return left(new NotAllowedError());
     }
 

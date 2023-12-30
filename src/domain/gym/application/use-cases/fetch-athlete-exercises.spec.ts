@@ -6,13 +6,13 @@ import { FetchAthleteExercisesUseCase } from './fetch-athlete-exercises';
 let inMemoryExerciseRepository: InMemoryExerciseRepository;
 let sut: FetchAthleteExercisesUseCase;
 
-describe('Fetch coach exercises', () => {
+describe('Fetch athlete exercises', () => {
   beforeEach(() => {
     inMemoryExerciseRepository = new InMemoryExerciseRepository();
     sut = new FetchAthleteExercisesUseCase(inMemoryExerciseRepository);
   });
 
-  it('Fetch all coach exercises by coachId', async () => {
+  it('Fetch all athlete exercises by athleteId', async () => {
     await inMemoryExerciseRepository.create(
       makeExercise({
         athleteId: new UniqueEntityID('athlete-1'),
