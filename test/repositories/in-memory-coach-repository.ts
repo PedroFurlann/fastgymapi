@@ -34,6 +34,10 @@ export class InMemoryCoachRepository implements CoachRepository {
     this.items[itemIndex] = coach;
   }
   async delete(coachId: string): Promise<void> {
-    this.items.filter((item) => item.id.toString() !== coachId);
+    const itemIndex = this.items.findIndex(
+      (item) => item.id.toString() === coachId,
+    );
+
+    this.items.splice(itemIndex, 1);
   }
 }

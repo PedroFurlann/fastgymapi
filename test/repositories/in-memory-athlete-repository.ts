@@ -35,7 +35,11 @@ export class InMemoryAthleteRepository implements AthleteRepository {
   }
 
   async delete(athleteId: string): Promise<void> {
-    this.items.filter((item) => item.id.toString() !== athleteId);
+    const itemIndex = this.items.findIndex(
+      (item) => item.id.toString() === athleteId,
+    );
+
+    this.items.splice(itemIndex, 1);
   }
 
   async findManyByCoachId(coachId: string): Promise<Athlete[]> {
