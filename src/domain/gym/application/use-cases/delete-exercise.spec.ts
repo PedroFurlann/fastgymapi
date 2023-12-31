@@ -25,8 +25,6 @@ describe('Delete Exercise', () => {
       exerciseId: exercise.id.toString(),
     });
 
-    
-
     expect(inMemoryExerciseRepository.items).toHaveLength(0);
   });
 
