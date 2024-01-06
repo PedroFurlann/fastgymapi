@@ -10,6 +10,8 @@ export class PrismaCoachMapper {
         email: raw.email,
         password: raw.password,
         avatarUrl: raw.avatarUrl ? raw.avatarUrl : null,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt ? raw.updatedAt : null,
       },
       new UniqueEntityID(raw.id),
     );
@@ -21,6 +23,9 @@ export class PrismaCoachMapper {
       name: coach.name,
       email: coach.email,
       password: coach.password,
+      avatarUrl: coach.avatarUrl,
+      createdAt: coach.createdAt,
+      updatedAt: coach.updatedAt,
     };
   }
 }

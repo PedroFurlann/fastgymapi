@@ -1,3 +1,4 @@
+import { Optional } from '@/core/types/optional';
 import { Entity } from '../../../../core/entities/entity';
 import { UniqueEntityID } from '../../../../core/entities/unique-entity-id';
 
@@ -6,6 +7,7 @@ export interface CoachProps {
   email: string;
   password: string;
   avatarUrl?: string | null;
+  createdAt: Date;
   updatedAt?: Date | null;
 }
 
@@ -41,6 +43,10 @@ export class Coach extends Entity<CoachProps> {
     this.touch();
   }
 
+  get createdAt() {
+    return this.props.createdAt;
+  }
+
   get updatedAt() {
     return this.props.updatedAt;
   }
@@ -49,8 +55,14 @@ export class Coach extends Entity<CoachProps> {
     this.props.updatedAt = new Date();
   }
 
-  static create(props: CoachProps, id?: UniqueEntityID) {
-    const coach = new Coach(props, id);
+  static create(props: Optional<CoachProps, 'createdAt'>, id?: UniqueEntityID) {
+    const coach = new Coach(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id,
+    );
 
     return coach;
   }

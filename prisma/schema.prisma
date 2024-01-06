@@ -13,6 +13,7 @@ model Coach {
   email     String    @unique
   password  String
   avatarUrl String?
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
   Exercise Exercise[]
@@ -23,7 +24,7 @@ model Exercise {
   id          String    @id @default(uuid())
   title       String
   description String
-  createdAt   DateTime
+  createdAt   DateTime  @default(now())
   coachId     String
   athleteId   String?
   videoUrl    String?
@@ -38,6 +39,7 @@ model Athlete {
   name      String
   email     String    @unique
   password  String
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   coachId   String
 

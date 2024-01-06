@@ -66,7 +66,7 @@ export class PrismaAthleteRepository implements AthleteRepository {
   async findManyByCoachId(coachId: string): Promise<Athlete[]> {
     const athletes = await this.prismaService.athlete.findMany({
       where: {
-        coachId: coachId,
+        coachId,
       },
     });
 

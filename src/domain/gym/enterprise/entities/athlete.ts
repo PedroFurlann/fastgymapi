@@ -1,3 +1,4 @@
+import { Optional } from '@/core/types/optional';
 import { Entity } from '../../../../core/entities/entity';
 import { UniqueEntityID } from '../../../../core/entities/unique-entity-id';
 
@@ -6,6 +7,7 @@ export interface AthleteProps {
   email: string;
   password: string;
   coachId: UniqueEntityID;
+  createdAt: Date;
   updatedAt?: Date | null;
 }
 
@@ -31,14 +33,13 @@ export class Athlete extends Entity<AthleteProps> {
     return this.props.coachId;
   }
 
-  set coachId(coachId: UniqueEntityID) {
-    this.props.coachId = coachId;
-    this.touch();
-  }
-
   set password(newPassword: string) {
     this.props.password = newPassword;
     this.touch();
+  }
+
+  get createdAt() {
+    return this.props.createdAt;
   }
 
   get updatedAt() {
@@ -49,9 +50,18 @@ export class Athlete extends Entity<AthleteProps> {
     this.props.updatedAt = new Date();
   }
 
-  static create(props: AthleteProps, id?: UniqueEntityID) {
-    const coach = new Athlete(props, id);
+  static create(
+    props: Optional<AthleteProps, 'createdAt'>,
+    id?: UniqueEntityID,
+  ) {
+    const athlete = new Athlete(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id,
+    );
 
-    return coach;
+    return athlete;
   }
 }

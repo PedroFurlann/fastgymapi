@@ -10,6 +10,8 @@ export class PrismaAthleteMapper {
         email: raw.email,
         password: raw.password,
         coachId: new UniqueEntityID(raw.id),
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt ? raw.updatedAt : null,
       },
       new UniqueEntityID(raw.id),
     );
@@ -22,6 +24,8 @@ export class PrismaAthleteMapper {
       email: athlete.email,
       password: athlete.password,
       coachId: athlete.id.toString(),
+      createdAt: athlete.createdAt,
+      updatedAt: athlete.updatedAt,
     };
   }
 }
