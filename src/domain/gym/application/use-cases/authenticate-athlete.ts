@@ -45,7 +45,7 @@ export class AuthenticateAthleteUseCase {
 
     const accessToken = await this.encrypter.encrypt({
       sub: athlete.id.toString(),
-      isAthlete: false,
+      isAthlete: true,
     });
 
     return right({
