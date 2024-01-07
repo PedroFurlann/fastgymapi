@@ -8,7 +8,7 @@ interface UploadCoachProfilePhotoRequest {
   fileName: string;
   fileType: string;
   body: Buffer;
-  coachId: string;
+  entityId: string;
 }
 
 type UploadCoachProfilePhotoResponse = Either<InvalidFileType, null>;
@@ -23,15 +23,20 @@ export class UploadCoachProfilePhoto {
     fileName,
     fileType,
     body,
-    coachId,
+    entityId,
   }: UploadCoachProfilePhotoRequest): Promise<UploadCoachProfilePhotoResponse> {
     if (!/^(image\/(jpeg|png|pdf))$|^application\/pdf$/.test(fileType)) {
       return left(new InvalidFileType(fileType));
     }
 
-    const { url } = await this.uploader.upload({ body, fileName, fileType });
+    const { url } = await this.uploader.upload({
+      body,
+      fileName,
+      fileType,
+      entityId,
+    });
 
-    const coach = await this.coachRepository.findById(coachId);
+    const coach = await this.coachRepository.findById(entityId);
 
     coach.avatarUrl = url;
 
