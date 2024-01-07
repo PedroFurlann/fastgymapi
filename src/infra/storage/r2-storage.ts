@@ -40,7 +40,6 @@ export class R2Storage implements Uploader {
   }: UploaderParams): Promise<{ url: string }> {
     const uploadId = randomUUID();
     const uniqueFileName = `${uploadId}-${fileName}`;
-    const filePath = `${uniqueFileName}.${fileType}`;
 
     const coach = await this.coachRepository.findById(entityId);
 
@@ -63,7 +62,7 @@ export class R2Storage implements Uploader {
     );
 
     return {
-      url: filePath,
+      url: uniqueFileName,
     };
   }
 }
