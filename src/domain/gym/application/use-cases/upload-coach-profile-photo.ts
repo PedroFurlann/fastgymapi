@@ -38,7 +38,7 @@ export class UploadCoachProfilePhoto {
 
     const coach = await this.coachRepository.findById(entityId);
 
-    coach.avatarUrl = url;
+    coach['avatarUrl'] = url;
 
     await this.coachRepository.update(coach);
 
