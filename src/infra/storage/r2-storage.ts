@@ -11,9 +11,13 @@ import {
   UploaderParams,
 } from '@/domain/gym/application/storage/uploader';
 import { CoachRepository } from '@/domain/gym/application/repositories/coach-repository';
+import {
+  Deleter,
+  DeleterParams,
+} from '@/domain/gym/application/storage/deleter';
 
 @Injectable()
-export class R2Storage implements Uploader {
+export class R2Storage implements Uploader, Deleter {
   private client: S3Client;
 
   constructor(
@@ -64,5 +68,18 @@ export class R2Storage implements Uploader {
     return {
       url: uniqueFileName,
     };
+  }
+
+  async deleteFile({ entityId }: DeleterParams): Promise<void> {
+    const coach = await this.coachRepository.findById(entityId);
+
+    const profilePhotoId = coach.avatarUrl;
+
+    await this.client.send(
+      new DeleteObjectCommand({
+        Bucket: this.envService.get('AWS_BUCKET_NAME'),
+        Key: profilePhotoId,
+      }),
+    );
   }
 }
