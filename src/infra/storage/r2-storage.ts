@@ -81,5 +81,9 @@ export class R2Storage implements Uploader, Deleter {
         Key: profilePhotoId,
       }),
     );
+
+    coach.avatarUrl = null;
+
+    await this.coachRepository.update(coach);
   }
 }

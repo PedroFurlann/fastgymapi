@@ -39,7 +39,7 @@ describe('Upload and create coach profile photo', () => {
     );
   });
 
-  it('should not be able to upload an coach with invalid file type', async () => {
+  it('should not be able to upload an coach profile photo with invalid file type', async () => {
     const coach = makeCoach();
 
     await inMemoryCoachRepository.create(coach);
