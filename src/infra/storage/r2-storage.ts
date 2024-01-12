@@ -98,4 +98,21 @@ export class R2Storage implements Uploader, Deleter {
 
     await this.coachRepository.update(coach);
   }
+
+  async deleteAthleteProfilePhoto({ entityId }: DeleterParams): Promise<void> {
+    const athlete = await this.athleteRepository.findById(entityId);
+
+    const profilePhotoId = athlete.avatarUrl;
+
+    await this.client.send(
+      new DeleteObjectCommand({
+        Bucket: this.envService.get('AWS_BUCKET_NAME'),
+        Key: profilePhotoId,
+      }),
+    );
+
+    athlete.avatarUrl = null;
+
+    await this.athleteRepository.update(athlete);
+  }
 }
