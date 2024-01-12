@@ -27,6 +27,8 @@ export class DeleteCoachProfilePhoto {
 
     await this.deleter.deleteCoachProfilePhoto({ entityId });
 
+    coach.avatarUrl = null;
+
     await this.coachRepository.update(coach);
 
     return right(null);

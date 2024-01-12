@@ -27,6 +27,8 @@ export class DeleteAthleteProfilePhoto {
 
     await this.deleter.deleteAthleteProfilePhoto({ entityId });
 
+    athlete.avatarUrl = null;
+
     await this.athleteRepository.update(athlete);
 
     return right(null);
