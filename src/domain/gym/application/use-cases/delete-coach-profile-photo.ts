@@ -25,7 +25,7 @@ export class DeleteCoachProfilePhoto {
       return left(new ResourceNotFoundError());
     }
 
-    await this.deleter.deleteFile({ entityId });
+    await this.deleter.deleteCoachProfilePhoto({ entityId });
 
     await this.coachRepository.update(coach);
 

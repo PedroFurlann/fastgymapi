@@ -39,6 +39,7 @@ model Athlete {
   name      String
   email     String    @unique
   password  String
+  avatarUrl String?
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   coachId   String

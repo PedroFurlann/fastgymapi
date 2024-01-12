@@ -7,6 +7,7 @@ export interface AthleteProps {
   email: string;
   password: string;
   coachId: UniqueEntityID;
+  avatarUrl?: string | null;
   createdAt: Date;
   updatedAt?: Date | null;
 }
@@ -35,6 +36,15 @@ export class Athlete extends Entity<AthleteProps> {
 
   set password(newPassword: string) {
     this.props.password = newPassword;
+    this.touch();
+  }
+
+  get avatarUrl() {
+    return this.props.avatarUrl;
+  }
+
+  set avatarUrl(newAvatarUrl: string) {
+    this.props.avatarUrl = newAvatarUrl;
     this.touch();
   }
 

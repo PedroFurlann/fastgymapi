@@ -15,6 +15,7 @@ import {
   Deleter,
   DeleterParams,
 } from '@/domain/gym/application/storage/deleter';
+import { AthleteRepository } from '@/domain/gym/application/repositories/athlete-repository';
 
 @Injectable()
 export class R2Storage implements Uploader, Deleter {
@@ -23,6 +24,7 @@ export class R2Storage implements Uploader, Deleter {
   constructor(
     private readonly envService: EnvService,
     private readonly coachRepository: CoachRepository,
+    private readonly athleteRepository: AthleteRepository,
   ) {
     const accountId = envService.get('CLOUDFLARE_ACCOUNT_ID');
 
@@ -46,12 +48,22 @@ export class R2Storage implements Uploader, Deleter {
     const uniqueFileName = `${uploadId}-${fileName}`;
 
     const coach = await this.coachRepository.findById(entityId);
+    const athlete = await this.athleteRepository.findById(entityId);
 
     if (coach.avatarUrl) {
       await this.client.send(
         new DeleteObjectCommand({
           Bucket: this.envService.get('AWS_BUCKET_NAME'),
           Key: coach.avatarUrl,
+        }),
+      );
+    }
+
+    if (athlete.avatarUrl) {
+      await this.client.send(
+        new DeleteObjectCommand({
+          Bucket: this.envService.get('AWS_BUCKET_NAME'),
+          Key: athlete.avatarUrl,
         }),
       );
     }
@@ -70,7 +82,7 @@ export class R2Storage implements Uploader, Deleter {
     };
   }
 
-  async deleteFile({ entityId }: DeleterParams): Promise<void> {
+  async deleteCoachProfilePhoto({ entityId }: DeleterParams): Promise<void> {
     const coach = await this.coachRepository.findById(entityId);
 
     const profilePhotoId = coach.avatarUrl;

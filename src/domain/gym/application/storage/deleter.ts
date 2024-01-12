@@ -3,5 +3,5 @@ export interface DeleterParams {
 }
 
 export abstract class Deleter {
-  abstract deleteFile(params: DeleterParams): Promise<void>;
+  abstract deleteCoachProfilePhoto(params: DeleterParams): Promise<void>;
 }
