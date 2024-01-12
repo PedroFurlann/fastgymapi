@@ -3,18 +3,18 @@ import { Either, right } from '@/core/either';
 import { Coach } from '../../enterprise/entities/coach';
 import { CoachRepository } from '../repositories/coach-repository';
 
-interface FetchCoachbyidUseCaseRequest {
+interface FetchCoachByIdUseCaseRequest {
   coachId: string;
 }
 
-type FetchCoachbyidUseCaseResponse = Either<null, { coach: Coach }>;
+type FetchCoachByIdUseCaseResponse = Either<null, { coach: Coach }>;
 @Injectable()
-export class FetchCoachbyidUseCase {
+export class FetchCoachByIdUseCase {
   constructor(private coachRepository: CoachRepository) {}
 
   async execute({
     coachId,
-  }: FetchCoachbyidUseCaseRequest): Promise<FetchCoachbyidUseCaseResponse> {
+  }: FetchCoachByIdUseCaseRequest): Promise<FetchCoachByIdUseCaseResponse> {
     const coach = await this.coachRepository.findById(coachId);
 
     return right({
