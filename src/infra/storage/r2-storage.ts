@@ -93,10 +93,6 @@ export class R2Storage implements Uploader, Deleter {
         Key: profilePhotoId,
       }),
     );
-
-    coach.avatarUrl = null;
-
-    await this.coachRepository.update(coach);
   }
 
   async deleteAthleteProfilePhoto({ entityId }: DeleterParams): Promise<void> {
@@ -110,9 +106,5 @@ export class R2Storage implements Uploader, Deleter {
         Key: profilePhotoId,
       }),
     );
-
-    athlete.avatarUrl = null;
-
-    await this.athleteRepository.update(athlete);
   }
 }
