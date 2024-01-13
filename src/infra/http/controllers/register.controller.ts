@@ -17,6 +17,7 @@ import { CoachRoleGuard } from '@/infra/auth/coach-role.guard';
 import { CurrentUser } from '@/infra/auth/current-user.decorator';
 import { UserPayload } from '@/infra/auth/jwt.strategy';
 import { AthleteAlreadyExistsError } from '@/domain/gym/application/use-cases/errors/athlete-already-exists-error';
+import { CoachPresenter } from '../presenters/coach-presenter';
 
 const createAccountBodySchema = z.object({
   name: z.string(),
@@ -55,14 +56,18 @@ export class RegisterController {
           throw new BadRequestException(error.message);
       }
     }
+
+    const { coach } = result.value;
+
+    return { coach: CoachPresenter.toHTTP(coach) };
   }
 
   @Post('/athlete')
-  @UsePipes(new ZodValidationPipe(createAccountBodySchema))
-  @UseGuards(CoachRoleGuard)
+  // @UsePipes(new ZodValidationPipe(createAccountBodySchema))
+  // @UseGuards(CoachRoleGuard)
   async registerAthlete(
-    @Body() body: CreateAccountBodySchemaType,
     @CurrentUser() user: UserPayload,
+    @Body() body: CreateAccountBodySchemaType,
   ) {
     const { name, email, password } = body;
 
@@ -85,5 +90,9 @@ export class RegisterController {
           throw new BadRequestException(error.message);
       }
     }
+
+    const { athlete } = result.value;
+
+    return { athlete };
   }
 }
