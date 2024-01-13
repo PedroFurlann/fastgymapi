@@ -17,6 +17,6 @@ import { DatabaseModule } from '../database/prisma/database.module';
       useClass: R2Storage,
     },
   ],
-  exports: [Uploader],
+  exports: [Uploader, Deleter],
 })
 export class StorageModule {}
