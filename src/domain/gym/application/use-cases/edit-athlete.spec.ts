@@ -1,3 +1,4 @@
+import { FakeHasher } from '../../../../../test/cryptography/fake-hasher';
 import { makeAthlete } from '../../../../../test/factories/make-athlete';
 import { InMemoryAthleteRepository } from '../../../../../test/repositories/in-memory-athlete-repository';
 import { EditAthleteUseCase } from './edit-athlete';
@@ -5,12 +6,14 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 
 let inMemoryAthleteRepository: InMemoryAthleteRepository;
+let fakeHasher: FakeHasher;
 let sut: EditAthleteUseCase;
 
 describe('Edit Athlete', () => {
   beforeEach(() => {
     inMemoryAthleteRepository = new InMemoryAthleteRepository();
-    sut = new EditAthleteUseCase(inMemoryAthleteRepository);
+    fakeHasher = new FakeHasher();
+    sut = new EditAthleteUseCase(inMemoryAthleteRepository, fakeHasher);
   });
 
   it('should be able to edit a athlete', async () => {
@@ -23,23 +26,16 @@ describe('Edit Athlete', () => {
 
     await inMemoryAthleteRepository.create(athlete);
 
-    const newAthlete = makeAthlete(
-      {
-        coachId: athlete.coachId,
-        name: 'Pedro',
-        email: 'email@example.com',
-      },
-      athlete.id,
-    );
-
     await sut.execute({
-      coachId: athlete.coachId.toString(),
-      athlete: newAthlete,
+      athleteId: athlete.id.toString(),
+      name: 'John',
+      password: '123456',
+      coachId: 'coach-1',
     });
 
     expect(inMemoryAthleteRepository.items[0]).toMatchObject({
-      name: 'Pedro',
-      email: 'email@example.com',
+      name: 'John',
+      password: '123456-hashed',
     });
   });
 
@@ -53,18 +49,11 @@ describe('Edit Athlete', () => {
 
     await inMemoryAthleteRepository.create(athlete);
 
-    const newAthlete = makeAthlete(
-      {
-        coachId: new UniqueEntityID('coach-2'),
-        name: 'Pedro',
-        email: 'email@example.com',
-      },
-      athlete.id,
-    );
-
     const result = await sut.execute({
-      coachId: athlete.coachId.toString(),
-      athlete: newAthlete,
+      athleteId: 'athlete-1',
+      name: 'John',
+      password: '123456',
+      coachId: 'coach-2',
     });
 
     expect(result.isLeft()).toBe(true);
