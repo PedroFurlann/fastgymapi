@@ -20,7 +20,7 @@ type RegisterAthleteUseCaseResponse = Either<
 @Injectable()
 export class RegisterAthleteUseCase {
   constructor(
-    private athleteRepository: AthleteRepository,
+    private readonly athleteRepository: AthleteRepository,
     private readonly hashGenerator: HashGenerator,
   ) {}
 

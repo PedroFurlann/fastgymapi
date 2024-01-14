@@ -4,9 +4,11 @@ import { CoachRepository } from '../repositories/coach-repository';
 import { Either, left, right } from '@/core/either';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
+import { HashGenerator } from '../cryptography/hash-generator';
 
 interface EditCoachUseCaseRequest {
-  coach: Coach;
+  name: string;
+  password?: string | null;
   coachId: string;
 }
 
@@ -16,25 +18,32 @@ type EditCoachUseCaseResponse = Either<
 >;
 @Injectable()
 export class EditCoachUseCase {
-  constructor(private coachRepository: CoachRepository) {}
+  constructor(
+    private coachRepository: CoachRepository,
+    private readonly hashGenerator: HashGenerator,
+  ) {}
 
   async execute({
     coachId,
-    coach,
+    name,
+    password,
   }: EditCoachUseCaseRequest): Promise<EditCoachUseCaseResponse> {
-    let coachSelected = await this.coachRepository.findById(
-      coach.id.toString(),
-    );
+    const coachSelected = await this.coachRepository.findById(coachId);
 
     if (!coachSelected) {
       return left(new ResourceNotFoundError());
     }
 
-    if (coach.id.toString() !== coachId) {
+    if (coachSelected.id.toString() !== coachId) {
       return left(new NotAllowedError());
     }
 
-    coachSelected = coach;
+    coachSelected.name = name;
+
+    if (password) {
+      const hashedPassword = await this.hashGenerator.hash(password);
+      coachSelected.password = hashedPassword;
+    }
 
     await this.coachRepository.update(coachSelected);
 
