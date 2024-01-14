@@ -18,14 +18,27 @@ import { CurrentUser } from '@/infra/auth/current-user.decorator';
 import { UserPayload } from '@/infra/auth/jwt.strategy';
 import { AthleteAlreadyExistsError } from '@/domain/gym/application/use-cases/errors/athlete-already-exists-error';
 import { CoachPresenter } from '../presenters/coach-presenter';
+import { AthletePresenter } from '../presenters/athlete-presenter';
 
-const createAccountBodySchema = z.object({
+const createCoachBodySchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string(),
 });
 
-type CreateAccountBodySchemaType = z.infer<typeof createAccountBodySchema>;
+type CreateCoachBodySchemaType = z.infer<typeof createCoachBodySchema>;
+
+const createAthleteBodySchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string(),
+});
+
+const createAthleteBodyValidationPipe = new ZodValidationPipe(
+  createAthleteBodySchema,
+);
+
+type CreateAthleteBodySchema = z.infer<typeof createAthleteBodySchema>;
 
 @Controller('/register')
 export class RegisterController {
@@ -36,8 +49,8 @@ export class RegisterController {
 
   @Public()
   @Post('/coach')
-  @UsePipes(new ZodValidationPipe(createAccountBodySchema))
-  async registerCoach(@Body() body: CreateAccountBodySchemaType) {
+  @UsePipes(new ZodValidationPipe(createCoachBodySchema))
+  async registerCoach(@Body() body: CreateCoachBodySchemaType) {
     const { name, email, password } = body;
 
     const result = await this.registerCoachUseCase.execute({
@@ -63,11 +76,10 @@ export class RegisterController {
   }
 
   @Post('/athlete')
-  // @UsePipes(new ZodValidationPipe(createAccountBodySchema))
-  // @UseGuards(CoachRoleGuard)
+  @UseGuards(CoachRoleGuard)
   async registerAthlete(
     @CurrentUser() user: UserPayload,
-    @Body() body: CreateAccountBodySchemaType,
+    @Body(createAthleteBodyValidationPipe) body: CreateAthleteBodySchema,
   ) {
     const { name, email, password } = body;
 
@@ -93,6 +105,6 @@ export class RegisterController {
 
     const { athlete } = result.value;
 
-    return { athlete };
+    return { athlete: AthletePresenter.toHTTP(athlete) };
   }
 }
