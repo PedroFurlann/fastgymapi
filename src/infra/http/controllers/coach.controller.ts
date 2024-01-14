@@ -21,6 +21,7 @@ import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation.pipe';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
+import { ExercisePresenter } from '../presenters/exercise-presenter';
 
 const editCoachBodySchema = z.object({
   name: z.string(),
@@ -77,7 +78,7 @@ export class CoachController {
 
     const { exercises } = result.value;
 
-    return { exercises };
+    return { exercises: exercises.map(ExercisePresenter.toHTTP) };
   }
 
   @Put()
