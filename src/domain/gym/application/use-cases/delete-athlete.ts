@@ -6,7 +6,6 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 
 interface DeleteAthleteUseCaseRequest {
   athleteId: string;
-  coachId: string;
 }
 
 type DeleteAthleteUseCaseResponse = Either<
@@ -18,17 +17,12 @@ export class DeleteAthleteUseCase {
   constructor(private athleteRepository: AthleteRepository) {}
 
   async execute({
-    coachId,
     athleteId,
   }: DeleteAthleteUseCaseRequest): Promise<DeleteAthleteUseCaseResponse> {
     const athlete = await this.athleteRepository.findById(athleteId);
 
     if (!athlete) {
       return left(new ResourceNotFoundError());
-    }
-
-    if (coachId !== athlete.coachId.toString()) {
-      return left(new NotAllowedError());
     }
 
     await this.athleteRepository.delete(athleteId);

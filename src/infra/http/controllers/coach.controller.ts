@@ -7,9 +7,11 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   ForbiddenException,
   Get,
   NotFoundException,
+  Param,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -22,6 +24,9 @@ import { ZodValidationPipe } from '../pipes/zod-validation.pipe';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { ExercisePresenter } from '../presenters/exercise-presenter';
+import { FetchAthleteByIdUseCase } from '@/domain/gym/application/use-cases/fetch-athlete-by-id';
+import { EditAthleteUseCase } from '@/domain/gym/application/use-cases/edit-athlete';
+import { DeleteAthleteUseCase } from '@/domain/gym/application/use-cases/delete-athlete';
 
 const editCoachBodySchema = z.object({
   name: z.string(),
@@ -32,6 +37,17 @@ const editCoachBodyValidationPipe = new ZodValidationPipe(editCoachBodySchema);
 
 type EditCoachBodySchema = z.infer<typeof editCoachBodySchema>;
 
+const editAthleteBodySchema = z.object({
+  name: z.string(),
+  password: z.string().optional(),
+});
+
+const editAthleteBodyValidationPipe = new ZodValidationPipe(
+  editAthleteBodySchema,
+);
+
+type EditAthleteBodySchema = z.infer<typeof editAthleteBodySchema>;
+
 @UseGuards(CoachRoleGuard)
 @Controller('/coach')
 export class CoachController {
@@ -40,6 +56,9 @@ export class CoachController {
     private readonly editCoachUseCase: EditCoachUseCase,
     private readonly fetchCoachAthletesUseCase: FetchCoachAthletesUseCase,
     private readonly fetchCoachExercisesUseCase: FetchCoachExercisesUseCase,
+    private readonly fetchAthleteByIdUseCase: FetchAthleteByIdUseCase,
+    private readonly editAthleteUseCase: EditAthleteUseCase,
+    private readonly deleteAthleteUseCase: DeleteAthleteUseCase,
   ) {}
 
   @Get()
@@ -112,5 +131,63 @@ export class CoachController {
     const { coach } = result.value;
 
     return { coach: CoachPresenter.toHTTP(coach) };
+  }
+
+  @Get('/athlete/:athleteId')
+  async fetchAthleteById(@Param('athleteId') athleteId: string) {
+    const result = await this.fetchAthleteByIdUseCase.execute({
+      athleteId,
+    });
+
+    const { athlete } = result.value;
+
+    return { athlete: AthletePresenter.toHTTP(athlete) };
+  }
+
+  @Put('/athlete/:athleteId')
+  async editAthlete(
+    @Body(editAthleteBodyValidationPipe) body: EditAthleteBodySchema,
+    @Param('athleteId') athleteId: string,
+  ) {
+    const { name, password } = body;
+
+    const result = await this.editAthleteUseCase.execute({
+      athleteId: athleteId,
+      name,
+      password,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
+
+    const { athlete } = result.value;
+
+    return { athlete: AthletePresenter.toHTTP(athlete) };
+  }
+
+  @Delete('/athlete/:athleteId')
+  async deleteAthleteFromCoach(@Param('athleteId') athleteId: string) {
+    const result = await this.deleteAthleteUseCase.execute({
+      athleteId,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
   }
 }

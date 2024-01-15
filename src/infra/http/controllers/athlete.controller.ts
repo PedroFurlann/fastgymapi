@@ -9,20 +9,15 @@ import {
   Body,
   Controller,
   Delete,
-  ForbiddenException,
   Get,
   NotFoundException,
-  Param,
   Put,
-  UseGuards,
 } from '@nestjs/common';
 import { AthletePresenter } from '../presenters/athlete-presenter';
 import { ExercisePresenter } from '../presenters/exercise-presenter';
 import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation.pipe';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
-import { CoachRoleGuard } from '@/infra/auth/coach-role.guard';
-import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 
 const editAthleteBodySchema = z.object({
   name: z.string(),
@@ -101,55 +96,18 @@ export class AthleteController {
     return { athlete: AthletePresenter.toHTTP(athlete) };
   }
 
-  @Put('/:athleteId')
-  @UseGuards(CoachRoleGuard)
-  async editAthleteFromCoach(
-    @Body(editAthleteBodyValidationPipe) body: EditAthleteBodySchema,
-    @Param('athleteId') athleteId: string,
-  ) {
-    const { name, password } = body;
-
-    const result = await this.editAthleteUseCase.execute({
-      athleteId: athleteId,
-      name,
-      password,
-    });
-
-    if (result.isLeft()) {
-      const error = result.value;
-
-      switch (error.constructor) {
-        case ResourceNotFoundError:
-          throw new NotFoundException(error.message);
-        default:
-          throw new BadRequestException(error.message);
-      }
-    }
-
-    const { athlete } = result.value;
-
-    return { athlete: AthletePresenter.toHTTP(athlete) };
-  }
-
-  @Delete('/:athleteId')
-  @UseGuards(CoachRoleGuard)
-  async deleteAthleteFromCoach(
-    @CurrentUser() user: UserPayload,
-    @Param('athleteId') athleteId: string,
-  ) {
+  @Delete()
+  async deleteAthleteFromCoach(@CurrentUser() user: UserPayload) {
     const userId = user.sub;
 
     const result = await this.deleteAthleteUseCase.execute({
-      coachId: userId,
-      athleteId,
+      athleteId: userId,
     });
 
     if (result.isLeft()) {
       const error = result.value;
 
       switch (error.constructor) {
-        case NotAllowedError:
-          throw new ForbiddenException(error.message);
         case ResourceNotFoundError:
           throw new NotFoundException(error.message);
         default:
