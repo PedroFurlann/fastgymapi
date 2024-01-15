@@ -10,7 +10,6 @@ interface EditAthleteUseCaseRequest {
   name: string;
   password?: string | null;
   athleteId: string;
-  coachId: string;
 }
 
 type EditAthleteUseCaseResponse = Either<
@@ -26,7 +25,6 @@ export class EditAthleteUseCase {
 
   async execute({
     athleteId,
-    coachId,
     name,
     password,
   }: EditAthleteUseCaseRequest): Promise<EditAthleteUseCaseResponse> {
@@ -34,10 +32,6 @@ export class EditAthleteUseCase {
 
     if (!athleteSelected) {
       return left(new ResourceNotFoundError());
-    }
-
-    if (athleteSelected.coachId.toString() !== coachId) {
-      return left(new NotAllowedError());
     }
 
     athleteSelected.name = name;
