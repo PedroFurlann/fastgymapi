@@ -6,8 +6,10 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 
 interface EditExerciseUseCaseRequest {
-  exercise: Exercise;
   coachId: string;
+  title: string;
+  description: string;
+  exerciseId: string;
 }
 
 type EditExerciseUseCaseResponse = Either<
@@ -20,21 +22,22 @@ export class EditExerciseUseCase {
 
   async execute({
     coachId,
-    exercise,
+    title,
+    description,
+    exerciseId,
   }: EditExerciseUseCaseRequest): Promise<EditExerciseUseCaseResponse> {
-    let exerciseSelected = await this.exerciseRepository.findById(
-      exercise.id.toString(),
-    );
+    const exerciseSelected = await this.exerciseRepository.findById(exerciseId);
 
     if (!exerciseSelected) {
       return left(new ResourceNotFoundError());
     }
 
-    if (exercise.coachId.toString() !== coachId) {
+    if (exerciseSelected.coachId.toString() !== coachId) {
       return left(new NotAllowedError());
     }
 
-    exerciseSelected = exercise;
+    exerciseSelected.title = title;
+    exerciseSelected.description = description;
 
     await this.exerciseRepository.update(exerciseSelected);
 

@@ -75,8 +75,8 @@ export class RegisterController {
     return { coach: CoachPresenter.toHTTP(coach) };
   }
 
-  @Post('/athlete')
   @UseGuards(CoachRoleGuard)
+  @Post('/athlete')
   async registerAthlete(
     @CurrentUser() user: UserPayload,
     @Body(createAthleteBodyValidationPipe) body: CreateAthleteBodySchema,

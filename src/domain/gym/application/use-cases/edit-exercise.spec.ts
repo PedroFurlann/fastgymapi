@@ -23,23 +23,16 @@ describe('Edit Exercise', () => {
 
     await inMemoryExerciseRepository.create(exercise);
 
-    const newExercise = makeExercise(
-      {
-        coachId: exercise.coachId,
-        title: 'Test title exercise',
-        description: 'Test description exercise',
-      },
-      exercise.id,
-    );
-
     await sut.execute({
-      coachId: exercise.coachId.toString(),
-      exercise: newExercise,
+      coachId: 'coach-1',
+      title: 'exercise-1',
+      description: 'test-1',
+      exerciseId: exercise.id.toString(),
     });
 
     expect(inMemoryExerciseRepository.items[0]).toMatchObject({
-      title: 'Test title exercise',
-      description: 'Test description exercise',
+      title: 'exercise-1',
+      description: 'test-1',
     });
   });
 
@@ -53,18 +46,11 @@ describe('Edit Exercise', () => {
 
     await inMemoryExerciseRepository.create(exercise);
 
-    const newExercise = makeExercise(
-      {
-        coachId: new UniqueEntityID('coach-2'),
-        title: 'Test title exercise',
-        description: 'Test description exercise',
-      },
-      exercise.id,
-    );
-
     const result = await sut.execute({
-      coachId: exercise.coachId.toString(),
-      exercise: newExercise,
+      coachId: 'coach-2',
+      exerciseId: exercise.id.toString(),
+      title: 'title-2',
+      description: 'test-2',
     });
 
     expect(result.isLeft()).toBe(true);

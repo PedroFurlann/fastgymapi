@@ -26,7 +26,7 @@ export class PrismaExerciseMapper {
       coachId: exercise.coachId.toString(),
       title: exercise.title,
       description: exercise.description,
-      athleteId: exercise.athleteId.toString(),
+      athleteId: exercise.athleteId?.toString(),
       videoUrl: exercise.videoUrl,
       createdAt: exercise.createdAt,
       updatedAt: exercise.updatedAt,
