@@ -1,18 +1,21 @@
 import { FakeUploader } from '../../../../../test/storage/fake-uploader';
 import { InMemoryCoachRepository } from '../../../../../test/repositories/in-memory-coach-repository';
-import { UploadCoachProfilePhoto } from './upload-coach-profile-photo';
+import { UploadCoachProfilePhotoUseCase } from './upload-coach-profile-photo';
 import { makeCoach } from '../../../../../test/factories/make-coach';
-import { InvalidFileType } from './errors/invalid-file-type-error';
+import { InvalidFileTypeError } from './errors/invalid-file-type-error';
 
 let inMemoryCoachRepository: InMemoryCoachRepository;
 let fakeUploader: FakeUploader;
-let sut: UploadCoachProfilePhoto;
+let sut: UploadCoachProfilePhotoUseCase;
 
 describe('Upload and create coach profile photo', () => {
   beforeEach(() => {
     inMemoryCoachRepository = new InMemoryCoachRepository();
     fakeUploader = new FakeUploader();
-    sut = new UploadCoachProfilePhoto(inMemoryCoachRepository, fakeUploader);
+    sut = new UploadCoachProfilePhotoUseCase(
+      inMemoryCoachRepository,
+      fakeUploader,
+    );
   });
 
   it('should be able to upload and create an coach', async () => {
@@ -52,6 +55,6 @@ describe('Upload and create coach profile photo', () => {
     });
 
     expect(result.isLeft()).toBe(true);
-    expect(result.value).toBeInstanceOf(InvalidFileType);
+    expect(result.value).toBeInstanceOf(InvalidFileTypeError);
   });
 });

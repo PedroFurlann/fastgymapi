@@ -10,7 +10,7 @@ interface DeleteCoachProfilePhotoRequest {
 
 type DeleteCoachProfilePhotoResponse = Either<ResourceNotFoundError, null>;
 @Injectable()
-export class DeleteCoachProfilePhoto {
+export class DeleteCoachProfilePhotoUseCase {
   constructor(
     private readonly coachRepository: CoachRepository,
     private readonly deleter: Deleter,

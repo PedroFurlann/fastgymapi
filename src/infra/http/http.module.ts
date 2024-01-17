@@ -23,6 +23,11 @@ import { FetchExerciseByIdUseCase } from '@/domain/gym/application/use-cases/fet
 import { EditExerciseUseCase } from '@/domain/gym/application/use-cases/edit-exercise';
 import { DeleteExerciseUseCase } from '@/domain/gym/application/use-cases/delete-exercise';
 import { ExerciseController } from './controllers/exercise.controller';
+import { StorageController } from './controllers/storage.controller';
+import { UploadCoachProfilePhotoUseCase } from '@/domain/gym/application/use-cases/upload-coach-profile-photo';
+import { UploadAthleteProfilePhotoUseCase } from '@/domain/gym/application/use-cases/upload-athlete-profile-photo';
+import { DeleteCoachProfilePhotoUseCase } from '@/domain/gym/application/use-cases/delete-coach-profile-photo';
+import { DeleteAthleteProfilePhotoUseCase } from '@/domain/gym/application/use-cases/delete-athlete-profile-photo';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -32,6 +37,7 @@ import { ExerciseController } from './controllers/exercise.controller';
     CoachController,
     AthleteController,
     ExerciseController,
+    StorageController,
   ],
   providers: [
     RegisterAthleteUseCase,
@@ -50,6 +56,10 @@ import { ExerciseController } from './controllers/exercise.controller';
     FetchExerciseByIdUseCase,
     EditExerciseUseCase,
     DeleteExerciseUseCase,
+    UploadCoachProfilePhotoUseCase,
+    UploadAthleteProfilePhotoUseCase,
+    DeleteCoachProfilePhotoUseCase,
+    DeleteAthleteProfilePhotoUseCase,
   ],
 })
 export class HttpModule {}

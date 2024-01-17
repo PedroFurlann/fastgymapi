@@ -50,22 +50,28 @@ export class R2Storage implements Uploader, Deleter {
     const coach = await this.coachRepository.findById(entityId);
     const athlete = await this.athleteRepository.findById(entityId);
 
-    if (coach.avatarUrl) {
-      await this.client.send(
-        new DeleteObjectCommand({
-          Bucket: this.envService.get('AWS_BUCKET_NAME'),
-          Key: coach.avatarUrl,
-        }),
-      );
+    if (coach) {
+      if (coach.avatarUrl) {
+        if (coach.avatarUrl) {
+          await this.client.send(
+            new DeleteObjectCommand({
+              Bucket: this.envService.get('AWS_BUCKET_NAME'),
+              Key: coach.avatarUrl,
+            }),
+          );
+        }
+      }
     }
 
-    if (athlete.avatarUrl) {
-      await this.client.send(
-        new DeleteObjectCommand({
-          Bucket: this.envService.get('AWS_BUCKET_NAME'),
-          Key: athlete.avatarUrl,
-        }),
-      );
+    if (athlete) {
+      if (athlete.avatarUrl) {
+        await this.client.send(
+          new DeleteObjectCommand({
+            Bucket: this.envService.get('AWS_BUCKET_NAME'),
+            Key: athlete.avatarUrl,
+          }),
+        );
+      }
     }
 
     await this.client.send(

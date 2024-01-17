@@ -2,7 +2,7 @@ import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
 import { AthleteRepository } from '../repositories/athlete-repository';
 import { Uploader } from '../storage/uploader';
-import { InvalidFileType } from './errors/invalid-file-type-error';
+import { InvalidFileTypeError } from './errors/invalid-file-type-error';
 
 interface UploadAthleteProfilePhotoRequest {
   fileName: string;
@@ -11,9 +11,9 @@ interface UploadAthleteProfilePhotoRequest {
   entityId: string;
 }
 
-type UploadAthleteProfilePhotoResponse = Either<InvalidFileType, null>;
+type UploadAthleteProfilePhotoResponse = Either<InvalidFileTypeError, null>;
 @Injectable()
-export class UploadAthleteProfilePhoto {
+export class UploadAthleteProfilePhotoUseCase {
   constructor(
     private readonly athleteRepository: AthleteRepository,
     private readonly uploader: Uploader,
@@ -26,7 +26,7 @@ export class UploadAthleteProfilePhoto {
     entityId,
   }: UploadAthleteProfilePhotoRequest): Promise<UploadAthleteProfilePhotoResponse> {
     if (!/^(image\/(jpeg|png|pdf))$|^application\/pdf$/.test(fileType)) {
-      return left(new InvalidFileType(fileType));
+      return left(new InvalidFileTypeError(fileType));
     }
 
     const { url } = await this.uploader.upload({

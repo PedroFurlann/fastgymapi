@@ -1,18 +1,18 @@
 import { FakeUploader } from '../../../../../test/storage/fake-uploader';
 import { InMemoryAthleteRepository } from '../../../../../test/repositories/in-memory-athlete-repository';
-import { UploadAthleteProfilePhoto } from './upload-athlete-profile-photo';
+import { UploadAthleteProfilePhotoUseCase } from './upload-athlete-profile-photo';
 import { makeAthlete } from '../../../../../test/factories/make-athlete';
-import { InvalidFileType } from './errors/invalid-file-type-error';
+import { InvalidFileTypeError } from './errors/invalid-file-type-error';
 
 let inMemoryAthleteRepository: InMemoryAthleteRepository;
 let fakeUploader: FakeUploader;
-let sut: UploadAthleteProfilePhoto;
+let sut: UploadAthleteProfilePhotoUseCase;
 
 describe('Upload and create athlete profile photo', () => {
   beforeEach(() => {
     inMemoryAthleteRepository = new InMemoryAthleteRepository();
     fakeUploader = new FakeUploader();
-    sut = new UploadAthleteProfilePhoto(
+    sut = new UploadAthleteProfilePhotoUseCase(
       inMemoryAthleteRepository,
       fakeUploader,
     );
@@ -55,6 +55,6 @@ describe('Upload and create athlete profile photo', () => {
     });
 
     expect(result.isLeft()).toBe(true);
-    expect(result.value).toBeInstanceOf(InvalidFileType);
+    expect(result.value).toBeInstanceOf(InvalidFileTypeError);
   });
 });
