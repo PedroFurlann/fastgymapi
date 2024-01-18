@@ -92,7 +92,7 @@ export class StorageController {
   ) {
     const userId = user.sub;
 
-    const result = await this.uploadCoachProfilePhotoUseCase.execute({
+    const result = await this.uploadAthleteProfilePhotoUseCase.execute({
       fileName: file.originalname,
       fileType: file.mimetype,
       body: file.buffer,
@@ -130,7 +130,7 @@ export class StorageController {
     )
     file: Express.Multer.File,
   ) {
-    const result = await this.uploadCoachProfilePhotoUseCase.execute({
+    const result = await this.uploadAthleteProfilePhotoUseCase.execute({
       fileName: file.originalname,
       fileType: file.mimetype,
       body: file.buffer,
@@ -195,7 +195,7 @@ export class StorageController {
   async deleteAthleteProfilePhoto(@CurrentUser() user: UserPayload) {
     const userId = user.sub;
 
-    const result = await this.deleteCoachProfilePhotoUseCase.execute({
+    const result = await this.deleteAthleteProfilePhotoUseCase.execute({
       entityId: userId,
     });
 
