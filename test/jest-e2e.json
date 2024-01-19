@@ -1,14 +1,12 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
   "testEnvironment": "node",
-  "testRegex": ".e2e-spec.ts$",
+  "testMatch": ["**/*.e2e-spec.ts"],
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/../src/$1",
-    "^@Helper/(.*)$": "<rootDir>/../src/common/helper/$1"
-  },
+  "modulePaths": [
+    "<rootDir>"
+  ],
   "setupFiles": ["./setup-e2e.ts"]
 }
