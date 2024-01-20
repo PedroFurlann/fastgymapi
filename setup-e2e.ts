@@ -5,8 +5,6 @@ import { envSchema } from '@/infra/env/env';
 
 const env = envSchema.parse(process.env);
 
-console.log('passou aqui');
-
 const prisma = new PrismaClient();
 
 function generateUniqueDatabaseUrl(schemaId: string) {
