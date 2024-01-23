@@ -8,6 +8,12 @@ export class InMemoryExerciseRepository implements ExerciseRepository {
     this.items.push(exercise);
   }
 
+  async createMany(exercises: Exercise[]): Promise<void> {
+    exercises.forEach((exercise) => {
+      this.items.push(exercise);
+    });
+  }
+
   async findById(id: string): Promise<Exercise> {
     const exercise = this.items.find((item) => item.id.toString() === id);
 
