@@ -4,7 +4,7 @@ import { ExerciseRepository } from '../repositories/exercise-repository';
 import { Either, right } from '@/core/either';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
-interface CreateExerciseUseCaseRequest {
+interface CreateManyExercisesUseCaseRequest {
   exercises: {
     title: string;
     description: string;
@@ -13,14 +13,17 @@ interface CreateExerciseUseCaseRequest {
   }[];
 }
 
-type CreateExerciseUseCaseResponse = Either<null, { exercises: Exercise[] }>;
+type CreateManyExercisesUseCaseResponse = Either<
+  null,
+  { exercises: Exercise[] }
+>;
 @Injectable()
-export class CreateExerciseUseCase {
+export class CreateManyExercisesUseCase {
   constructor(private exerciseRepository: ExerciseRepository) {}
 
   async execute({
     exercises,
-  }: CreateExerciseUseCaseRequest): Promise<CreateExerciseUseCaseResponse> {
+  }: CreateManyExercisesUseCaseRequest): Promise<CreateManyExercisesUseCaseResponse> {
     const createdExercises = exercises.map((exercise) => {
       const coachId = new UniqueEntityID(exercise.coachId);
       const athleteId = exercise.athleteId
