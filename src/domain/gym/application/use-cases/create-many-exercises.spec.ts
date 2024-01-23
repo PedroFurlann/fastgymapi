@@ -5,7 +5,7 @@ import { makeExercise } from '../../../../../test/factories/make-exercise';
 let inMemoryExerciseRepository: InMemoryExerciseRepository;
 let sut: CreateManyExercisesUseCase;
 
-describe('Create Exercise', () => {
+describe('Create many exercises', () => {
   beforeEach(() => {
     inMemoryExerciseRepository = new InMemoryExerciseRepository();
     sut = new CreateManyExercisesUseCase(inMemoryExerciseRepository);

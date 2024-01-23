@@ -16,6 +16,14 @@ export class PrismaExerciseRepository implements ExerciseRepository {
     });
   }
 
+  async createMany(exercises: Exercise[]): Promise<void> {
+    const data = exercises.map(PrismaExerciseMapper.toPersistence);
+
+    await this.prismaService.exercise.createMany({
+      data,
+    });
+  }
+
   async findById(exerciseId: string): Promise<Exercise> {
     const exercise = await this.prismaService.exercise.findUnique({
       where: {

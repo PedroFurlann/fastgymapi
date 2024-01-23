@@ -23,6 +23,7 @@ import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation.pipe';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
+import { CreateManyExercisesUseCase } from '@/domain/gym/application/use-cases/create-many-exercises';
 
 const createExerciseBodySchema = z.object({
   title: z.string(),
@@ -35,6 +36,24 @@ const createExerciseBodyValidationPipe = new ZodValidationPipe(
 );
 
 type CreateExerciseBodySchema = z.infer<typeof createExerciseBodySchema>;
+
+const createManyExercisesBodySchema = z.object({
+  exercises: z.array(
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      athleteId: z.string().uuid().optional(),
+    }),
+  ),
+});
+
+const createManyExercisesBodyValidationPipe = new ZodValidationPipe(
+  createManyExercisesBodySchema,
+);
+
+type CreateManyExercisesBodySchema = z.infer<
+  typeof createManyExercisesBodySchema
+>;
 
 const editExerciseBodySchema = z.object({
   title: z.string(),
@@ -51,6 +70,7 @@ type EditExerciseBodySchema = z.infer<typeof editExerciseBodySchema>;
 export class ExerciseController {
   constructor(
     private readonly createExerciseUseCase: CreateExerciseUseCase,
+    private readonly createManyExercisesUseCase: CreateManyExercisesUseCase,
     private readonly editExerciseUseCase: EditExerciseUseCase,
     private readonly deleteExerciseUseCase: DeleteExerciseUseCase,
     private readonly fetchExerciseByIdUseCase: FetchExerciseByIdUseCase,
@@ -87,6 +107,37 @@ export class ExerciseController {
     const { exercise } = result.value;
 
     return { exercise: ExercisePresenter.toHTTP(exercise) };
+  }
+
+  @UseGuards(CoachRoleGuard)
+  @Post('/many')
+  async createManyExercises(
+    @CurrentUser() user: UserPayload,
+    @Body(createManyExercisesBodyValidationPipe)
+    body: CreateManyExercisesBodySchema,
+  ) {
+    const { exercises } = body;
+
+    const userId = user.sub;
+
+    const createdExercises = exercises.map((exercise) => {
+      return {
+        title: exercise.title,
+        description: exercise.description,
+        athleteId: exercise.athleteId || null,
+        coachId: userId,
+      };
+    });
+
+    const result = await this.createManyExercisesUseCase.execute({
+      exercises: createdExercises,
+    });
+
+    const { exercises: resultExercises } = result.value;
+
+    return {
+      exercises: resultExercises.map(ExercisePresenter.toHTTP),
+    };
   }
 
   @UseGuards(CoachRoleGuard)
