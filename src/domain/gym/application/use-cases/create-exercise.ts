@@ -28,6 +28,17 @@ export class CreateExerciseUseCase {
       coachId: new UniqueEntityID(coachId),
     });
 
+    const coachExercises =
+      await this.exerciseRepository.findManyByCoachId(coachId);
+
+    const exerciseAlreadyExist = coachExercises.find(
+      (exercise) => exercise.title === title,
+    );
+
+    if (exerciseAlreadyExist) {
+      await this.exerciseRepository.delete(exerciseAlreadyExist.id.toString());
+    }
+
     if (athleteId) {
       exercise.athleteId = new UniqueEntityID(athleteId);
     }
