@@ -39,17 +39,9 @@ export class InMemoryExerciseRepository implements ExerciseRepository {
   }
 
   async deleteMany(exerciseIds: string[]): Promise<void> {
-    const itemsWithoutDeleted: Exercise[] = [];
-
-    this.items.forEach((item) => {
-      const exerciseId = exerciseIds.find((id) => id === item.id.toString());
-
-      if (!exerciseId) {
-        itemsWithoutDeleted.push(item);
-      }
+    exerciseIds.forEach((id) => {
+      this.delete(id);
     });
-
-    this.items = itemsWithoutDeleted;
   }
 
   async findManyByCoachId(coachId: string): Promise<Exercise[]> {

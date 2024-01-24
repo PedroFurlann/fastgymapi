@@ -59,13 +59,10 @@ export class PrismaExerciseRepository implements ExerciseRepository {
 
   async deleteMany(exerciseIds: string[]): Promise<void> {
     exerciseIds.forEach(async (id) => {
-      await this.prismaService.exercise.deleteMany({
-        where: {
-          id,
-        },
-      });
+      await this.delete(id);
     });
   }
+
   async findManyByCoachId(coachId: string): Promise<Exercise[]> {
     const exercises = await this.prismaService.exercise.findMany({
       where: {
