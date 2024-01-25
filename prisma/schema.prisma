@@ -20,18 +20,40 @@ model Coach {
   Athlete  Athlete[]
 }
 
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum ExerciseCategory {
+  CHEST
+  BACK
+  LEGS
+  SHOULDERS
+  BICEPS
+  TRICEPS
+  FOREARMS
+}
+
 model Exercise {
-  id          String    @id @default(uuid())
+  id          String           @id @default(uuid())
   title       String
   description String
-  createdAt   DateTime  @default(now())
-  coachId     String
+  createdAt   DateTime         @default(now())
+  dayOfWeek   DayOfWeek
+  category    ExerciseCategory
+  coachId     String?
   athleteId   String?
   videoUrl    String?
-  updatedAt   DateTime? @updatedAt
+  updatedAt   DateTime?        @updatedAt
 
   athlete Athlete? @relation(fields: [athleteId], references: [id])
-  coach   Coach    @relation(fields: [coachId], references: [id])
+  coach   Coach?   @relation(fields: [coachId], references: [id])
 }
 
 model Athlete {
