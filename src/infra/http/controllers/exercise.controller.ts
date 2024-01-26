@@ -29,6 +29,15 @@ const createExerciseBodySchema = z.object({
   title: z.string(),
   description: z.string(),
   athleteId: z.string().uuid().optional(),
+  category: z.enum([
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY',
+    'SUNDAY',
+  ]),
 });
 
 const createExerciseBodyValidationPipe = new ZodValidationPipe(
@@ -43,6 +52,15 @@ const createManyExercisesBodySchema = z.object({
       title: z.string(),
       description: z.string(),
       athleteId: z.string().uuid().optional(),
+      category: z.enum([
+        'MONDAY',
+        'TUESDAY',
+        'WEDNESDAY',
+        'THURSDAY',
+        'FRIDAY',
+        'SATURDAY',
+        'SUNDAY',
+      ]),
     }),
   ),
 });
@@ -93,12 +111,13 @@ export class ExerciseController {
     @CurrentUser() user: UserPayload,
     @Body(createExerciseBodyValidationPipe) body: CreateExerciseBodySchema,
   ) {
-    const { title, description, athleteId } = body;
+    const { title, description, athleteId, category } = body;
 
     const userId = user.sub;
 
     const result = await this.createExerciseUseCase.execute({
-      coachId: userId,
+      coachId: userId || null,
+      category: category,
       athleteId: athleteId || null,
       title,
       description,
@@ -125,6 +144,7 @@ export class ExerciseController {
         title: exercise.title,
         description: exercise.description,
         athleteId: exercise.athleteId || null,
+        category: exercise.category,
         coachId: userId,
       };
     });

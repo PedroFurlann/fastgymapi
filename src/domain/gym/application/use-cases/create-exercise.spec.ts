@@ -18,6 +18,7 @@ describe('Create Exercise', () => {
       coachId: coach.id.toString(),
       title: 'Test exercise',
       description: 'Test description',
+      category: 'BICEPS',
     });
 
     expect(result.isRight()).toBe(true);

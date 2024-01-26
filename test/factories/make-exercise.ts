@@ -14,6 +14,7 @@ export function makeExercise(
       title: faker.lorem.text(),
       description: faker.lorem.text(),
       coachId: new UniqueEntityID(),
+      category: faker.lorem.text(),
       ...override,
     },
     id,

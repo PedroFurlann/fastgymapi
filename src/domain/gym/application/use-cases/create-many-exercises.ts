@@ -8,7 +8,7 @@ interface CreateManyExercisesUseCaseRequest {
   exercises: {
     title: string;
     description: string;
-    coachId: string;
+    category: string;
     athleteId?: string | null;
   }[];
 }
@@ -25,16 +25,15 @@ export class CreateManyExercisesUseCase {
     exercises,
   }: CreateManyExercisesUseCaseRequest): Promise<CreateManyExercisesUseCaseResponse> {
     const createdExercises = exercises.map((exercise) => {
-      const coachId = new UniqueEntityID(exercise.coachId);
       const athleteId = exercise.athleteId
         ? new UniqueEntityID(exercise.athleteId)
         : null;
 
       return Exercise.create({
-        coachId,
         athleteId,
         title: exercise.title,
         description: exercise.description,
+        category: exercise.category,
       });
     });
 

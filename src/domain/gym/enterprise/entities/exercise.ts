@@ -5,10 +5,12 @@ import { Optional } from '../../../../core/types/optional';
 export interface ExerciseProps {
   title: string;
   description: string;
+  dayOfWeek?: string | null;
+  category: string;
   videoUrl?: string | null;
   createdAt: Date;
   updatedAt?: Date | null;
-  coachId: UniqueEntityID;
+  coachId?: UniqueEntityID | null;
   athleteId?: UniqueEntityID | null;
 }
 
@@ -28,6 +30,24 @@ export class Exercise extends Entity<ExerciseProps> {
 
   set description(newDescription: string) {
     this.props.description = newDescription;
+    this.touch();
+  }
+
+  get category() {
+    return this.props.category;
+  }
+
+  set category(newCategory: string) {
+    this.props.category = newCategory;
+    this.touch();
+  }
+
+  get dayOfWeek() {
+    return this.props.dayOfWeek;
+  }
+
+  set dayOfWeek(newDayOfWeek: string) {
+    this.props.dayOfWeek = newDayOfWeek;
     this.touch();
   }
 

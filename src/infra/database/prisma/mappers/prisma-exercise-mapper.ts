@@ -13,6 +13,8 @@ export class PrismaExerciseMapper {
         createdAt: raw.createdAt,
         videoUrl: raw.videoUrl ? raw.videoUrl : null,
         updatedAt: raw.updatedAt ? raw.updatedAt : null,
+        category: raw.category,
+        dayOfWeek: raw.dayOfWeek ? raw.dayOfWeek : null,
       },
       new UniqueEntityID(raw.id),
     );
@@ -26,6 +28,8 @@ export class PrismaExerciseMapper {
       coachId: exercise.coachId.toString(),
       title: exercise.title,
       description: exercise.description,
+      category: exercise.category,
+      dayOfWeek: exercise.dayOfWeek,
       athleteId: exercise.athleteId?.toString(),
       videoUrl: exercise.videoUrl,
       createdAt: exercise.createdAt,

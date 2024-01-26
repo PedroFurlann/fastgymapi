@@ -18,14 +18,14 @@ describe('Create many exercises', () => {
     const result = await sut.execute({
       exercises: [
         {
-          coachId: exercise1.coachId.toString(),
           title: exercise1.title,
           description: exercise1.description,
+          category: exercise1.category,
         },
         {
-          coachId: exercise2.coachId.toString(),
           title: exercise2.title,
           description: exercise2.description,
+          category: exercise2.category,
         },
       ],
     });

@@ -7,7 +7,8 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 interface CreateExerciseUseCaseRequest {
   title: string;
   description: string;
-  coachId: string;
+  category: string;
+  coachId?: string | null;
   athleteId?: string | null;
 }
 
@@ -20,27 +21,21 @@ export class CreateExerciseUseCase {
     title,
     coachId,
     description,
+    category,
     athleteId,
   }: CreateExerciseUseCaseRequest): Promise<CreateExerciseUseCaseResponse> {
     const exercise = Exercise.create({
       title,
       description,
-      coachId: new UniqueEntityID(coachId),
+      category,
     });
-
-    const coachExercises =
-      await this.exerciseRepository.findManyByCoachId(coachId);
-
-    const exerciseAlreadyExist = coachExercises.find(
-      (exercise) => exercise.title === title,
-    );
-
-    if (exerciseAlreadyExist) {
-      await this.exerciseRepository.delete(exerciseAlreadyExist.id.toString());
-    }
 
     if (athleteId) {
       exercise.athleteId = new UniqueEntityID(athleteId);
+    }
+
+    if (coachId) {
+      exercise.athleteId = new UniqueEntityID(coachId);
     }
 
     await this.exerciseRepository.create(exercise);
