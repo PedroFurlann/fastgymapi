@@ -10,6 +10,7 @@ interface CreateExerciseUseCaseRequest {
   category: string;
   coachId?: string | null;
   athleteId?: string | null;
+  dayOfWeek?: string | null;
 }
 
 type CreateExerciseUseCaseResponse = Either<null, { exercise: Exercise }>;
@@ -23,6 +24,7 @@ export class CreateExerciseUseCase {
     description,
     category,
     athleteId,
+    dayOfWeek,
   }: CreateExerciseUseCaseRequest): Promise<CreateExerciseUseCaseResponse> {
     const exercise = Exercise.create({
       title,
@@ -35,7 +37,11 @@ export class CreateExerciseUseCase {
     }
 
     if (coachId) {
-      exercise.athleteId = new UniqueEntityID(coachId);
+      exercise.coachId = new UniqueEntityID(coachId);
+    }
+
+    if (dayOfWeek) {
+      exercise.dayOfWeek = dayOfWeek;
     }
 
     await this.exerciseRepository.create(exercise);

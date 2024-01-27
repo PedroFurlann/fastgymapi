@@ -55,6 +55,11 @@ export class Exercise extends Entity<ExerciseProps> {
     return this.props.coachId;
   }
 
+  set coachId(coachId: UniqueEntityID) {
+    this.props.coachId = coachId;
+    this.touch();
+  }
+
   get athleteId() {
     return this.props.athleteId;
   }

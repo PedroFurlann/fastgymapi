@@ -25,11 +25,54 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { CreateManyExercisesUseCase } from '@/domain/gym/application/use-cases/create-many-exercises';
 
-const createExerciseBodySchema = z.object({
+const createCoachExerciseBodySchema = z.object({
   title: z.string(),
   description: z.string(),
   athleteId: z.string().uuid().optional(),
   category: z.enum([
+    'BICEPS',
+    'TRICEPS',
+    'CHEST',
+    'BACK',
+    'LEGS',
+    'SHOULDERS',
+    'FOREARMS',
+  ]),
+  dayOfWeek: z
+    .enum([
+      'MONDAY',
+      'TUESDAY',
+      'WEDNESDAY',
+      'THURSDAY',
+      'FRIDAY',
+      'SATURDAY',
+      'SUNDAY',
+    ])
+    .optional(),
+});
+
+const createCoachExerciseBodyValidationPipe = new ZodValidationPipe(
+  createCoachExerciseBodySchema,
+);
+
+type CreateCoachExerciseBodySchema = z.infer<
+  typeof createCoachExerciseBodySchema
+>;
+
+const createAthleteExerciseBodySchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  athleteId: z.string().uuid(),
+  category: z.enum([
+    'BICEPS',
+    'TRICEPS',
+    'CHEST',
+    'BACK',
+    'LEGS',
+    'SHOULDERS',
+    'FOREARMS',
+  ]),
+  dayOfWeek: z.enum([
     'MONDAY',
     'TUESDAY',
     'WEDNESDAY',
@@ -40,19 +83,30 @@ const createExerciseBodySchema = z.object({
   ]),
 });
 
-const createExerciseBodyValidationPipe = new ZodValidationPipe(
-  createExerciseBodySchema,
+const createAthleteExerciseBodyValidationPipe = new ZodValidationPipe(
+  createAthleteExerciseBodySchema,
 );
 
-type CreateExerciseBodySchema = z.infer<typeof createExerciseBodySchema>;
+type CreateAthleteExerciseBodySchema = z.infer<
+  typeof createAthleteExerciseBodySchema
+>;
 
 const createManyExercisesBodySchema = z.object({
   exercises: z.array(
     z.object({
       title: z.string(),
       description: z.string(),
-      athleteId: z.string().uuid().optional(),
+      athleteId: z.string().uuid(),
       category: z.enum([
+        'BICEPS',
+        'TRICEPS',
+        'CHEST',
+        'BACK',
+        'LEGS',
+        'SHOULDERS',
+        'FOREARMS',
+      ]),
+      dayOfWeek: z.enum([
         'MONDAY',
         'TUESDAY',
         'WEDNESDAY',
@@ -106,19 +160,19 @@ export class ExerciseController {
   }
 
   @UseGuards(CoachRoleGuard)
-  @Post()
-  async createExercise(
+  @Post('/coach')
+  async createCoachExercise(
     @CurrentUser() user: UserPayload,
-    @Body(createExerciseBodyValidationPipe) body: CreateExerciseBodySchema,
+    @Body(createCoachExerciseBodyValidationPipe)
+    body: CreateCoachExerciseBodySchema,
   ) {
-    const { title, description, athleteId, category } = body;
+    const { title, description, category } = body;
 
     const userId = user.sub;
 
     const result = await this.createExerciseUseCase.execute({
-      coachId: userId || null,
+      coachId: userId,
       category: category,
-      athleteId: athleteId || null,
       title,
       description,
     });
@@ -129,23 +183,41 @@ export class ExerciseController {
   }
 
   @UseGuards(CoachRoleGuard)
+  @Post('/athlete')
+  async createAthleteExercise(
+    @Body(createAthleteExerciseBodyValidationPipe)
+    body: CreateAthleteExerciseBodySchema,
+  ) {
+    const { title, description, category, dayOfWeek, athleteId } = body;
+
+    const result = await this.createExerciseUseCase.execute({
+      category: category,
+      title,
+      description,
+      athleteId: athleteId || null,
+      dayOfWeek: dayOfWeek || null,
+    });
+
+    const { exercise } = result.value;
+
+    return { exercise: ExercisePresenter.toHTTP(exercise) };
+  }
+
+  @UseGuards(CoachRoleGuard)
   @Post('/many')
   async createManyExercises(
-    @CurrentUser() user: UserPayload,
     @Body(createManyExercisesBodyValidationPipe)
     body: CreateManyExercisesBodySchema,
   ) {
     const { exercises } = body;
 
-    const userId = user.sub;
-
     const createdExercises = exercises.map((exercise) => {
       return {
         title: exercise.title,
         description: exercise.description,
-        athleteId: exercise.athleteId || null,
+        athleteId: exercise.athleteId,
         category: exercise.category,
-        coachId: userId,
+        dayOfWeek: exercise.dayOfWeek,
       };
     });
 

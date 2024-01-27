@@ -25,7 +25,7 @@ export class PrismaExerciseMapper {
   ): Prisma.ExerciseUncheckedCreateInput {
     return {
       id: exercise.id.toString(),
-      coachId: exercise.coachId.toString(),
+      coachId: exercise.coachId?.toString(),
       title: exercise.title,
       description: exercise.description,
       category: exercise.category,

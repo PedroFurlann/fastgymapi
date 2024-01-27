@@ -9,7 +9,8 @@ interface CreateManyExercisesUseCaseRequest {
     title: string;
     description: string;
     category: string;
-    athleteId?: string | null;
+    athleteId: string;
+    dayOfWeek: string;
   }[];
 }
 
@@ -33,6 +34,7 @@ export class CreateManyExercisesUseCase {
         athleteId,
         title: exercise.title,
         description: exercise.description,
+        dayOfWeek: exercise.dayOfWeek,
         category: exercise.category,
       });
     });
