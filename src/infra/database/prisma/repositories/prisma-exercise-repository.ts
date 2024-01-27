@@ -11,8 +11,6 @@ export class PrismaExerciseRepository implements ExerciseRepository {
   async create(exercise: Exercise): Promise<void> {
     const data = PrismaExerciseMapper.toPersistence(exercise);
 
-    console.log(data);
-
     await this.prismaService.exercise.create({
       data,
     });
