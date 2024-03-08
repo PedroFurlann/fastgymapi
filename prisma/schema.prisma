@@ -41,19 +41,21 @@ enum ExerciseCategory {
 }
 
 model Exercise {
-  id          String    @id @default(uuid())
-  title       String
-  description String
-  createdAt   DateTime  @default(now())
-  dayOfWeek   String?
-  category    String
-  coachId     String?
-  athleteId   String?
-  videoUrl    String?
-  updatedAt   DateTime? @updatedAt
+  id           String    @id @default(uuid())
+  title        String
+  description  String
+  createdAt    DateTime  @default(now())
+  dayOfWeek    String?
+  category     String
+  coachId      String?
+  athleteId    String?
+  normalUserId String?
+  videoUrl     String?
+  updatedAt    DateTime? @updatedAt
 
-  athlete Athlete? @relation(fields: [athleteId], references: [id])
-  coach   Coach?   @relation(fields: [coachId], references: [id])
+  athlete    Athlete?    @relation(fields: [athleteId], references: [id])
+  coach      Coach?      @relation(fields: [coachId], references: [id])
+  NormalUser NormalUser? @relation(fields: [normalUserId], references: [id])
 }
 
 model Athlete {
@@ -67,5 +69,17 @@ model Athlete {
   coachId   String
 
   coach    Coach      @relation(fields: [coachId], references: [id])
+  Exercise Exercise[]
+}
+
+model NormalUser {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String?
+  avatarUrl String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
   Exercise Exercise[]
 }
