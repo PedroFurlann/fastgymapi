@@ -6,7 +6,8 @@ import { EnvService } from '../env/env.service';
 
 const tokenPayloadSchema = z.object({
   sub: z.string().uuid(),
-  isAthlete: z.boolean(),
+  isAthlete: z.boolean().optional(),
+  normalUser: z.boolean().optional(),
 });
 
 export type UserPayload = z.infer<typeof tokenPayloadSchema>;
