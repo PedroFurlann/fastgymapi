@@ -7,7 +7,7 @@ import { WrongCredentialsError } from './errors/wrong-credentials-error';
 
 interface AuthenticateNormalUserUseCaseRequest {
   email: string;
-  password: string;
+  password?: string;
 }
 
 type AuthenticateNormalUserUseCaseResponse = Either<
