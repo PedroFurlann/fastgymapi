@@ -4,40 +4,40 @@ import { NormalUser } from 'src/domain/gym/enterprise/entities/normal-user';
 export class InMemoryNormalUserRepository implements NormalUserRepository {
   public items: NormalUser[] = [];
 
-  async create(normaluser: NormalUser): Promise<void> {
-    this.items.push(normaluser);
+  async create(normalUser: NormalUser): Promise<void> {
+    this.items.push(normalUser);
   }
 
   async findByEmail(email: string): Promise<NormalUser> {
-    const normaluser = this.items.find((item) => item.email === email);
+    const normalUser = this.items.find((item) => item.email === email);
 
-    if (!normaluser) {
+    if (!normalUser) {
       return null;
     }
 
-    return normaluser;
+    return normalUser;
   }
 
-  async findById(normaluserId: string): Promise<NormalUser> {
-    const normaluser = this.items.find(
-      (item) => item.id.toString() === normaluserId,
+  async findById(normalUserId: string): Promise<NormalUser> {
+    const normalUser = this.items.find(
+      (item) => item.id.toString() === normalUserId,
     );
 
-    if (!normaluser) {
+    if (!normalUser) {
       return null;
     }
 
-    return normaluser;
+    return normalUser;
   }
 
-  async update(normaluser: NormalUser): Promise<void> {
-    const itemIndex = this.items.findIndex((item) => item.id === normaluser.id);
+  async update(normalUser: NormalUser): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id === normalUser.id);
 
-    this.items[itemIndex] = normaluser;
+    this.items[itemIndex] = normalUser;
   }
-  async delete(normaluserId: string): Promise<void> {
+  async delete(normalUserId: string): Promise<void> {
     const itemIndex = this.items.findIndex(
-      (item) => item.id.toString() === normaluserId,
+      (item) => item.id.toString() === normalUserId,
     );
 
     this.items.splice(itemIndex, 1);

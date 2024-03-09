@@ -59,7 +59,7 @@ export class NormalUser extends Entity<NormalUserProps> {
     props: Optional<NormalUserProps, 'createdAt'>,
     id?: UniqueEntityID,
   ) {
-    const normaluser = new NormalUser(
+    const normalUser = new NormalUser(
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
@@ -67,6 +67,6 @@ export class NormalUser extends Entity<NormalUserProps> {
       id,
     );
 
-    return normaluser;
+    return normalUser;
   }
 }

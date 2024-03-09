@@ -8,7 +8,7 @@ export class PrismaNormalUserMapper {
       {
         name: raw.name,
         email: raw.email,
-        password: raw.password,
+        password: raw.password ? raw.password : null,
         avatarUrl: raw.avatarUrl ? raw.avatarUrl : null,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt ? raw.updatedAt : null,
@@ -18,16 +18,16 @@ export class PrismaNormalUserMapper {
   }
 
   static toPersistence(
-    normaluser: NormalUser,
+    noramlUser: NormalUser,
   ): Prisma.NormalUserUncheckedCreateInput {
     return {
-      id: normaluser.id.toString(),
-      name: normaluser.name,
-      email: normaluser.email,
-      password: normaluser.password,
-      avatarUrl: normaluser.avatarUrl,
-      createdAt: normaluser.createdAt,
-      updatedAt: normaluser.updatedAt,
+      id: noramlUser.id.toString(),
+      name: noramlUser.name,
+      email: noramlUser.email,
+      password: noramlUser.password,
+      avatarUrl: noramlUser.avatarUrl,
+      createdAt: noramlUser.createdAt,
+      updatedAt: noramlUser.updatedAt,
     };
   }
 }
