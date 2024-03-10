@@ -5,13 +5,13 @@ import { FetchNormalUserByIdUseCase } from './fetch-normal-user-by-id';
 let inMemoryNormalUserRepository: InMemoryNormalUserRepository;
 let sut: FetchNormalUserByIdUseCase;
 
-describe('Fetch normaluser', () => {
+describe('Fetch normal user', () => {
   beforeEach(() => {
     inMemoryNormalUserRepository = new InMemoryNormalUserRepository();
     sut = new FetchNormalUserByIdUseCase(inMemoryNormalUserRepository);
   });
 
-  it('Fetch normaluser by id', async () => {
+  it('Fetch normal user by id', async () => {
     const normalUser = makeNormalUser();
 
     await inMemoryNormalUserRepository.create(normalUser);
