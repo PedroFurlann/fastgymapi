@@ -19,7 +19,7 @@ type AuthenticateNormalUserUseCaseResponse = Either<
 @Injectable()
 export class AuthenticateNormalUserUseCase {
   constructor(
-    private readonly normaluserRepository: NormalUserRepository,
+    private readonly normalUserRepository: NormalUserRepository,
     private readonly hashComparer: HashComparer,
     private readonly encrypter: Encrypter,
   ) {}
@@ -28,7 +28,7 @@ export class AuthenticateNormalUserUseCase {
     email,
     password,
   }: AuthenticateNormalUserUseCaseRequest): Promise<AuthenticateNormalUserUseCaseResponse> {
-    const normalUser = await this.normaluserRepository.findByEmail(email);
+    const normalUser = await this.normalUserRepository.findByEmail(email);
 
     if (!normalUser) {
       return left(new WrongCredentialsError());

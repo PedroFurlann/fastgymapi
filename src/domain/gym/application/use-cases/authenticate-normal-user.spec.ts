@@ -22,11 +22,11 @@ describe('Authenticate NormalUser', () => {
   });
 
   it('should be able to authenticate a normaluser', async () => {
-    const normaluser = makeNormalUser({
+    const normalUser = makeNormalUser({
       email: 'test@example.com',
     });
 
-    inMemoryNormalUserRepository.create(normaluser);
+    inMemoryNormalUserRepository.create(normalUser);
 
     const result = await sut.execute({
       email: 'test@example.com',
