@@ -21,7 +21,7 @@ describe('Edit Normal User', () => {
         name: 'John',
         email: 'john@example.com',
       },
-      new UniqueEntityID('normaluser-1'),
+      new UniqueEntityID('normal-user-1'),
     );
 
     await inMemoryNormalUserRepository.create(normalUser);
