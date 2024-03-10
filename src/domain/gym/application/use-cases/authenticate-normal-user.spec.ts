@@ -9,7 +9,7 @@ let fakeHasher: FakeHasher;
 let fakeEncrypter: FakeEncrypter;
 let sut: AuthenticateNormalUserUseCase;
 
-describe('Authenticate NormalUser', () => {
+describe('Authenticate Normal User', () => {
   beforeEach(() => {
     inMemoryNormalUserRepository = new InMemoryNormalUserRepository();
     fakeHasher = new FakeHasher();
@@ -21,7 +21,7 @@ describe('Authenticate NormalUser', () => {
     );
   });
 
-  it('should be able to authenticate a normaluser', async () => {
+  it('should be able to authenticate a normal user', async () => {
     const normalUser = makeNormalUser({
       email: 'test@example.com',
     });
