@@ -16,6 +16,7 @@ import {
   DeleterParams,
 } from '@/domain/gym/application/storage/deleter';
 import { AthleteRepository } from '@/domain/gym/application/repositories/athlete-repository';
+import { NormalUserRepository } from '@/domain/gym/application/repositories/normal-user-repository';
 
 @Injectable()
 export class R2Storage implements Uploader, Deleter {
@@ -25,6 +26,7 @@ export class R2Storage implements Uploader, Deleter {
     private readonly envService: EnvService,
     private readonly coachRepository: CoachRepository,
     private readonly athleteRepository: AthleteRepository,
+    private readonly normalUserRepository: NormalUserRepository,
   ) {
     const accountId = envService.get('CLOUDFLARE_ACCOUNT_ID');
 
@@ -49,17 +51,16 @@ export class R2Storage implements Uploader, Deleter {
 
     const coach = await this.coachRepository.findById(entityId);
     const athlete = await this.athleteRepository.findById(entityId);
+    const normalUser = await this.normalUserRepository.findById(entityId);
 
     if (coach) {
       if (coach.avatarUrl) {
-        if (coach.avatarUrl) {
-          await this.client.send(
-            new DeleteObjectCommand({
-              Bucket: this.envService.get('AWS_BUCKET_NAME'),
-              Key: coach.avatarUrl,
-            }),
-          );
-        }
+        await this.client.send(
+          new DeleteObjectCommand({
+            Bucket: this.envService.get('AWS_BUCKET_NAME'),
+            Key: coach.avatarUrl,
+          }),
+        );
       }
     }
 
@@ -69,6 +70,17 @@ export class R2Storage implements Uploader, Deleter {
           new DeleteObjectCommand({
             Bucket: this.envService.get('AWS_BUCKET_NAME'),
             Key: athlete.avatarUrl,
+          }),
+        );
+      }
+    }
+
+    if (normalUser) {
+      if (normalUser.avatarUrl) {
+        await this.client.send(
+          new DeleteObjectCommand({
+            Bucket: this.envService.get('AWS_BUCKET_NAME'),
+            Key: normalUser.avatarUrl,
           }),
         );
       }
@@ -105,6 +117,21 @@ export class R2Storage implements Uploader, Deleter {
     const athlete = await this.athleteRepository.findById(entityId);
 
     const profilePhotoId = athlete.avatarUrl;
+
+    await this.client.send(
+      new DeleteObjectCommand({
+        Bucket: this.envService.get('AWS_BUCKET_NAME'),
+        Key: profilePhotoId,
+      }),
+    );
+  }
+
+  async deleteNormalUserProfilePhoto({
+    entityId,
+  }: DeleterParams): Promise<void> {
+    const normalUser = await this.normalUserRepository.findById(entityId);
+
+    const profilePhotoId = normalUser.avatarUrl;
 
     await this.client.send(
       new DeleteObjectCommand({
