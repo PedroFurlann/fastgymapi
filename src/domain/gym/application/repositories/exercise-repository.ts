@@ -9,4 +9,7 @@ export abstract class ExerciseRepository {
   abstract deleteMany(exerciseIds: string[]): Promise<void>;
   abstract findManyByCoachId(coachId: string): Promise<Exercise[] | null>;
   abstract findManyByAthleteId(athleteId: string): Promise<Exercise[] | null>;
+  abstract findManyByNormalUserId(
+    normalUserId: string,
+  ): Promise<Exercise[] | null>;
 }

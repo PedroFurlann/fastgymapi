@@ -89,4 +89,18 @@ export class PrismaExerciseRepository implements ExerciseRepository {
 
     return exercises.map(PrismaExerciseMapper.toDomain);
   }
+
+  async findManyByNormalUserId(normalUserId: string): Promise<Exercise[]> {
+    const exercises = await this.prismaService.exercise.findMany({
+      where: {
+        normalUserId,
+      },
+    });
+
+    if (!exercises) {
+      return null;
+    }
+
+    return exercises.map(PrismaExerciseMapper.toDomain);
+  }
 }

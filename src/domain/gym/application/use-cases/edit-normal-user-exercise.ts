@@ -5,19 +5,19 @@ import { Either, left, right } from '@/core/either';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 
-interface EditExerciseUseCaseRequest {
+interface EditNormalUserExerciseUseCaseRequest {
   normalUserId: string;
   title: string;
   description: string;
   exerciseId: string;
 }
 
-type EditExerciseUseCaseResponse = Either<
+type EditNormalUserExerciseUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
   { exercise: Exercise }
 >;
 @Injectable()
-export class EditExerciseUseCase {
+export class EditNormalUserExerciseUseCase {
   constructor(private exerciseRepository: ExerciseRepository) {}
 
   async execute({
@@ -25,7 +25,7 @@ export class EditExerciseUseCase {
     title,
     description,
     exerciseId,
-  }: EditExerciseUseCaseRequest): Promise<EditExerciseUseCaseResponse> {
+  }: EditNormalUserExerciseUseCaseRequest): Promise<EditNormalUserExerciseUseCaseResponse> {
     const exerciseSelected = await this.exerciseRepository.findById(exerciseId);
 
     if (!exerciseSelected) {
