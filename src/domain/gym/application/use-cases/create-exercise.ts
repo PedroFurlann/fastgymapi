@@ -10,6 +10,7 @@ interface CreateExerciseUseCaseRequest {
   category: string;
   coachId?: string | null;
   athleteId?: string | null;
+  normalUserId?: string | null;
   dayOfWeek?: string | null;
 }
 
@@ -21,6 +22,7 @@ export class CreateExerciseUseCase {
   async execute({
     title,
     coachId,
+    normalUserId,
     description,
     category,
     athleteId,
@@ -38,6 +40,14 @@ export class CreateExerciseUseCase {
 
     if (coachId) {
       exercise.coachId = new UniqueEntityID(coachId);
+    }
+
+    if (coachId) {
+      exercise.coachId = new UniqueEntityID(coachId);
+    }
+
+    if (normalUserId) {
+      exercise.normalUserId = new UniqueEntityID(normalUserId);
     }
 
     if (dayOfWeek) {

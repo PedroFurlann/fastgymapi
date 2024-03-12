@@ -11,6 +11,7 @@ export interface ExerciseProps {
   createdAt: Date;
   updatedAt?: Date | null;
   coachId?: UniqueEntityID | null;
+  normalUserId?: UniqueEntityID | null;
   athleteId?: UniqueEntityID | null;
 }
 
@@ -66,6 +67,15 @@ export class Exercise extends Entity<ExerciseProps> {
 
   set athleteId(athleteId: UniqueEntityID) {
     this.props.athleteId = athleteId;
+    this.touch();
+  }
+
+  get normalUserId() {
+    return this.props.normalUserId;
+  }
+
+  set normalUserId(normalUserId: UniqueEntityID) {
+    this.props.normalUserId = normalUserId;
     this.touch();
   }
 
