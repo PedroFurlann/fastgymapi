@@ -96,7 +96,8 @@ const createManyExercisesBodySchema = z.object({
     z.object({
       title: z.string(),
       description: z.string(),
-      athleteId: z.string().uuid(),
+      athleteId: z.string().uuid().optional(),
+      normalUserId: z.string().uuid().optional(),
       category: z.enum([
         'BICEPS',
         'TRICEPS',
@@ -215,7 +216,8 @@ export class ExerciseController {
       return {
         title: exercise.title,
         description: exercise.description,
-        athleteId: exercise.athleteId,
+        athleteId: exercise.athleteId ?? null,
+        normalUserId: exercise.normalUserId ?? null,
         category: exercise.category,
         dayOfWeek: exercise.dayOfWeek,
       };

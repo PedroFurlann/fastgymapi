@@ -9,7 +9,8 @@ interface CreateManyExercisesUseCaseRequest {
     title: string;
     description: string;
     category: string;
-    athleteId: string;
+    athleteId?: string;
+    normalUserId?: string;
     dayOfWeek: string;
   }[];
 }
@@ -30,8 +31,13 @@ export class CreateManyExercisesUseCase {
         ? new UniqueEntityID(exercise.athleteId)
         : null;
 
+      const normalUserId = exercise.normalUserId
+        ? new UniqueEntityID(exercise.normalUserId)
+        : null;
+
       return Exercise.create({
-        athleteId,
+        athleteId: athleteId ?? null,
+        normalUserId: normalUserId ?? null,
         title: exercise.title,
         description: exercise.description,
         dayOfWeek: exercise.dayOfWeek,
