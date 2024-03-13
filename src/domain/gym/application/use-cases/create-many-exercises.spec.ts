@@ -29,7 +29,7 @@ describe('Create many exercises', () => {
           title: exercise2.title,
           description: exercise2.description,
           category: exercise2.category,
-          athleteId: 'athlete-1',
+          normalUserId: 'normal-user-1',
           dayOfWeek: exercise2.dayOfWeek,
         },
       ],
@@ -40,6 +40,10 @@ describe('Create many exercises', () => {
     expect(
       inMemoryExerciseRepository.items[0].athleteId ===
         new UniqueEntityID('athlete-1'),
+    );
+    expect(
+      inMemoryExerciseRepository.items[1].normalUserId ===
+        new UniqueEntityID('normal-user-1'),
     );
   });
 });
