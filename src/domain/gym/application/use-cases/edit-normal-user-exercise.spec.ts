@@ -27,6 +27,7 @@ describe('Edit Exercise', () => {
       normalUserId: 'normal-user-1',
       title: 'exercise-1',
       description: 'test-1',
+      category: 'BICEPS',
       exerciseId: exercise.id.toString(),
     });
 
@@ -50,6 +51,7 @@ describe('Edit Exercise', () => {
       normalUserId: 'normal-user-2',
       exerciseId: exercise.id.toString(),
       title: 'title-2',
+      category: 'BICEPS',
       description: 'test-2',
     });
 

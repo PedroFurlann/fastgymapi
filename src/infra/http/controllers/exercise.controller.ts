@@ -24,6 +24,9 @@ import { ZodValidationPipe } from '../pipes/zod-validation.pipe';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { CreateManyExercisesUseCase } from '@/domain/gym/application/use-cases/create-many-exercises';
+import { NormalUserRoleGuard } from '@/infra/auth/normal-user-role.guard';
+import { EditNormalUserExerciseUseCase } from '@/domain/gym/application/use-cases/edit-normal-user-exercise';
+import { DeleteNormalUserExerciseUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-exercise';
 
 const createCoachExerciseBodySchema = z.object({
   title: z.string(),
@@ -131,6 +134,8 @@ type CreateManyExercisesBodySchema = z.infer<
 const editExerciseBodySchema = z.object({
   title: z.string(),
   description: z.string(),
+  category: z.string(),
+  dayOfWeek: z.string().optional(),
 });
 
 const editExerciseBodyValidationPipe = new ZodValidationPipe(
@@ -147,6 +152,8 @@ export class ExerciseController {
     private readonly editExerciseUseCase: EditExerciseUseCase,
     private readonly deleteExerciseUseCase: DeleteExerciseUseCase,
     private readonly fetchExerciseByIdUseCase: FetchExerciseByIdUseCase,
+    private readonly editNormalUserExerciseUseCase: EditNormalUserExerciseUseCase,
+    private readonly deleteNormalUserExerciseUseCase: DeleteNormalUserExerciseUseCase,
   ) {}
 
   @Get('/:exerciseId')
@@ -204,7 +211,30 @@ export class ExerciseController {
     return { exercise: ExercisePresenter.toHTTP(exercise) };
   }
 
-  @UseGuards(CoachRoleGuard)
+  @UseGuards(NormalUserRoleGuard)
+  @Post('/normal-user')
+  async createNormalUserExercise(
+    @CurrentUser() user: UserPayload,
+    @Body(createCoachExerciseBodyValidationPipe)
+    body: CreateCoachExerciseBodySchema,
+  ) {
+    const { title, description, category, dayOfWeek } = body;
+
+    const userId = user.sub;
+
+    const result = await this.createExerciseUseCase.execute({
+      normalUserId: userId,
+      dayOfWeek: dayOfWeek ?? null,
+      category: category,
+      title,
+      description,
+    });
+
+    const { exercise } = result.value;
+
+    return { exercise: ExercisePresenter.toHTTP(exercise) };
+  }
+
   @Post('/many')
   async createManyExercises(
     @Body(createManyExercisesBodyValidationPipe)
@@ -234,6 +264,71 @@ export class ExerciseController {
     };
   }
 
+  @UseGuards(NormalUserRoleGuard)
+  @Put('/normal-user/:exerciseId')
+  async editNormalUserExercise(
+    @CurrentUser() user: UserPayload,
+    @Body(editExerciseBodyValidationPipe) body: EditExerciseBodySchema,
+    @Param('exerciseId') exerciseId: string,
+  ) {
+    const { title, description, category, dayOfWeek } = body;
+
+    const userId = user.sub;
+
+    const result = await this.editNormalUserExerciseUseCase.execute({
+      normalUserId: userId,
+      category,
+      exerciseId,
+      dayOfWeek: dayOfWeek ?? null,
+      title,
+      description,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case NotAllowedError:
+          throw new ForbiddenException(error.message);
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
+
+    const { exercise } = result.value;
+
+    return { exercise: ExercisePresenter.toHTTP(exercise) };
+  }
+
+  @UseGuards(NormalUserRoleGuard)
+  @Delete('/normal-user/:exerciseId')
+  async deleteNormalUserExercise(
+    @CurrentUser() user: UserPayload,
+    @Param('exerciseId') exerciseId: string,
+  ) {
+    const userId = user.sub;
+
+    const result = await this.deleteNormalUserExerciseUseCase.execute({
+      normalUserId: userId,
+      exerciseId,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case NotAllowedError:
+          throw new ForbiddenException(error.message);
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
+  }
+
   @UseGuards(CoachRoleGuard)
   @Put('/:exerciseId')
   async editExercise(
@@ -241,13 +336,15 @@ export class ExerciseController {
     @Body(editExerciseBodyValidationPipe) body: EditExerciseBodySchema,
     @Param('exerciseId') exerciseId: string,
   ) {
-    const { title, description } = body;
+    const { title, description, dayOfWeek, category } = body;
 
     const userId = user.sub;
 
     const result = await this.editExerciseUseCase.execute({
       coachId: userId,
       exerciseId,
+      dayOfWeek: dayOfWeek ?? null,
+      category,
       title,
       description,
     });

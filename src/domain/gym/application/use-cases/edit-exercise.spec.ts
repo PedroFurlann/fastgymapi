@@ -25,6 +25,7 @@ describe('Edit Exercise', () => {
 
     await sut.execute({
       coachId: 'coach-1',
+      category: 'BICEPS',
       title: 'exercise-1',
       description: 'test-1',
       exerciseId: exercise.id.toString(),
@@ -48,6 +49,7 @@ describe('Edit Exercise', () => {
 
     const result = await sut.execute({
       coachId: 'coach-2',
+      category: 'BICEPS',
       exerciseId: exercise.id.toString(),
       title: 'title-2',
       description: 'test-2',

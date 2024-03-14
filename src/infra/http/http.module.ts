@@ -29,6 +29,8 @@ import { UploadAthleteProfilePhotoUseCase } from '@/domain/gym/application/use-c
 import { DeleteCoachProfilePhotoUseCase } from '@/domain/gym/application/use-cases/delete-coach-profile-photo';
 import { DeleteAthleteProfilePhotoUseCase } from '@/domain/gym/application/use-cases/delete-athlete-profile-photo';
 import { CreateManyExercisesUseCase } from '@/domain/gym/application/use-cases/create-many-exercises';
+import { EditNormalUserExerciseUseCase } from '@/domain/gym/application/use-cases/edit-normal-user-exercise';
+import { DeleteNormalUserExerciseUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-exercise';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -62,6 +64,8 @@ import { CreateManyExercisesUseCase } from '@/domain/gym/application/use-cases/c
     UploadAthleteProfilePhotoUseCase,
     DeleteCoachProfilePhotoUseCase,
     DeleteAthleteProfilePhotoUseCase,
+    EditNormalUserExerciseUseCase,
+    DeleteNormalUserExerciseUseCase,
   ],
 })
 export class HttpModule {}
