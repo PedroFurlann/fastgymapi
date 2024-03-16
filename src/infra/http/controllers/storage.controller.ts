@@ -1,12 +1,15 @@
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { DeleteAthleteProfilePhotoUseCase } from '@/domain/gym/application/use-cases/delete-athlete-profile-photo';
 import { DeleteCoachProfilePhotoUseCase } from '@/domain/gym/application/use-cases/delete-coach-profile-photo';
+import { DeleteNormalUserProfilePhotoUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-profile-photo';
 import { InvalidFileTypeError } from '@/domain/gym/application/use-cases/errors/invalid-file-type-error';
 import { UploadAthleteProfilePhotoUseCase } from '@/domain/gym/application/use-cases/upload-athlete-profile-photo';
 import { UploadCoachProfilePhotoUseCase } from '@/domain/gym/application/use-cases/upload-coach-profile-photo';
+import { UploadNormalUserProfilePhotoUseCase } from '@/domain/gym/application/use-cases/upload-normal-user-profile-photo';
 import { CoachRoleGuard } from '@/infra/auth/coach-role.guard';
 import { CurrentUser } from '@/infra/auth/current-user.decorator';
 import { UserPayload } from '@/infra/auth/jwt.strategy';
+import { NormalUserRoleGuard } from '@/infra/auth/normal-user-role.guard';
 import {
   BadRequestException,
   Controller,
@@ -28,8 +31,10 @@ export class StorageController {
   constructor(
     private readonly uploadCoachProfilePhotoUseCase: UploadCoachProfilePhotoUseCase,
     private readonly uploadAthleteProfilePhotoUseCase: UploadAthleteProfilePhotoUseCase,
+    private readonly uploadNormalUserProfilePhotoUseCase: UploadNormalUserProfilePhotoUseCase,
     private readonly deleteCoachProfilePhotoUseCase: DeleteCoachProfilePhotoUseCase,
     private readonly deleteAthleteProfilePhotoUseCase: DeleteAthleteProfilePhotoUseCase,
+    private readonly deleteNormalUserProfilePhotoUseCase: DeleteNormalUserProfilePhotoUseCase,
   ) {}
 
   @UseGuards(CoachRoleGuard)
@@ -149,6 +154,46 @@ export class StorageController {
     }
   }
 
+  @UseGuards(NormalUserRoleGuard)
+  @Post('/norma-user/profile/photo')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadNormalUserProfilePhoto(
+    @CurrentUser() user: UserPayload,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 1024 * 1024 * 5, // 5mb
+          }),
+          new FileTypeValidator({
+            fileType: '.(png|jpg|jpeg|pdf)',
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    const userId = user.sub;
+
+    const result = await this.uploadNormalUserProfilePhotoUseCase.execute({
+      fileName: file.originalname,
+      fileType: file.mimetype,
+      body: file.buffer,
+      entityId: userId,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case InvalidFileTypeError:
+          throw new BadRequestException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
+  }
+
   @UseGuards(CoachRoleGuard)
   @Delete('/coach/profile/photo')
   async deleteCoachProfilePhoto(@CurrentUser() user: UserPayload) {
@@ -196,6 +241,27 @@ export class StorageController {
     const userId = user.sub;
 
     const result = await this.deleteAthleteProfilePhotoUseCase.execute({
+      entityId: userId,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
+  }
+
+  @UseGuards(NormalUserRoleGuard)
+  @Delete('/normal-user/profile/photo')
+  async deleteNormalUserProfilePhoto(@CurrentUser() user: UserPayload) {
+    const userId = user.sub;
+
+    const result = await this.deleteNormalUserProfilePhotoUseCase.execute({
       entityId: userId,
     });
 
