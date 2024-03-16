@@ -33,7 +33,7 @@ type CreateCoachBodySchemaType = z.infer<typeof createCoachBodySchema>;
 const createNormalUserBodySchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().optional(),
 });
 
 type CreateNormalUserBodySchemaType = z.infer<
@@ -69,7 +69,7 @@ export class RegisterController {
     const result = await this.registerNormalUserUseCase.execute({
       name,
       email,
-      password,
+      password: password ?? null,
     });
 
     if (result.isLeft()) {
