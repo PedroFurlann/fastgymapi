@@ -20,7 +20,7 @@ import { AthleteAlreadyExistsError } from '@/domain/gym/application/use-cases/er
 import { CoachPresenter } from '../presenters/coach-presenter';
 import { AthletePresenter } from '../presenters/athlete-presenter';
 import { RegisterNormalUserUseCase } from '@/domain/gym/application/use-cases/register-normal-user';
-import { NormalUserPresenter } from '../presenters/norma-user-presenter';
+import { NormalUserPresenter } from '../presenters/normal-user-presenter';
 
 const createCoachBodySchema = z.object({
   name: z.string(),

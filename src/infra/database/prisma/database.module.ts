@@ -6,6 +6,8 @@ import { AthleteRepository } from '@/domain/gym/application/repositories/athlete
 import { PrismaAthleteRepository } from './repositories/prisma-athlete-repository';
 import { ExerciseRepository } from '@/domain/gym/application/repositories/exercise-repository';
 import { PrismaExerciseRepository } from './repositories/prisma-exercise-repository';
+import { NormalUserRepository } from '@/domain/gym/application/repositories/normal-user-repository';
+import { PrismaNormalUserRepository } from './repositories/prisma-normal-user-repository';
 
 @Module({
   imports: [],
@@ -23,12 +25,17 @@ import { PrismaExerciseRepository } from './repositories/prisma-exercise-reposit
       provide: ExerciseRepository,
       useClass: PrismaExerciseRepository,
     },
+    {
+      provide: NormalUserRepository,
+      useClass: PrismaNormalUserRepository,
+    },
   ],
   exports: [
     PrismaService,
     CoachRepository,
     AthleteRepository,
     ExerciseRepository,
+    NormalUserRepository,
   ],
 })
 export class DatabaseModule {}

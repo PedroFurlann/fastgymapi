@@ -31,6 +31,15 @@ import { DeleteAthleteProfilePhotoUseCase } from '@/domain/gym/application/use-c
 import { CreateManyExercisesUseCase } from '@/domain/gym/application/use-cases/create-many-exercises';
 import { EditNormalUserExerciseUseCase } from '@/domain/gym/application/use-cases/edit-normal-user-exercise';
 import { DeleteNormalUserExerciseUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-exercise';
+import { AuthenticateNormalUserUseCase } from '@/domain/gym/application/use-cases/authenticate-normal-user';
+import { UploadNormalUserProfilePhotoUseCase } from '@/domain/gym/application/use-cases/upload-normal-user-profile-photo';
+import { DeleteNormalUserProfilePhotoUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-profile-photo';
+import { RegisterNormalUserUseCase } from '@/domain/gym/application/use-cases/register-normal-user';
+import { NormalUserController } from './controllers/normal-user.controller';
+import { FetchNormalUserByIdUseCase } from '@/domain/gym/application/use-cases/fetch-normal-user-by-id';
+import { FetchNormalUserExercisesUseCase } from '@/domain/gym/application/use-cases/fetch-normal-user-exercises';
+import { EditNormalUserUseCase } from '@/domain/gym/application/use-cases/edit-normal-user';
+import { DeleteNormalUserUseCase } from '@/domain/gym/application/use-cases/delete-normal-user';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -40,11 +49,13 @@ import { DeleteNormalUserExerciseUseCase } from '@/domain/gym/application/use-ca
     CoachController,
     AthleteController,
     ExerciseController,
+    NormalUserController,
     StorageController,
   ],
   providers: [
     RegisterAthleteUseCase,
     RegisterCoachUseCase,
+    RegisterNormalUserUseCase,
     AuthenticateAthleteUseCase,
     AuthenticateCoachUseCase,
     FetchCoachByIdUseCase,
@@ -66,6 +77,13 @@ import { DeleteNormalUserExerciseUseCase } from '@/domain/gym/application/use-ca
     DeleteAthleteProfilePhotoUseCase,
     EditNormalUserExerciseUseCase,
     DeleteNormalUserExerciseUseCase,
+    AuthenticateNormalUserUseCase,
+    UploadNormalUserProfilePhotoUseCase,
+    DeleteNormalUserProfilePhotoUseCase,
+    FetchNormalUserByIdUseCase,
+    FetchNormalUserExercisesUseCase,
+    EditNormalUserUseCase,
+    DeleteNormalUserUseCase,
   ],
 })
 export class HttpModule {}
