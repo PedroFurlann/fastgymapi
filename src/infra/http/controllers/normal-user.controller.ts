@@ -6,6 +6,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   ForbiddenException,
   Get,
   NotFoundException,
@@ -20,6 +21,7 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
 import { ExercisePresenter } from '../presenters/exercise-presenter';
 import { NormalUserPresenter } from '../presenters/normal-user-presenter';
+import { DeleteNormalUserUseCase } from '@/domain/gym/application/use-cases/delete-normal-user';
 
 const editNormalUserBodySchema = z.object({
   name: z.string(),
@@ -39,6 +41,7 @@ export class NormalUserController {
     private readonly fetchNormalUserByIdUseCase: FetchNormalUserByIdUseCase,
     private readonly editNormalUserUseCase: EditNormalUserUseCase,
     private readonly fetchNormalUserExercisesUseCase: FetchNormalUserExercisesUseCase,
+    private readonly deleteNormalUserUseCase: DeleteNormalUserUseCase,
   ) {}
 
   @Get()
@@ -98,5 +101,27 @@ export class NormalUserController {
     const { normalUser } = result.value;
 
     return { normalUser: NormalUserPresenter.toHTTP(normalUser) };
+  }
+
+  @Delete()
+  async deleteNormalUser(@CurrentUser() user: UserPayload) {
+    const userId = user.sub;
+
+    const result = await this.deleteNormalUserUseCase.execute({
+      normalUserId: userId,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case NotAllowedError:
+          throw new ForbiddenException(error.message);
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
   }
 }
