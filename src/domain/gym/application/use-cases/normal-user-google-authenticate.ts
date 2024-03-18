@@ -5,6 +5,7 @@ import { HashComparer } from '../cryptography/hash-comparer';
 import { Encrypter } from '../cryptography/encrypter';
 import { WrongCredentialsError } from './errors/wrong-credentials-error';
 import { NormalUser } from '../../enterprise/entities/normal-user';
+import { HashGenerator } from '../cryptography/hash-generator';
 
 interface NormalUserGoogleAuthenticateRequest {
   name?: string;
@@ -24,6 +25,7 @@ export class NormalUserGoogleAuthenticate {
   constructor(
     private readonly normalUserRepository: NormalUserRepository,
     private readonly hashComparer: HashComparer,
+    private readonly hashGenerator: HashGenerator,
     private readonly encrypter: Encrypter,
   ) {}
 
@@ -36,10 +38,16 @@ export class NormalUserGoogleAuthenticate {
     let normalUser = await this.normalUserRepository.findByEmail(email);
 
     if (!normalUser) {
+      let hashedPassword: string;
+
+      if (password) {
+        hashedPassword = await this.hashGenerator.hash(password);
+      }
+
       const createdNormalUser = NormalUser.create({
         name,
         email,
-        password: password ?? null,
+        password: hashedPassword ?? null,
         avatarUrl,
       });
 
