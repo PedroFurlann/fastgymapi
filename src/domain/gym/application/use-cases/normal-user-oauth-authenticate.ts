@@ -7,21 +7,21 @@ import { WrongCredentialsError } from './errors/wrong-credentials-error';
 import { NormalUser } from '../../enterprise/entities/normal-user';
 import { HashGenerator } from '../cryptography/hash-generator';
 
-interface NormalUserGoogleAuthenticateRequest {
+interface NormalUserOAuthAuthenticateRequest {
   name?: string;
   email: string;
   avatarUrl?: string;
   password?: string;
 }
 
-type NormalUserGoogleAuthenticateResponse = Either<
+type NormalUserOAuthAuthenticateResponse = Either<
   WrongCredentialsError,
   {
     accessToken: string;
   }
 >;
 @Injectable()
-export class NormalUserGoogleAuthenticate {
+export class NormalUserOAuthAuthenticate {
   constructor(
     private readonly normalUserRepository: NormalUserRepository,
     private readonly hashComparer: HashComparer,
@@ -34,7 +34,7 @@ export class NormalUserGoogleAuthenticate {
     email,
     avatarUrl,
     password,
-  }: NormalUserGoogleAuthenticateRequest): Promise<NormalUserGoogleAuthenticateResponse> {
+  }: NormalUserOAuthAuthenticateRequest): Promise<NormalUserOAuthAuthenticateResponse> {
     let normalUser = await this.normalUserRepository.findByEmail(email);
 
     if (!normalUser) {
