@@ -56,6 +56,14 @@ export class NormalUserOAuthAuthenticate {
       normalUser = await this.normalUserRepository.findByEmail(email);
     }
 
+    if (avatarUrl) {
+      normalUser.avatarUrl = avatarUrl;
+    }
+
+    if (name) {
+      normalUser.name;
+    }
+
     let isPasswordValid: boolean;
 
     if (password) {

@@ -52,7 +52,7 @@ describe('Authenticate Normal User', () => {
     });
 
     expect(result.isRight()).toBe(true);
-    expect(inMemoryNormalUserRepository.items[0].avatarUrl).toEqual('test-1');
+    expect(inMemoryNormalUserRepository.items[0].avatarUrl).toEqual('test-2');
     expect(result.value).toEqual({
       accessToken: expect.any(String),
     });
