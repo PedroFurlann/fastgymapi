@@ -2,19 +2,19 @@ import { makeNormalUser } from '../../../../../test/factories/make-normal-user';
 import { FakeEncrypter } from '../../../../../test/cryptography/fake-encrypter';
 import { FakeHasher } from '../../../../../test/cryptography/fake-hasher';
 import { InMemoryNormalUserRepository } from '../../../../../test/repositories/in-memory-normal-user-repository';
-import { NormalUserOAuthAuthenticate } from './normal-user-oauth-authenticate';
+import { NormalUserOAuthAuthenticateUseCase } from './normal-user-oauth-authenticate';
 
 let inMemoryNormalUserRepository: InMemoryNormalUserRepository;
 let fakeHasher: FakeHasher;
 let fakeEncrypter: FakeEncrypter;
-let sut: NormalUserOAuthAuthenticate;
+let sut: NormalUserOAuthAuthenticateUseCase;
 
 describe('Authenticate Normal User', () => {
   beforeEach(() => {
     inMemoryNormalUserRepository = new InMemoryNormalUserRepository();
     fakeHasher = new FakeHasher();
     fakeEncrypter = new FakeEncrypter();
-    sut = new NormalUserOAuthAuthenticate(
+    sut = new NormalUserOAuthAuthenticateUseCase(
       inMemoryNormalUserRepository,
       fakeHasher,
       fakeHasher,

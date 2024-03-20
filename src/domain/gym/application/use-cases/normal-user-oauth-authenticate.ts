@@ -7,21 +7,21 @@ import { WrongCredentialsError } from './errors/wrong-credentials-error';
 import { NormalUser } from '../../enterprise/entities/normal-user';
 import { HashGenerator } from '../cryptography/hash-generator';
 
-interface NormalUserOAuthAuthenticateRequest {
+interface NormalUserOAuthAuthenticateUseCaseRequest {
   name?: string;
   email: string;
   avatarUrl?: string;
   password?: string;
 }
 
-type NormalUserOAuthAuthenticateResponse = Either<
+type NormalUserOAuthAuthenticateUseCaseResponse = Either<
   WrongCredentialsError,
   {
     accessToken: string;
   }
 >;
 @Injectable()
-export class NormalUserOAuthAuthenticate {
+export class NormalUserOAuthAuthenticateUseCase {
   constructor(
     private readonly normalUserRepository: NormalUserRepository,
     private readonly hashComparer: HashComparer,
@@ -34,7 +34,7 @@ export class NormalUserOAuthAuthenticate {
     email,
     avatarUrl,
     password,
-  }: NormalUserOAuthAuthenticateRequest): Promise<NormalUserOAuthAuthenticateResponse> {
+  }: NormalUserOAuthAuthenticateUseCaseRequest): Promise<NormalUserOAuthAuthenticateUseCaseResponse> {
     let normalUser = await this.normalUserRepository.findByEmail(email);
 
     if (!normalUser) {

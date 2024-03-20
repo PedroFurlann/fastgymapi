@@ -40,6 +40,7 @@ import { FetchNormalUserByIdUseCase } from '@/domain/gym/application/use-cases/f
 import { FetchNormalUserExercisesUseCase } from '@/domain/gym/application/use-cases/fetch-normal-user-exercises';
 import { EditNormalUserUseCase } from '@/domain/gym/application/use-cases/edit-normal-user';
 import { DeleteNormalUserUseCase } from '@/domain/gym/application/use-cases/delete-normal-user';
+import { NormalUserOAuthAuthenticateUseCase } from '@/domain/gym/application/use-cases/normal-user-oauth-authenticate';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -84,6 +85,7 @@ import { DeleteNormalUserUseCase } from '@/domain/gym/application/use-cases/dele
     FetchNormalUserExercisesUseCase,
     EditNormalUserUseCase,
     DeleteNormalUserUseCase,
+    NormalUserOAuthAuthenticateUseCase,
   ],
 })
 export class HttpModule {}
