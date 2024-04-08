@@ -56,11 +56,11 @@ export class NormalUserOAuthAuthenticateUseCase {
       normalUser = await this.normalUserRepository.findByEmail(email);
     }
 
-    if (avatarUrl) {
+    if (avatarUrl && !normalUser.avatarUrl) {
       normalUser.avatarUrl = avatarUrl;
     }
 
-    if (name) {
+    if (name && !normalUser.name) {
       normalUser.name;
     }
 
