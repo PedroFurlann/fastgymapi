@@ -7,6 +7,6 @@ export class NormalUserRoleGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user as UserPayload;
 
-    return user.isAthlete === false;
+    return user.normalUser === true;
   }
 }
