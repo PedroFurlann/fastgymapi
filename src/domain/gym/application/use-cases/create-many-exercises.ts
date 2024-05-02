@@ -11,7 +11,7 @@ interface CreateManyExercisesUseCaseRequest {
     category: string;
     athleteId?: string;
     normalUserId?: string;
-    dayOfWeek: string;
+    workoutId?: string;
   }[];
 }
 
@@ -35,13 +35,17 @@ export class CreateManyExercisesUseCase {
         ? new UniqueEntityID(exercise.normalUserId)
         : null;
 
+      const workoutId = exercise.workoutId
+        ? new UniqueEntityID(exercise.workoutId)
+        : null;
+
       return Exercise.create({
         athleteId: athleteId ?? null,
         normalUserId: normalUserId ?? null,
         title: exercise.title,
         description: exercise.description,
-        dayOfWeek: exercise.dayOfWeek,
         category: exercise.category,
+        workoutId: workoutId ?? null,
       });
     });
 

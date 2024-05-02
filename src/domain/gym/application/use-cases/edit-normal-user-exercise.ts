@@ -8,9 +8,9 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 interface EditNormalUserExerciseUseCaseRequest {
   normalUserId: string;
   title: string;
-  dayOfWeek?: string;
   category: string;
   description: string;
+  workoutId?: string;
   exerciseId: string;
 }
 
@@ -25,7 +25,7 @@ export class EditNormalUserExerciseUseCase {
   async execute({
     normalUserId,
     title,
-    dayOfWeek,
+    workoutId,
     category,
     description,
     exerciseId,
@@ -42,8 +42,9 @@ export class EditNormalUserExerciseUseCase {
 
     exerciseSelected.title = title;
     exerciseSelected.description = description;
-    exerciseSelected.dayOfWeek = dayOfWeek ?? null;
     exerciseSelected.category = category;
+
+    if (!workoutId) exerciseSelected.workoutId = null;
 
     await this.exerciseRepository.update(exerciseSelected);
 

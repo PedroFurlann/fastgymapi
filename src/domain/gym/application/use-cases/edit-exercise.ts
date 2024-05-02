@@ -8,7 +8,6 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 interface EditExerciseUseCaseRequest {
   coachId: string;
   title: string;
-  dayOfWeek?: string;
   category: string;
   description: string;
   exerciseId: string;
@@ -26,7 +25,6 @@ export class EditExerciseUseCase {
     coachId,
     title,
     category,
-    dayOfWeek,
     description,
     exerciseId,
   }: EditExerciseUseCaseRequest): Promise<EditExerciseUseCaseResponse> {
@@ -42,7 +40,6 @@ export class EditExerciseUseCase {
 
     exerciseSelected.title = title;
     exerciseSelected.description = description;
-    exerciseSelected.dayOfWeek = dayOfWeek ?? null;
     exerciseSelected.category = category;
 
     await this.exerciseRepository.update(exerciseSelected);

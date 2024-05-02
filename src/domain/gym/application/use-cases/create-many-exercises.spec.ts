@@ -23,14 +23,14 @@ describe('Create many exercises', () => {
           description: exercise1.description,
           category: exercise1.category,
           athleteId: 'athlete-1',
-          dayOfWeek: exercise1.dayOfWeek,
+          workoutId: 'workout-1',
         },
         {
           title: exercise2.title,
           description: exercise2.description,
           category: exercise2.category,
           normalUserId: 'normal-user-1',
-          dayOfWeek: exercise2.dayOfWeek,
+          workoutId: 'workout-2',
         },
       ],
     });

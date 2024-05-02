@@ -32,6 +32,7 @@ const createCoachExerciseBodySchema = z.object({
   title: z.string(),
   description: z.string(),
   athleteId: z.string().uuid().optional(),
+  workoutId: z.string().uuid().optional(),
   category: z.enum([
     'BICEPS',
     'TRICEPS',
@@ -41,17 +42,6 @@ const createCoachExerciseBodySchema = z.object({
     'SHOULDERS',
     'FOREARMS',
   ]),
-  dayOfWeek: z
-    .enum([
-      'MONDAY',
-      'TUESDAY',
-      'WEDNESDAY',
-      'THURSDAY',
-      'FRIDAY',
-      'SATURDAY',
-      'SUNDAY',
-    ])
-    .optional(),
 });
 
 const createCoachExerciseBodyValidationPipe = new ZodValidationPipe(
@@ -76,15 +66,6 @@ const createAthleteExerciseBodySchema = z.object({
     'FOREARMS',
     'OTHER',
   ]),
-  dayOfWeek: z.enum([
-    'MONDAY',
-    'TUESDAY',
-    'WEDNESDAY',
-    'THURSDAY',
-    'FRIDAY',
-    'SATURDAY',
-    'SUNDAY',
-  ]),
 });
 
 const createAthleteExerciseBodyValidationPipe = new ZodValidationPipe(
@@ -102,6 +83,7 @@ const createManyExercisesBodySchema = z.object({
       description: z.string(),
       athleteId: z.string().uuid().optional(),
       normalUserId: z.string().uuid().optional(),
+      workoutId: z.string().uuid().optional(),
       category: z.enum([
         'BICEPS',
         'TRICEPS',
@@ -111,15 +93,6 @@ const createManyExercisesBodySchema = z.object({
         'SHOULDERS',
         'FOREARMS',
         'OTHER',
-      ]),
-      dayOfWeek: z.enum([
-        'MONDAY',
-        'TUESDAY',
-        'WEDNESDAY',
-        'THURSDAY',
-        'FRIDAY',
-        'SATURDAY',
-        'SUNDAY',
       ]),
     }),
   ),
@@ -137,7 +110,7 @@ const editExerciseBodySchema = z.object({
   title: z.string(),
   description: z.string(),
   category: z.string(),
-  dayOfWeek: z.string().optional(),
+  workoutId: z.string().uuid().optional(),
 });
 
 const editExerciseBodyValidationPipe = new ZodValidationPipe(
@@ -176,13 +149,14 @@ export class ExerciseController {
     @Body(createCoachExerciseBodyValidationPipe)
     body: CreateCoachExerciseBodySchema,
   ) {
-    const { title, description, category } = body;
+    const { title, description, category, workoutId } = body;
 
     const userId = user.sub;
 
     const result = await this.createExerciseUseCase.execute({
       coachId: userId,
       category: category,
+      workoutId,
       title,
       description,
     });
@@ -198,14 +172,13 @@ export class ExerciseController {
     @Body(createAthleteExerciseBodyValidationPipe)
     body: CreateAthleteExerciseBodySchema,
   ) {
-    const { title, description, category, dayOfWeek, athleteId } = body;
+    const { title, description, category, athleteId } = body;
 
     const result = await this.createExerciseUseCase.execute({
       category: category,
       title,
       description,
       athleteId: athleteId || null,
-      dayOfWeek: dayOfWeek || null,
     });
 
     const { exercise } = result.value;
@@ -220,14 +193,14 @@ export class ExerciseController {
     @Body(createCoachExerciseBodyValidationPipe)
     body: CreateCoachExerciseBodySchema,
   ) {
-    const { title, description, category, dayOfWeek } = body;
+    const { title, description, category, workoutId } = body;
 
     const userId = user.sub;
 
     const result = await this.createExerciseUseCase.execute({
       normalUserId: userId,
-      dayOfWeek: dayOfWeek ?? null,
       category: category,
+      workoutId: workoutId ?? null,
       title,
       description,
     });
@@ -251,7 +224,7 @@ export class ExerciseController {
         athleteId: exercise.athleteId ?? null,
         normalUserId: exercise.normalUserId ?? null,
         category: exercise.category,
-        dayOfWeek: exercise.dayOfWeek,
+        workoutId: exercise.workoutId ?? null,
       };
     });
 
@@ -273,16 +246,16 @@ export class ExerciseController {
     @Body(editExerciseBodyValidationPipe) body: EditExerciseBodySchema,
     @Param('exerciseId') exerciseId: string,
   ) {
-    const { title, description, category, dayOfWeek } = body;
+    const { title, description, category, workoutId } = body;
 
     const userId = user.sub;
 
     const result = await this.editNormalUserExerciseUseCase.execute({
       normalUserId: userId,
+      title,
       category,
       exerciseId,
-      dayOfWeek: dayOfWeek ?? null,
-      title,
+      workoutId: workoutId ?? null,
       description,
     });
 
@@ -338,14 +311,13 @@ export class ExerciseController {
     @Body(editExerciseBodyValidationPipe) body: EditExerciseBodySchema,
     @Param('exerciseId') exerciseId: string,
   ) {
-    const { title, description, dayOfWeek, category } = body;
+    const { title, description, category } = body;
 
     const userId = user.sub;
 
     const result = await this.editExerciseUseCase.execute({
       coachId: userId,
       exerciseId,
-      dayOfWeek: dayOfWeek ?? null,
       category,
       title,
       description,

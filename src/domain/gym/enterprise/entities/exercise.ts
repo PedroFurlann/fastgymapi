@@ -5,13 +5,13 @@ import { Optional } from '../../../../core/types/optional';
 export interface ExerciseProps {
   title: string;
   description: string;
-  dayOfWeek?: string | null;
   category: string;
   videoUrl?: string | null;
   createdAt: Date;
   updatedAt?: Date | null;
   coachId?: UniqueEntityID | null;
   normalUserId?: UniqueEntityID | null;
+  workoutId?: UniqueEntityID | null;
   athleteId?: UniqueEntityID | null;
 }
 
@@ -43,15 +43,6 @@ export class Exercise extends Entity<ExerciseProps> {
     this.touch();
   }
 
-  get dayOfWeek() {
-    return this.props.dayOfWeek;
-  }
-
-  set dayOfWeek(newDayOfWeek: string) {
-    this.props.dayOfWeek = newDayOfWeek;
-    this.touch();
-  }
-
   get coachId() {
     return this.props.coachId;
   }
@@ -67,6 +58,15 @@ export class Exercise extends Entity<ExerciseProps> {
 
   set athleteId(athleteId: UniqueEntityID) {
     this.props.athleteId = athleteId;
+    this.touch();
+  }
+
+  get workoutId() {
+    return this.props.workoutId;
+  }
+
+  set workoutId(workoutId: UniqueEntityID) {
+    this.props.workoutId = workoutId;
     this.touch();
   }
 

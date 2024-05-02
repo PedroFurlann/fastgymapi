@@ -29,6 +29,7 @@ describe('Edit Exercise', () => {
       description: 'test-1',
       category: 'BICEPS',
       exerciseId: exercise.id.toString(),
+      workoutId: 'workout-1',
     });
 
     expect(inMemoryExerciseRepository.items[0]).toMatchObject({
@@ -53,6 +54,7 @@ describe('Edit Exercise', () => {
       title: 'title-2',
       category: 'BICEPS',
       description: 'test-2',
+      workoutId: 'workout-2',
     });
 
     expect(result.isLeft()).toBe(true);

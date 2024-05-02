@@ -7,7 +7,6 @@ export class ExercisePresenter {
       title: exercise.title,
       description: exercise.description,
       category: exercise.category,
-      dayOfWeek: exercise.dayOfWeek,
       videoUrl: exercise.videoUrl,
       createdAt: exercise.createdAt,
       updatedAt: exercise.updatedAt,
