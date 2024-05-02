@@ -74,6 +74,7 @@ const createAthleteExerciseBodySchema = z.object({
     'LEGS',
     'SHOULDERS',
     'FOREARMS',
+    'OTHER',
   ]),
   dayOfWeek: z.enum([
     'MONDAY',
@@ -109,6 +110,7 @@ const createManyExercisesBodySchema = z.object({
         'LEGS',
         'SHOULDERS',
         'FOREARMS',
+        'OTHER',
       ]),
       dayOfWeek: z.enum([
         'MONDAY',

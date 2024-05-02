@@ -16,18 +16,9 @@ model Coach {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  Exercise Exercise[]
   Athlete  Athlete[]
-}
-
-enum DayOfWeek {
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-  SUNDAY
+  Workout  Workout[]
+  Exercise Exercise[]
 }
 
 enum ExerciseCategory {
@@ -38,6 +29,7 @@ enum ExerciseCategory {
   BICEPS
   TRICEPS
   FOREARMS
+  OTHER
 }
 
 model Exercise {
@@ -45,17 +37,18 @@ model Exercise {
   title        String
   description  String
   createdAt    DateTime  @default(now())
-  dayOfWeek    String?
   category     String
   coachId      String?
   athleteId    String?
   normalUserId String?
   videoUrl     String?
   updatedAt    DateTime? @updatedAt
+  workoutId    String?
 
-  athlete    Athlete?    @relation(fields: [athleteId], references: [id])
-  coach      Coach?      @relation(fields: [coachId], references: [id])
+  Workout    Workout?    @relation(fields: [workoutId], references: [id])
+  Athlete    Athlete?    @relation(fields: [athleteId], references: [id])
   NormalUser NormalUser? @relation(fields: [normalUserId], references: [id])
+  Coach      Coach?      @relation(fields: [coachId], references: [id])
 }
 
 model Athlete {
@@ -70,16 +63,32 @@ model Athlete {
 
   coach    Coach      @relation(fields: [coachId], references: [id])
   Exercise Exercise[]
+  Workout  Workout[]
 }
 
 model NormalUser {
-  id        String    @id @default(uuid())
+  id        String     @id @default(uuid())
   name      String
-  email     String    @unique
+  email     String     @unique
   password  String?
   avatarUrl String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+  Workout   Workout[]
+  Exercise  Exercise[]
+}
 
-  Exercise Exercise[]
+model Workout {
+  id           String     @id @default(uuid())
+  title        String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
+  coachId      String?
+  athleteId    String?
+  normalUserId String?
+  exercises    Exercise[]
+
+  athlete    Athlete?    @relation(fields: [athleteId], references: [id])
+  coach      Coach?      @relation(fields: [coachId], references: [id])
+  NormalUser NormalUser? @relation(fields: [normalUserId], references: [id])
 }
