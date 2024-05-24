@@ -155,7 +155,7 @@ export class StorageController {
   }
 
   @UseGuards(NormalUserRoleGuard)
-  @Post('/norma-user/profile/photo')
+  @Post('/normal-user/profile/photo')
   @UseInterceptors(FileInterceptor('file'))
   async uploadNormalUserProfilePhoto(
     @CurrentUser() user: UserPayload,
@@ -192,6 +192,10 @@ export class StorageController {
           throw new BadRequestException(error.message);
       }
     }
+
+    const { url } = result.value;
+
+    return { url };
   }
 
   @UseGuards(CoachRoleGuard)

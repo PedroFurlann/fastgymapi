@@ -11,7 +11,12 @@ interface UploadNormalUserProfilePhotoRequest {
   entityId: string;
 }
 
-type UploadNormalUserProfilePhotoResponse = Either<InvalidFileTypeError, null>;
+type UploadNormalUserProfilePhotoResponse = Either<
+  InvalidFileTypeError,
+  {
+    url: string;
+  }
+>;
 @Injectable()
 export class UploadNormalUserProfilePhotoUseCase {
   constructor(
@@ -42,6 +47,6 @@ export class UploadNormalUserProfilePhotoUseCase {
 
     await this.normalUserRepository.update(normalUser);
 
-    return right(null);
+    return right({ url });
   }
 }
