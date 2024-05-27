@@ -28,7 +28,7 @@ describe('Delete Exercise', () => {
     expect(inMemoryExerciseRepository.items).toHaveLength(0);
   });
 
-  it('should not be able to delete a exercise from another normaluser', async () => {
+  it('should not be able to delete a exercise from another normal user', async () => {
     const exercise = makeExercise({
       normalUserId: new UniqueEntityID('normal-user-1'),
     });
