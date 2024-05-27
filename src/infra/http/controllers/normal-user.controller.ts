@@ -22,6 +22,8 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { ExercisePresenter } from '../presenters/exercise-presenter';
 import { NormalUserPresenter } from '../presenters/normal-user-presenter';
 import { DeleteNormalUserUseCase } from '@/domain/gym/application/use-cases/delete-normal-user';
+import { FetchNormalUserWorkoutsUseCase } from '@/domain/gym/application/use-cases/fetch-normal-user-workouts';
+import { WorkoutPresenter } from '../presenters/workout-presenter';
 
 const editNormalUserBodySchema = z.object({
   name: z.string(),
@@ -42,6 +44,7 @@ export class NormalUserController {
     private readonly editNormalUserUseCase: EditNormalUserUseCase,
     private readonly fetchNormalUserExercisesUseCase: FetchNormalUserExercisesUseCase,
     private readonly deleteNormalUserUseCase: DeleteNormalUserUseCase,
+    private readonly fetchNormalUserWorkoutsUseCase: FetchNormalUserWorkoutsUseCase,
   ) {}
 
   @Get()
@@ -68,6 +71,19 @@ export class NormalUserController {
     const { exercises } = result.value;
 
     return { exercises: exercises.map(ExercisePresenter.toHTTP) };
+  }
+
+  @Get('/workouts')
+  async fetchNormalUserWorkouts(@CurrentUser() user: UserPayload) {
+    const userId = user.sub;
+
+    const result = await this.fetchNormalUserWorkoutsUseCase.execute({
+      normalUserId: userId,
+    });
+
+    const { workouts } = result.value;
+
+    return { workouts: workouts.map(WorkoutPresenter.toHTTP) };
   }
 
   @Put()

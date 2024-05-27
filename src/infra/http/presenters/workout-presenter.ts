@@ -7,6 +7,7 @@ export class WorkoutPresenter {
       title: workout.title,
       createdAt: workout.createdAt,
       updatedAt: workout.updatedAt,
+      favorite: workout.favorite ?? false,
     };
   }
 }

@@ -14,6 +14,7 @@ export class PrismaWorkoutMapper {
         normalUserId: raw.normalUserId
           ? new UniqueEntityID(raw.normalUserId)
           : null,
+        favorite: raw.favorite,
       },
       new UniqueEntityID(raw.id),
     );
@@ -30,6 +31,7 @@ export class PrismaWorkoutMapper {
         : null,
       createdAt: workout.createdAt,
       updatedAt: workout.updatedAt,
+      favorite: workout.favorite ?? false,
     };
   }
 }
