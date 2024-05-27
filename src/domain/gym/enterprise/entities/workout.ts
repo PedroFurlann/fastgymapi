@@ -5,6 +5,7 @@ import { Optional } from '../../../../core/types/optional';
 export interface WorkoutProps {
   title: string;
   createdAt: Date;
+  favorite?: boolean;
   updatedAt?: Date | null;
   coachId?: UniqueEntityID | null;
   normalUserId?: UniqueEntityID | null;
@@ -18,6 +19,15 @@ export class Workout extends Entity<WorkoutProps> {
 
   set title(newTitle: string) {
     this.props.title = newTitle;
+    this.touch();
+  }
+
+  get favorite() {
+    return this.props.favorite;
+  }
+
+  set favorite(favorite: boolean) {
+    this.props.favorite = favorite;
     this.touch();
   }
 

@@ -89,4 +89,15 @@ export class PrismaWorkoutRepository implements WorkoutRepository {
 
     return workouts.map(PrismaWorkoutMapper.toDomain);
   }
+
+  async favoriteWorkout(workoutId: string, favorite: boolean): Promise<void> {
+    await this.prismaService.workout.update({
+      where: {
+        id: workoutId,
+      },
+      data: {
+        favorite,
+      },
+    });
+  }
 }

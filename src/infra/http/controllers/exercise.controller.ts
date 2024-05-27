@@ -223,7 +223,7 @@ export class ExerciseController {
         description: exercise.description,
         athleteId: exercise.athleteId ?? null,
         normalUserId: exercise.normalUserId ?? null,
-        category: exercise.category,
+        category: exercise.category ?? null,
         workoutId: exercise.workoutId ?? null,
       };
     });

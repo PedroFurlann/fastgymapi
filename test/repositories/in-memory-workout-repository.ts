@@ -67,4 +67,12 @@ export class InMemoryWorkoutRepository implements WorkoutRepository {
 
     return workouts;
   }
+
+  async favoriteWorkout(workoutId: string, favorite: boolean): Promise<void> {
+    const itemIndex = this.items.findIndex(
+      (item) => item.id.toString() === workoutId,
+    );
+
+    this.items[itemIndex].favorite = favorite;
+  }
 }

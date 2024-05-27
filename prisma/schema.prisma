@@ -86,6 +86,7 @@ model Workout {
   coachId      String?
   athleteId    String?
   normalUserId String?
+  favorite     Boolean    @default(false)
   exercises    Exercise[]
 
   athlete    Athlete?    @relation(fields: [athleteId], references: [id])

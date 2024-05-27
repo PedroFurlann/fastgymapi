@@ -10,4 +10,8 @@ export abstract class WorkoutRepository {
   abstract findManyByNormalUserId(
     normalUserId: string,
   ): Promise<Workout[] | null>;
+  abstract favoriteWorkout(
+    workoutId: string,
+    favorite: boolean,
+  ): Promise<void>;
 }
