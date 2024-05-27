@@ -8,8 +8,6 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 interface EditNormalUserWorkoutUseCaseRequest {
   normalUserId: string;
   title: string;
-  category: string;
-  description: string;
   workoutId: string;
 }
 
