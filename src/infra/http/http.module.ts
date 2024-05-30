@@ -42,6 +42,12 @@ import { EditNormalUserUseCase } from '@/domain/gym/application/use-cases/edit-n
 import { DeleteNormalUserUseCase } from '@/domain/gym/application/use-cases/delete-normal-user';
 import { NormalUserOAuthAuthenticateUseCase } from '@/domain/gym/application/use-cases/normal-user-oauth-authenticate';
 import { FetchNormalUserWorkoutsUseCase } from '@/domain/gym/application/use-cases/fetch-normal-user-workouts';
+import { WorkoutController } from './controllers/workout.controller';
+import { CreateWorkoutUseCase } from '@/domain/gym/application/use-cases/create-workout';
+import { DeleteNormalUserWorkoutUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-workout';
+import { EditNormalUserWorkoutUseCase } from '@/domain/gym/application/use-cases/edit-normal-user-workout';
+import { FavoriteWorkoutUseCase } from '@/domain/gym/application/use-cases/favorite-workout';
+import { FetchWorkoutByIdUseCase } from '@/domain/gym/application/use-cases/fetch-workout-by-id';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -53,6 +59,7 @@ import { FetchNormalUserWorkoutsUseCase } from '@/domain/gym/application/use-cas
     ExerciseController,
     NormalUserController,
     StorageController,
+    WorkoutController,
   ],
   providers: [
     RegisterAthleteUseCase,
@@ -88,6 +95,11 @@ import { FetchNormalUserWorkoutsUseCase } from '@/domain/gym/application/use-cas
     DeleteNormalUserUseCase,
     NormalUserOAuthAuthenticateUseCase,
     FetchNormalUserWorkoutsUseCase,
+    CreateWorkoutUseCase,
+    DeleteNormalUserWorkoutUseCase,
+    FetchWorkoutByIdUseCase,
+    EditNormalUserWorkoutUseCase,
+    FavoriteWorkoutUseCase,
   ],
 })
 export class HttpModule {}
