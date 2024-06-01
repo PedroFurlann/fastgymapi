@@ -7,7 +7,7 @@ export class ExercisePresenter {
       title: exercise.title,
       description: exercise.description,
       category: exercise.category,
-      videoUrl: exercise.videoUrl,
+      mediaUrl: exercise.mediaUrl,
       createdAt: exercise.createdAt,
       updatedAt: exercise.updatedAt,
     };

@@ -8,6 +8,7 @@ interface CreateExerciseUseCaseRequest {
   title: string;
   description: string;
   category: string;
+  mediaUrl?: string | null;
   coachId?: string | null;
   athleteId?: string | null;
   normalUserId?: string | null;
@@ -24,6 +25,7 @@ export class CreateExerciseUseCase {
     coachId,
     normalUserId,
     description,
+    mediaUrl,
     category,
     athleteId,
     workoutId,
@@ -52,6 +54,10 @@ export class CreateExerciseUseCase {
 
     if (workoutId) {
       exercise.workoutId = new UniqueEntityID(workoutId);
+    }
+
+    if (mediaUrl) {
+      exercise.mediaUrl = mediaUrl;
     }
 
     await this.exerciseRepository.create(exercise);

@@ -41,7 +41,7 @@ model Exercise {
   coachId      String?
   athleteId    String?
   normalUserId String?
-  videoUrl     String?
+  mediaUrl     String?
   updatedAt    DateTime? @updatedAt
   workoutId    String?
 

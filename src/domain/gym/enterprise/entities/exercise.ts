@@ -6,7 +6,7 @@ export interface ExerciseProps {
   title: string;
   description: string;
   category: string;
-  videoUrl?: string | null;
+  mediaUrl?: string | null;
   createdAt: Date;
   updatedAt?: Date | null;
   coachId?: UniqueEntityID | null;
@@ -79,12 +79,12 @@ export class Exercise extends Entity<ExerciseProps> {
     this.touch();
   }
 
-  get videoUrl() {
-    return this.props.videoUrl;
+  get mediaUrl() {
+    return this.props.mediaUrl;
   }
 
-  set videoUrl(newvideoUrl: string) {
-    this.props.videoUrl = newvideoUrl;
+  set mediaUrl(newmediaUrl: string) {
+    this.props.mediaUrl = newmediaUrl;
     this.touch();
   }
 
