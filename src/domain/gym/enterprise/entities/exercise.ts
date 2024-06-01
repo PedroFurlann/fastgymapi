@@ -7,6 +7,7 @@ export interface ExerciseProps {
   description: string;
   category: string;
   mediaUrl?: string | null;
+  previewUrl?: string | null;
   createdAt: Date;
   updatedAt?: Date | null;
   coachId?: UniqueEntityID | null;
@@ -83,8 +84,17 @@ export class Exercise extends Entity<ExerciseProps> {
     return this.props.mediaUrl;
   }
 
-  set mediaUrl(newmediaUrl: string) {
-    this.props.mediaUrl = newmediaUrl;
+  set mediaUrl(newMediaUrl: string) {
+    this.props.mediaUrl = newMediaUrl;
+    this.touch();
+  }
+
+  get previewUrl() {
+    return this.props.previewUrl;
+  }
+
+  set previewUrl(newPreviewUrl: string) {
+    this.props.previewUrl = newPreviewUrl;
     this.touch();
   }
 

@@ -33,6 +33,7 @@ const createCoachExerciseBodySchema = z.object({
   description: z.string(),
   athleteId: z.string().uuid().optional(),
   mediaUrl: z.string().optional(),
+  previewUrl: z.string().optional(),
   workoutId: z.string().uuid().optional(),
   category: z.enum([
     'BICEPS',
@@ -59,6 +60,7 @@ const createAthleteExerciseBodySchema = z.object({
   description: z.string(),
   athleteId: z.string().uuid(),
   mediaUrl: z.string().optional(),
+  previewUrl: z.string().optional(),
   category: z.enum([
     'BICEPS',
     'TRICEPS',
@@ -87,6 +89,7 @@ const createManyExercisesBodySchema = z.object({
       athleteId: z.string().uuid().optional(),
       normalUserId: z.string().uuid().optional(),
       mediaUrl: z.string().optional(),
+      previewUrl: z.string().optional(),
       workoutId: z.string().uuid().optional(),
       category: z.enum([
         'BICEPS',
@@ -153,7 +156,8 @@ export class ExerciseController {
     @Body(createCoachExerciseBodyValidationPipe)
     body: CreateCoachExerciseBodySchema,
   ) {
-    const { title, description, category, workoutId, mediaUrl } = body;
+    const { title, description, category, workoutId, mediaUrl, previewUrl } =
+      body;
 
     const userId = user.sub;
 
@@ -162,6 +166,7 @@ export class ExerciseController {
       category: category,
       workoutId,
       mediaUrl: mediaUrl ?? null,
+      previewUrl: previewUrl ?? null,
       title,
       description,
     });
@@ -177,12 +182,14 @@ export class ExerciseController {
     @Body(createAthleteExerciseBodyValidationPipe)
     body: CreateAthleteExerciseBodySchema,
   ) {
-    const { title, description, category, athleteId, mediaUrl } = body;
+    const { title, description, category, athleteId, mediaUrl, previewUrl } =
+      body;
 
     const result = await this.createExerciseUseCase.execute({
       category: category,
       title,
       mediaUrl: mediaUrl ?? null,
+      previewUrl: previewUrl ?? null,
       description,
       athleteId: athleteId || null,
     });
@@ -199,7 +206,8 @@ export class ExerciseController {
     @Body(createCoachExerciseBodyValidationPipe)
     body: CreateCoachExerciseBodySchema,
   ) {
-    const { title, description, category, workoutId, mediaUrl } = body;
+    const { title, description, category, workoutId, mediaUrl, previewUrl } =
+      body;
 
     const userId = user.sub;
 
@@ -208,6 +216,7 @@ export class ExerciseController {
       category: category,
       workoutId: workoutId ?? null,
       mediaUrl: mediaUrl ?? null,
+      previewUrl: previewUrl ?? null,
       title,
       description,
     });
@@ -229,6 +238,8 @@ export class ExerciseController {
         title: exercise.title,
         description: exercise.description,
         athleteId: exercise.athleteId ?? null,
+        mediaUrl: exercise.mediaUrl ?? null,
+        previewUrl: exercise.previewUrl ?? null,
         normalUserId: exercise.normalUserId ?? null,
         category: exercise.category ?? null,
         workoutId: exercise.workoutId ?? null,

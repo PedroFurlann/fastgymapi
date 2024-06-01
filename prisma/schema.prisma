@@ -42,6 +42,7 @@ model Exercise {
   athleteId    String?
   normalUserId String?
   mediaUrl     String?
+  previewUrl   String?
   updatedAt    DateTime? @updatedAt
   workoutId    String?
 

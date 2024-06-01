@@ -12,6 +12,7 @@ export class PrismaExerciseMapper {
         athleteId: raw.athleteId ? new UniqueEntityID(raw.athleteId) : null,
         createdAt: raw.createdAt,
         mediaUrl: raw.mediaUrl ? raw.mediaUrl : null,
+        previewUrl: raw.previewUrl ? raw.previewUrl : null,
         updatedAt: raw.updatedAt ? raw.updatedAt : null,
         category: raw.category,
         normalUserId: raw.normalUserId
@@ -38,6 +39,7 @@ export class PrismaExerciseMapper {
         : null,
       workoutId: exercise.workoutId ? exercise.workoutId.toString() : null,
       mediaUrl: exercise.mediaUrl,
+      previewUrl: exercise.previewUrl,
       createdAt: exercise.createdAt,
       updatedAt: exercise.updatedAt,
     };
