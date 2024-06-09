@@ -9,6 +9,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Put,
   UseGuards,
@@ -162,7 +163,7 @@ export class WorkoutController {
   }
 
   @UseGuards(NormalUserRoleGuard)
-  @Put('/normal-user/:workoutId')
+  @Patch('/favorite/normal-user/:workoutId')
   async favoriteUserWorkout(
     @CurrentUser() user: UserPayload,
     @Body(favoriteWorkoutBodyValidationPipe) body: FavoriteWorkoutBodySchema,
