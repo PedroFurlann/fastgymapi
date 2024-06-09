@@ -79,4 +79,16 @@ export class InMemoryExerciseRepository implements ExerciseRepository {
 
     return exercises;
   }
+
+  async findManyByWorkoutId(workoutId: string): Promise<Exercise[]> {
+    const exercises = this.items.filter(
+      (item) => item.workoutId.toString() === workoutId,
+    );
+
+    if (!exercises) {
+      return [];
+    }
+
+    return exercises;
+  }
 }

@@ -12,4 +12,5 @@ export abstract class ExerciseRepository {
   abstract findManyByNormalUserId(
     normalUserId: string,
   ): Promise<Exercise[] | null>;
+  abstract findManyByWorkoutId(workoutId: string): Promise<Exercise[] | null>;
 }
