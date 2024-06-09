@@ -83,7 +83,7 @@ export class WorkoutController {
   }
 
   @Get('/:workoutId/exercises')
-  async fetchWorkoutExercises(@Param() workoutId: string) {
+  async fetchWorkoutExercises(@Param('workoutId') workoutId: string) {
     const result = await this.fetchWorkoutExercisesUseCase.execute({
       workoutId,
     });

@@ -12,6 +12,8 @@ interface CreateManyExercisesUseCaseRequest {
     athleteId?: string;
     normalUserId?: string;
     workoutId?: string;
+    mediaUrl?: string;
+    previewUrl?: string;
   }[];
 }
 
@@ -46,6 +48,8 @@ export class CreateManyExercisesUseCase {
         description: exercise.description,
         category: exercise.category,
         workoutId: workoutId ?? null,
+        mediaUrl: exercise.mediaUrl ?? null,
+        previewUrl: exercise.previewUrl ?? null,
       });
     });
 
