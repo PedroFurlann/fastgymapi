@@ -25,6 +25,8 @@ import { NormalUserRoleGuard } from '@/infra/auth/normal-user-role.guard';
 import { EditNormalUserWorkoutUseCase } from '@/domain/gym/application/use-cases/edit-normal-user-workout';
 import { DeleteNormalUserWorkoutUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-workout';
 import { FavoriteWorkoutUseCase } from '@/domain/gym/application/use-cases/favorite-workout';
+import { FetchWorkoutExercisesUseCase } from '@/domain/gym/application/use-cases/fetch-workout-exercises';
+import { ExercisePresenter } from '../presenters/exercise-presenter';
 
 const createCoachWorkoutBodySchema = z.object({
   title: z.string(),
@@ -66,6 +68,7 @@ export class WorkoutController {
     private readonly editNormalUserWorkoutUseCase: EditNormalUserWorkoutUseCase,
     private readonly deleteNormalUserWorkoutUseCase: DeleteNormalUserWorkoutUseCase,
     private readonly favoriteWorkoutUseCase: FavoriteWorkoutUseCase,
+    private readonly fetchWorkoutExercisesUseCase: FetchWorkoutExercisesUseCase,
   ) {}
 
   @Get('/:workoutId')
@@ -77,6 +80,17 @@ export class WorkoutController {
     const { workout } = result.value;
 
     return { workout: WorkoutPresenter.toHTTP(workout) };
+  }
+
+  @Get('/:workoutId/exercises')
+  async fetchWorkoutExercises(@Param() workoutId: string) {
+    const result = await this.fetchWorkoutExercisesUseCase.execute({
+      workoutId,
+    });
+
+    const { exercises } = result.value;
+
+    return { exercises: exercises.map(ExercisePresenter.toHTTP) };
   }
 
   @UseGuards(NormalUserRoleGuard)

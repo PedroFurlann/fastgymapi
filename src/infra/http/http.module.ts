@@ -48,6 +48,7 @@ import { DeleteNormalUserWorkoutUseCase } from '@/domain/gym/application/use-cas
 import { EditNormalUserWorkoutUseCase } from '@/domain/gym/application/use-cases/edit-normal-user-workout';
 import { FavoriteWorkoutUseCase } from '@/domain/gym/application/use-cases/favorite-workout';
 import { FetchWorkoutByIdUseCase } from '@/domain/gym/application/use-cases/fetch-workout-by-id';
+import { FetchWorkoutExercisesUseCase } from '@/domain/gym/application/use-cases/fetch-workout-exercises';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -100,6 +101,7 @@ import { FetchWorkoutByIdUseCase } from '@/domain/gym/application/use-cases/fetc
     FetchWorkoutByIdUseCase,
     EditNormalUserWorkoutUseCase,
     FavoriteWorkoutUseCase,
+    FetchWorkoutExercisesUseCase,
   ],
 })
 export class HttpModule {}
