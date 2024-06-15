@@ -30,6 +30,12 @@ export class InMemoryExerciseRepository implements ExerciseRepository {
     this.items[itemIndex] = exercise;
   }
 
+  async updateMany(exercises: Exercise[]): Promise<void> {
+    exercises.forEach((exercise) => {
+      this.update(exercise);
+    });
+  }
+
   async delete(exerciseId: string): Promise<void> {
     const itemIndex = this.items.findIndex(
       (item) => item.id.toString() === exerciseId,

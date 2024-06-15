@@ -49,6 +49,12 @@ export class PrismaExerciseRepository implements ExerciseRepository {
     });
   }
 
+  async updateMany(exercises: Exercise[]): Promise<void> {
+    exercises.forEach(async (exercise) => {
+      await this.update(exercise);
+    });
+  }
+
   async delete(exerciseId: string): Promise<void> {
     await this.prismaService.exercise.delete({
       where: {
