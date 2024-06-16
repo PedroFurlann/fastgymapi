@@ -6,7 +6,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 interface EditManyExercisesUseCaseRequest {
   exercises: {
-    id: UniqueEntityID;
+    id: string;
     title: string;
     description: string;
     category: string;
@@ -50,7 +50,7 @@ export class EditManyExercisesUseCase {
           mediaUrl: exercise.mediaUrl ?? null,
           previewUrl: exercise.previewUrl ?? null,
         },
-        exercise.id,
+        new UniqueEntityID(exercise.id),
       );
     });
 
