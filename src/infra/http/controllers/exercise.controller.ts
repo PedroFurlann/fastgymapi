@@ -124,7 +124,7 @@ const editManyExercisesBodySchema = z.object({
       normalUserId: z.string().uuid().optional(),
       mediaUrl: z.string().optional(),
       previewUrl: z.string().optional(),
-      workoutId: z.string().uuid().optional(),
+      workoutId: z.string().uuid().nullable(),
       category: z.enum([
         'BICEPS',
         'TRICEPS',
