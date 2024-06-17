@@ -27,6 +27,7 @@ import { CreateManyExercisesUseCase } from '@/domain/gym/application/use-cases/c
 import { NormalUserRoleGuard } from '@/infra/auth/normal-user-role.guard';
 import { EditNormalUserExerciseUseCase } from '@/domain/gym/application/use-cases/edit-normal-user-exercise';
 import { DeleteNormalUserExerciseUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-exercise';
+import { EditManyExercisesUseCase } from '@/domain/gym/application/use-cases/edit-many-exercises';
 
 const createCoachExerciseBodySchema = z.object({
   title: z.string(),
@@ -113,6 +114,37 @@ type CreateManyExercisesBodySchema = z.infer<
   typeof createManyExercisesBodySchema
 >;
 
+const editManyExercisesBodySchema = z.object({
+  exercises: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      description: z.string(),
+      athleteId: z.string().uuid().optional(),
+      normalUserId: z.string().uuid().optional(),
+      mediaUrl: z.string().optional(),
+      previewUrl: z.string().optional(),
+      workoutId: z.string().uuid().optional(),
+      category: z.enum([
+        'BICEPS',
+        'TRICEPS',
+        'CHEST',
+        'BACK',
+        'LEGS',
+        'SHOULDERS',
+        'FOREARMS',
+        'OTHER',
+      ]),
+    }),
+  ),
+});
+
+const editManyExercisesBodyValidationPipe = new ZodValidationPipe(
+  editManyExercisesBodySchema,
+);
+
+type EditManyExercisesBodySchema = z.infer<typeof editManyExercisesBodySchema>;
+
 const editExerciseBodySchema = z.object({
   title: z.string(),
   description: z.string(),
@@ -136,6 +168,7 @@ export class ExerciseController {
     private readonly fetchExerciseByIdUseCase: FetchExerciseByIdUseCase,
     private readonly editNormalUserExerciseUseCase: EditNormalUserExerciseUseCase,
     private readonly deleteNormalUserExerciseUseCase: DeleteNormalUserExerciseUseCase,
+    private readonly editManyExercisesUseCase: EditManyExercisesUseCase,
   ) {}
 
   @Get('/:exerciseId')
@@ -255,6 +288,32 @@ export class ExerciseController {
     return {
       exercises: resultExercises.map(ExercisePresenter.toHTTP),
     };
+  }
+
+  @Put('/many')
+  async editManyExercises(
+    @Body(editManyExercisesBodyValidationPipe)
+    body: EditManyExercisesBodySchema,
+  ) {
+    const { exercises } = body;
+
+    const editExercises = exercises.map((exercise) => {
+      return {
+        id: exercise.id,
+        title: exercise.title,
+        description: exercise.description,
+        athleteId: exercise.athleteId ?? null,
+        mediaUrl: exercise.mediaUrl ?? null,
+        previewUrl: exercise.previewUrl ?? null,
+        normalUserId: exercise.normalUserId ?? null,
+        category: exercise.category ?? null,
+        workoutId: exercise.workoutId ?? null,
+      };
+    });
+
+    await this.editManyExercisesUseCase.execute({
+      exercises: editExercises,
+    });
   }
 
   @UseGuards(NormalUserRoleGuard)
