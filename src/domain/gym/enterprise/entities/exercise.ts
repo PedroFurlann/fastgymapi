@@ -14,7 +14,7 @@ export interface ExerciseProps {
   normalUserId?: UniqueEntityID | null;
   workoutId?: UniqueEntityID | null;
   athleteId?: UniqueEntityID | null;
-  series?: number[] | null;
+  series?: number | null;
   repetitions?: number[] | null;
 }
 
@@ -50,7 +50,7 @@ export class Exercise extends Entity<ExerciseProps> {
     return this.props.series;
   }
 
-  set series(newSeries: number[]) {
+  set series(newSeries: number) {
     this.props.series = newSeries;
     this.touch();
   }

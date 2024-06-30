@@ -50,7 +50,7 @@ export class CreateManyExercisesUseCase {
         workoutId: workoutId ?? null,
         mediaUrl: exercise.mediaUrl ?? null,
         previewUrl: exercise.previewUrl ?? null,
-        series: [1, 2, 3, 4],
+        series: 4,
         repetitions: [10, 10, 10, 10],
       });
     });

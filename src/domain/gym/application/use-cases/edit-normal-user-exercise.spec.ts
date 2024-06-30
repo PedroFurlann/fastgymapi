@@ -17,7 +17,7 @@ describe('Edit Exercise', () => {
     const exercise = makeExercise(
       {
         normalUserId: new UniqueEntityID('normal-user-1'),
-        series: [1, 2, 3, 4],
+        series: 4,
         repetitions: [10, 10, 10, 10],
       },
       new UniqueEntityID('exercise-1'),
@@ -32,7 +32,7 @@ describe('Edit Exercise', () => {
       category: 'BICEPS',
       exerciseId: exercise.id.toString(),
       workoutId: 'workout-1',
-      series: [1, 2, 3, 4, 5],
+      series: 5,
       repetitions: [12, 12, 10, 10, 8],
     });
 
@@ -41,7 +41,7 @@ describe('Edit Exercise', () => {
       description: 'test-1',
     });
 
-    expect(inMemoryExerciseRepository.items[0].series.length === 5);
+    expect(inMemoryExerciseRepository.items[0].series === 5);
   });
 
   it('should not be able to edit a exercise from another normal user', async () => {

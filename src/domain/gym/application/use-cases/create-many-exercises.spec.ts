@@ -46,12 +46,12 @@ describe('Create many exercises', () => {
         new UniqueEntityID('normal-user-1'),
     );
     expect(
-      inMemoryExerciseRepository.items[0].series.length ===
+      inMemoryExerciseRepository.items[0].series ===
         inMemoryExerciseRepository.items[0].repetitions.length,
     );
     expect(
       inMemoryExerciseRepository.items[1].repetitions.length ===
-        inMemoryExerciseRepository.items[1].series.length,
+        inMemoryExerciseRepository.items[1].series,
     );
   });
 });

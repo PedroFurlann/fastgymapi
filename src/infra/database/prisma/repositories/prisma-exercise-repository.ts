@@ -64,8 +64,12 @@ export class PrismaExerciseRepository implements ExerciseRepository {
   }
 
   async deleteMany(exerciseIds: string[]): Promise<void> {
-    exerciseIds.forEach(async (id) => {
-      await this.delete(id);
+    await this.prismaService.exercise.deleteMany({
+      where: {
+        id: {
+          in: exerciseIds,
+        },
+      },
     });
   }
 

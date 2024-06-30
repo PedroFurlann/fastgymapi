@@ -15,7 +15,7 @@ interface EditManyExercisesUseCaseRequest {
     workoutId?: string;
     mediaUrl?: string;
     previewUrl?: string;
-    series?: number[];
+    series?: number;
     repetitions?: number[];
   }[];
 }

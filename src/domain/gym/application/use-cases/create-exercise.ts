@@ -36,7 +36,7 @@ export class CreateExerciseUseCase {
       title,
       description,
       category,
-      series: [1, 2, 3, 4],
+      series: 4,
       repetitions: [10, 10, 10, 10],
     });
 

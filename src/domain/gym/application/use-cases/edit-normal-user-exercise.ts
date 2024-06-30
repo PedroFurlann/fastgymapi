@@ -12,7 +12,7 @@ interface EditNormalUserExerciseUseCaseRequest {
   description: string;
   workoutId?: string;
   exerciseId: string;
-  series?: number[];
+  series?: number;
   repetitions?: number[];
 }
 
@@ -54,7 +54,7 @@ export class EditNormalUserExerciseUseCase {
       exerciseSelected.repetitions = repetitions;
     }
 
-    if (series.length > 0) {
+    if (series) {
       exerciseSelected.series = series;
     }
 
