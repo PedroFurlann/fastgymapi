@@ -45,6 +45,8 @@ model Exercise {
   previewUrl   String?
   updatedAt    DateTime? @updatedAt
   workoutId    String?
+  series       Int[]
+  repetitions  Int[]
 
   Workout    Workout?    @relation(fields: [workoutId], references: [id])
   Athlete    Athlete?    @relation(fields: [athleteId], references: [id])

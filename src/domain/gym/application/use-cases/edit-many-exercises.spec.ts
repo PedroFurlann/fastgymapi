@@ -15,9 +15,13 @@ describe('Edit many exercises', () => {
   it('should be able to edit exercises', async () => {
     const exercise1 = makeExercise({
       workoutId: new UniqueEntityID('workout-1'),
+      series: [1, 2, 3, 4],
+      repetitions: [10, 10, 10, 10],
     });
     const exercise2 = makeExercise({
       workoutId: new UniqueEntityID('workout-1'),
+      series: [1, 2, 3, 4],
+      repetitions: [10, 10, 10, 10],
     });
 
     await inMemoryExerciseRepository.create(exercise1);
@@ -40,6 +44,8 @@ describe('Edit many exercises', () => {
           category: exercise2.category,
           normalUserId: 'normal-user-1',
           workoutId: null,
+          series: [1, 2, 3, 4, 5],
+          repetitions: [12, 12, 10, 10, 8],
         },
       ],
     });
@@ -48,5 +54,6 @@ describe('Edit many exercises', () => {
     expect(inMemoryExerciseRepository.items).toHaveLength(2);
     expect(inMemoryExerciseRepository.items[0].workoutId === null);
     expect(inMemoryExerciseRepository.items[1].workoutId === null);
+    expect(inMemoryExerciseRepository.items[1].series.length === 5);
   });
 });

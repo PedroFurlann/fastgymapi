@@ -15,6 +15,8 @@ interface EditManyExercisesUseCaseRequest {
     workoutId?: string;
     mediaUrl?: string;
     previewUrl?: string;
+    series?: number[];
+    repetitions?: number[];
   }[];
 }
 
@@ -47,6 +49,8 @@ export class EditManyExercisesUseCase {
           description: exercise.description,
           category: exercise.category,
           workoutId: workoutId ?? null,
+          repetitions: exercise.repetitions ?? null,
+          series: exercise.series ?? null,
           mediaUrl: exercise.mediaUrl ?? null,
           previewUrl: exercise.previewUrl ?? null,
         },

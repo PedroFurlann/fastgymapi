@@ -12,6 +12,8 @@ interface EditNormalUserExerciseUseCaseRequest {
   description: string;
   workoutId?: string;
   exerciseId: string;
+  series?: number[];
+  repetitions?: number[];
 }
 
 type EditNormalUserExerciseUseCaseResponse = Either<
@@ -24,11 +26,10 @@ export class EditNormalUserExerciseUseCase {
 
   async execute({
     normalUserId,
-    title,
     workoutId,
-    category,
-    description,
     exerciseId,
+    series,
+    repetitions,
   }: EditNormalUserExerciseUseCaseRequest): Promise<EditNormalUserExerciseUseCaseResponse> {
     const exerciseSelected = await this.exerciseRepository.findById(exerciseId);
 
@@ -40,11 +41,15 @@ export class EditNormalUserExerciseUseCase {
       return left(new NotAllowedError());
     }
 
-    exerciseSelected.title = title;
-    exerciseSelected.description = description;
-    exerciseSelected.category = category;
-
     if (!workoutId) exerciseSelected.workoutId = null;
+
+    if (repetitions.length > 0) {
+      exerciseSelected.repetitions = repetitions;
+    }
+
+    if (series.length > 0) {
+      exerciseSelected.series = series;
+    }
 
     await this.exerciseRepository.update(exerciseSelected);
 

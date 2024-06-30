@@ -14,6 +14,8 @@ export interface ExerciseProps {
   normalUserId?: UniqueEntityID | null;
   workoutId?: UniqueEntityID | null;
   athleteId?: UniqueEntityID | null;
+  series?: number[] | null;
+  repetitions?: number[] | null;
 }
 
 export class Exercise extends Entity<ExerciseProps> {
@@ -41,6 +43,24 @@ export class Exercise extends Entity<ExerciseProps> {
 
   set category(newCategory: string) {
     this.props.category = newCategory;
+    this.touch();
+  }
+
+  get series() {
+    return this.props.series;
+  }
+
+  set series(newSeries: number[]) {
+    this.props.series = newSeries;
+    this.touch();
+  }
+
+  get repetitions() {
+    return this.props.repetitions;
+  }
+
+  set repetitions(newRepetitions: number[]) {
+    this.props.repetitions = newRepetitions;
     this.touch();
   }
 
