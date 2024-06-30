@@ -26,7 +26,10 @@ export class EditNormalUserExerciseUseCase {
 
   async execute({
     normalUserId,
+    title,
     workoutId,
+    category,
+    description,
     exerciseId,
     series,
     repetitions,
@@ -40,6 +43,10 @@ export class EditNormalUserExerciseUseCase {
     if (exerciseSelected.normalUserId.toString() !== normalUserId) {
       return left(new NotAllowedError());
     }
+
+    exerciseSelected.title = title;
+    exerciseSelected.description = description;
+    exerciseSelected.category = category;
 
     if (!workoutId) exerciseSelected.workoutId = null;
 
