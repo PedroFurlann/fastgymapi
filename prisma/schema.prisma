@@ -19,6 +19,7 @@ model Coach {
   Athlete  Athlete[]
   Workout  Workout[]
   Exercise Exercise[]
+  History  History[]
 }
 
 enum ExerciseCategory {
@@ -67,6 +68,7 @@ model Athlete {
   coach    Coach      @relation(fields: [coachId], references: [id])
   Exercise Exercise[]
   Workout  Workout[]
+  History  History[]
 }
 
 model NormalUser {
@@ -79,20 +81,38 @@ model NormalUser {
   updatedAt DateTime?  @updatedAt
   Workout   Workout[]
   Exercise  Exercise[]
+  History   History[]
 }
 
 model Workout {
-  id           String     @id @default(uuid())
-  title        String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime?  @updatedAt
-  coachId      String?
-  athleteId    String?
-  normalUserId String?
-  favorite     Boolean    @default(false)
-  exercises    Exercise[]
+  id             String     @id @default(uuid())
+  title          String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime?  @updatedAt
+  coachId        String?
+  athleteId      String?
+  normalUserId   String?
+  timesCompleted Int        @default(0)
+  favorite       Boolean    @default(false)
+  exercises      Exercise[]
 
   athlete    Athlete?    @relation(fields: [athleteId], references: [id])
   coach      Coach?      @relation(fields: [coachId], references: [id])
   NormalUser NormalUser? @relation(fields: [normalUserId], references: [id])
+  History    History[]
+}
+
+model History {
+  id           String   @id @default(uuid())
+  elapsedTime  Int
+  completedAt  DateTime
+  workoutId    String
+  coachId      String?
+  athleteId    String?
+  normalUserId String?
+
+  athlete    Athlete?    @relation(fields: [athleteId], references: [id])
+  coach      Coach?      @relation(fields: [coachId], references: [id])
+  NormalUser NormalUser? @relation(fields: [normalUserId], references: [id])
+  workout    Workout     @relation(fields: [workoutId], references: [id])
 }
