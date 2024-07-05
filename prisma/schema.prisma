@@ -87,14 +87,14 @@ model NormalUser {
 model Workout {
   id             String     @id @default(uuid())
   title          String
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime?  @updatedAt
   coachId        String?
   athleteId      String?
   normalUserId   String?
   timesCompleted Int        @default(0)
   favorite       Boolean    @default(false)
   exercises      Exercise[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime?  @updatedAt
 
   athlete    Athlete?    @relation(fields: [athleteId], references: [id])
   coach      Coach?      @relation(fields: [coachId], references: [id])
@@ -103,13 +103,15 @@ model Workout {
 }
 
 model History {
-  id           String   @id @default(uuid())
+  id           String    @id @default(uuid())
   elapsedTime  Int
   completedAt  DateTime
   workoutId    String
   coachId      String?
   athleteId    String?
   normalUserId String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
 
   athlete    Athlete?    @relation(fields: [athleteId], references: [id])
   coach      Coach?      @relation(fields: [coachId], references: [id])
