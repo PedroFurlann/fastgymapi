@@ -34,10 +34,6 @@ export class CreateWorkoutUseCase {
       workout.coachId = new UniqueEntityID(coachId);
     }
 
-    if (coachId) {
-      workout.coachId = new UniqueEntityID(coachId);
-    }
-
     if (normalUserId) {
       workout.normalUserId = new UniqueEntityID(normalUserId);
     }
