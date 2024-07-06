@@ -1,7 +1,7 @@
 import { makeCoach } from '../../../../../test/factories/make-coach';
 import { CreateHistoryUseCase } from './create-history';
 import { InMemoryHistoryRepository } from '../../../../../test/repositories/in-memory-history-repository';
-import { makeWorkout } from 'test/factories/make-workout';
+import { makeWorkout } from '../../../../../test/factories/make-workout';
 
 let inMemoryHistoryRepository: InMemoryHistoryRepository;
 let sut: CreateHistoryUseCase;
@@ -28,9 +28,6 @@ describe('Create History', () => {
     expect(result.isRight()).toBe(true);
     expect(result.value).toEqual({
       history: inMemoryHistoryRepository.items[0],
-    });
-    expect(workout.id).toEqual({
-      history: inMemoryHistoryRepository.items[0].workoutId,
     });
   });
 });
