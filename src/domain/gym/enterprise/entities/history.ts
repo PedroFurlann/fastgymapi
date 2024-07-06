@@ -5,6 +5,8 @@ import { UniqueEntityID } from '../../../../core/entities/unique-entity-id';
 export interface HistoryProps {
   elapsedTime: number;
   completedAt: Date;
+  workoutTitle: string;
+  workoutFavorite: boolean;
   workoutId: UniqueEntityID;
   coachId?: UniqueEntityID | null;
   normalUserId?: UniqueEntityID | null;
@@ -29,6 +31,24 @@ export class History extends Entity<HistoryProps> {
 
   set completedAt(newCompletedAt: Date) {
     this.props.completedAt = newCompletedAt;
+    this.touch();
+  }
+
+  get workoutFavorite() {
+    return this.props.workoutFavorite;
+  }
+
+  set workoutFavorite(newWorkoutFavorite: boolean) {
+    this.props.workoutFavorite = newWorkoutFavorite;
+    this.touch();
+  }
+
+  get workoutTitle() {
+    return this.props.workoutTitle;
+  }
+
+  set workoutTitle(newWorkoutTitle: string) {
+    this.props.workoutTitle = newWorkoutTitle;
     this.touch();
   }
 

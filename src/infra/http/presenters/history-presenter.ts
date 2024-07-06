@@ -5,6 +5,8 @@ export class HistoryPresenter {
     return {
       id: history.id.toString(),
       elapsedTime: history.elapsedTime,
+      workoutTitle: history.workoutTitle,
+      workoutFavorite: history.workoutFavorite,
       completedAt: history.completedAt,
       createdAt: history.createdAt,
       updatedAt: history.updatedAt,

@@ -103,15 +103,17 @@ model Workout {
 }
 
 model History {
-  id           String    @id @default(uuid())
-  elapsedTime  Int
-  completedAt  DateTime
-  workoutId    String
-  coachId      String?
-  athleteId    String?
-  normalUserId String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @updatedAt
+  id              String    @id @default(uuid())
+  elapsedTime     Int
+  completedAt     DateTime
+  workoutFavorite Boolean
+  workoutTitle    String
+  workoutId       String
+  coachId         String?
+  athleteId       String?
+  normalUserId    String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
 
   athlete    Athlete?    @relation(fields: [athleteId], references: [id])
   coach      Coach?      @relation(fields: [coachId], references: [id])

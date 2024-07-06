@@ -19,6 +19,8 @@ describe('Create History', () => {
     const result = await sut.execute({
       elapsedTime: 3600,
       completedAt: new Date(),
+      workoutTitle: workout.title,
+      workoutFavorite: workout.favorite,
       coachId: coach.id.toString(),
       workoutId: workout.id.toString(),
     });
@@ -26,6 +28,9 @@ describe('Create History', () => {
     expect(result.isRight()).toBe(true);
     expect(result.value).toEqual({
       history: inMemoryHistoryRepository.items[0],
+    });
+    expect(workout.id).toEqual({
+      history: inMemoryHistoryRepository.items[0].workoutId,
     });
   });
 });

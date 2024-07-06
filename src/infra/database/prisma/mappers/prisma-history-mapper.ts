@@ -8,6 +8,8 @@ export class PrismaHistoryMapper {
       {
         elapsedTime: raw.elapsedTime,
         completedAt: raw.completedAt,
+        workoutTitle: raw.workoutTitle,
+        workoutFavorite: raw.workoutFavorite,
         coachId: raw.coachId ? new UniqueEntityID(raw.coachId) : null,
         athleteId: raw.athleteId ? new UniqueEntityID(raw.athleteId) : null,
         createdAt: raw.createdAt,
@@ -26,6 +28,8 @@ export class PrismaHistoryMapper {
       id: history.id.toString(),
       elapsedTime: history.elapsedTime,
       completedAt: history.completedAt,
+      workoutTitle: history.workoutTitle,
+      workoutFavorite: history.workoutFavorite,
       coachId: history.coachId ? history.coachId.toString() : null,
       athleteId: history.athleteId ? history.athleteId.toString() : null,
       normalUserId: history.normalUserId

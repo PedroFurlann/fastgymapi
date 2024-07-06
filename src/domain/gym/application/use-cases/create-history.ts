@@ -7,6 +7,8 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 interface CreateHistoryUseCaseRequest {
   elapsedTime: number;
   completedAt: Date;
+  workoutTitle: string;
+  workoutFavorite: boolean;
   workoutId: string;
   coachId?: string | null;
   athleteId?: string | null;
@@ -21,6 +23,8 @@ export class CreateHistoryUseCase {
   async execute({
     elapsedTime,
     completedAt,
+    workoutTitle,
+    workoutFavorite,
     coachId,
     workoutId,
     normalUserId,
@@ -30,6 +34,8 @@ export class CreateHistoryUseCase {
       elapsedTime,
       workoutId: new UniqueEntityID(workoutId),
       completedAt,
+      workoutTitle,
+      workoutFavorite,
     });
 
     if (athleteId) {
