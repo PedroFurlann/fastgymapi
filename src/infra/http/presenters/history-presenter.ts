@@ -6,7 +6,6 @@ export class HistoryPresenter {
       id: history.id.toString(),
       elapsedTime: history.elapsedTime,
       completedAt: history.completedAt,
-      workoutId: history.workoutId,
       createdAt: history.createdAt,
       updatedAt: history.updatedAt,
     };
