@@ -1,20 +1,21 @@
 import { InMemoryHistoryRepository } from '../../../../../test/repositories/in-memory-history-repository';
 import { makeHistory } from '../../../../../test/factories/make-history';
 import { FetchHistoryByIdUseCase } from './fetch-history-by-id';
-import { InMemoryWorkoutRepository } from '../../../../../test/repositories/in-memory-workout-repository';
+import { InMemoryExerciseRepository } from '../../../../../test/repositories/in-memory-exercise-repository';
 import { makeWorkout } from '../../../../../test/factories/make-workout';
+import { makeExercise } from '../../../../../test/factories/make-exercise';
 
 let inMemoryHistoryRepository: InMemoryHistoryRepository;
-let inMemoryWorkoutRepository: InMemoryWorkoutRepository;
+let inMemoryExrciseRepository: InMemoryExerciseRepository;
 let sut: FetchHistoryByIdUseCase;
 
 describe('Fetch history', () => {
   beforeEach(() => {
     inMemoryHistoryRepository = new InMemoryHistoryRepository();
-    inMemoryWorkoutRepository = new InMemoryWorkoutRepository();
+    inMemoryExrciseRepository = new InMemoryExerciseRepository();
     sut = new FetchHistoryByIdUseCase(
       inMemoryHistoryRepository,
-      inMemoryWorkoutRepository,
+      inMemoryExrciseRepository,
     );
   });
 
@@ -23,9 +24,12 @@ describe('Fetch history', () => {
     const history = makeHistory({
       workoutId: workout.id,
     });
+    const exercise = makeExercise({
+      workoutId: workout.id,
+    });
 
-    await inMemoryWorkoutRepository.create(workout);
     await inMemoryHistoryRepository.create(history);
+    await inMemoryExrciseRepository.create(exercise);
 
     const result = await sut.execute({
       historyId: history.id.toString(),
@@ -37,10 +41,6 @@ describe('Fetch history', () => {
         elapsedTime: inMemoryHistoryRepository.items[0].elapsedTime,
       }),
     );
-    expect(result.value.workout).toEqual(
-      expect.objectContaining({
-        title: inMemoryWorkoutRepository.items[0].title,
-      }),
-    );
+    expect(result.value.exercises.length).toEqual(1);
   });
 });
