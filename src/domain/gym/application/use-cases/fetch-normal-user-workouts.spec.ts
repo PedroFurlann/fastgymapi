@@ -12,7 +12,7 @@ describe('Fetch normal user workouts', () => {
     sut = new FetchNormalUserWorkoutsUseCase(inMemoryWorkoutRepository);
   });
 
-  it('Fetch all normaluser workouts by normalUserId', async () => {
+  it('Fetch all normal user workouts by normalUserId', async () => {
     await inMemoryWorkoutRepository.create(
       makeWorkout({
         normalUserId: new UniqueEntityID('normal-user-1'),
