@@ -4,6 +4,29 @@ import { History } from 'src/domain/gym/enterprise/entities/history';
 export class InMemoryHistoryRepository implements HistoryRepository {
   public items: History[] = [];
 
+  async updateManyByWorkoutId(
+    workoutId: string,
+    workoutTitle: string,
+    workoutFavorite: boolean,
+  ): Promise<void> {
+    const filteredItems = this.items.filter(
+      (item) => item.workoutId.toString() === workoutId,
+    );
+
+    for (const item of filteredItems) {
+      (item.workoutTitle = workoutTitle),
+        (item.workoutFavorite = workoutFavorite);
+    }
+
+    const itemsWithoutEdit = this.items.filter(
+      (item) => item.workoutId.toString() !== workoutId,
+    );
+
+    const newItems = itemsWithoutEdit.concat(filteredItems);
+
+    this.items = newItems;
+  }
+
   async create(history: History): Promise<void> {
     this.items.push(history);
   }

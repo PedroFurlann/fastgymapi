@@ -28,16 +28,16 @@ import { FavoriteWorkoutUseCase } from '@/domain/gym/application/use-cases/favor
 import { FetchWorkoutExercisesUseCase } from '@/domain/gym/application/use-cases/fetch-workout-exercises';
 import { ExercisePresenter } from '../presenters/exercise-presenter';
 
-const createCoachWorkoutBodySchema = z.object({
+const createNormalUserWorkoutBodySchema = z.object({
   title: z.string(),
 });
 
-const createCoachWorkoutBodyValidationPipe = new ZodValidationPipe(
-  createCoachWorkoutBodySchema,
+const createNormalUserWorkoutBodyValidationPipe = new ZodValidationPipe(
+  createNormalUserWorkoutBodySchema,
 );
 
-type CreateCoachWorkoutBodySchema = z.infer<
-  typeof createCoachWorkoutBodySchema
+type CreateNormalUserWorkoutBodySchema = z.infer<
+  typeof createNormalUserWorkoutBodySchema
 >;
 
 const editWorkoutBodySchema = z.object({
@@ -97,8 +97,8 @@ export class WorkoutController {
   @Post('/normal-user')
   async createNormalUserWorkout(
     @CurrentUser() user: UserPayload,
-    @Body(createCoachWorkoutBodyValidationPipe)
-    body: CreateCoachWorkoutBodySchema,
+    @Body(createNormalUserWorkoutBodyValidationPipe)
+    body: CreateNormalUserWorkoutBodySchema,
   ) {
     const { title } = body;
 

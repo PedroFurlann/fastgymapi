@@ -3,28 +3,28 @@ import { Either, right } from '@/core/either';
 import { History } from '../../enterprise/entities/history';
 import { HistoryRepository } from '../repositories/history-repository';
 
-interface FetchNormalUserHistoriesUseCaseRequest {
+interface FetchNormalUserHistoryUseCaseRequest {
   normalUserId: string;
 }
 
-type FetchNormalUserHistoriesUseCaseResponse = Either<
+type FetchNormalUserHistoryUseCaseResponse = Either<
   null,
   {
-    histories: History[];
+    history: History[];
   }
 >;
 @Injectable()
-export class FetchNormalUserHistoriesUseCase {
+export class FetchNormalUserHistoryUseCase {
   constructor(private historyRepository: HistoryRepository) {}
 
   async execute({
     normalUserId,
-  }: FetchNormalUserHistoriesUseCaseRequest): Promise<FetchNormalUserHistoriesUseCaseResponse> {
-    const histories =
+  }: FetchNormalUserHistoryUseCaseRequest): Promise<FetchNormalUserHistoryUseCaseResponse> {
+    const history =
       await this.historyRepository.findManyByNormalUserId(normalUserId);
 
     return right({
-      histories,
+      history,
     });
   }
 }

@@ -3,18 +3,18 @@ import { Either, left, right } from '@/core/either';
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error';
 import { HistoryRepository } from '../repositories/history-repository';
 
-interface DeleteNormalUserHistoriesUseCaseRequest {
+interface DeleteNormalUserHistoryUseCaseRequest {
   normalUserId: string;
 }
 
-type DeleteNormalUserHistoriesUseCaseResponse = Either<NotAllowedError, null>;
+type DeleteNormalUserHistoryUseCaseResponse = Either<NotAllowedError, null>;
 @Injectable()
-export class DeleteNormalUserHistoriesUseCase {
+export class DeleteNormalUserHistoryUseCase {
   constructor(private historyRepostiory: HistoryRepository) {}
 
   async execute({
     normalUserId,
-  }: DeleteNormalUserHistoriesUseCaseRequest): Promise<DeleteNormalUserHistoriesUseCaseResponse> {
+  }: DeleteNormalUserHistoryUseCaseRequest): Promise<DeleteNormalUserHistoryUseCaseResponse> {
     if (!normalUserId) {
       return left(new NotAllowedError());
     }

@@ -24,6 +24,9 @@ import { NormalUserPresenter } from '../presenters/normal-user-presenter';
 import { DeleteNormalUserUseCase } from '@/domain/gym/application/use-cases/delete-normal-user';
 import { FetchNormalUserWorkoutsUseCase } from '@/domain/gym/application/use-cases/fetch-normal-user-workouts';
 import { WorkoutPresenter } from '../presenters/workout-presenter';
+import { FetchNormalUserHistoryUseCase } from '@/domain/gym/application/use-cases/fetch-normal-user-history';
+import { HistoryPresenter } from '../presenters/history-presenter';
+import { DeleteNormalUserHistoryUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-history';
 
 const editNormalUserBodySchema = z.object({
   name: z.string(),
@@ -45,6 +48,8 @@ export class NormalUserController {
     private readonly fetchNormalUserExercisesUseCase: FetchNormalUserExercisesUseCase,
     private readonly deleteNormalUserUseCase: DeleteNormalUserUseCase,
     private readonly fetchNormalUserWorkoutsUseCase: FetchNormalUserWorkoutsUseCase,
+    private readonly fetchNormalUserHistoryUseCase: FetchNormalUserHistoryUseCase,
+    private readonly deleteNormalUserHistoryUseCase: DeleteNormalUserHistoryUseCase,
   ) {}
 
   @Get()
@@ -84,6 +89,39 @@ export class NormalUserController {
     const { workouts } = result.value;
 
     return { workouts: workouts.map(WorkoutPresenter.toHTTP) };
+  }
+
+  @Get('/history')
+  async fetchNormalUserHistory(@CurrentUser() user: UserPayload) {
+    const userId = user.sub;
+
+    const result = await this.fetchNormalUserHistoryUseCase.execute({
+      normalUserId: userId,
+    });
+
+    const { history } = result.value;
+
+    return { history: history.map(HistoryPresenter.toHTTP) };
+  }
+
+  @Delete('/history')
+  async deleteNormalUserHistory(@CurrentUser() user: UserPayload) {
+    const userId = user.sub;
+
+    const result = await this.deleteNormalUserHistoryUseCase.execute({
+      normalUserId: userId,
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case NotAllowedError:
+          throw new ForbiddenException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
   }
 
   @Put()

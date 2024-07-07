@@ -30,6 +30,22 @@ export class PrismaHistoryRepository implements HistoryRepository {
     return PrismaHistoryMapper.toDomain(history);
   }
 
+  async updateManyByWorkoutId(
+    workoutId: string,
+    workoutTitle: string,
+    workoutFavorite: boolean,
+  ): Promise<void> {
+    await this.prismaService.history.updateMany({
+      where: {
+        workoutId: workoutId,
+      },
+      data: {
+        workoutFavorite,
+        workoutTitle,
+      },
+    });
+  }
+
   async deleteManyByNormalUserId(normalUserId: string): Promise<void> {
     await this.prismaService.history.deleteMany({
       where: {
@@ -55,57 +71,57 @@ export class PrismaHistoryRepository implements HistoryRepository {
   }
 
   async findManyByCoachId(coachId: string): Promise<History[]> {
-    const historys = await this.prismaService.history.findMany({
+    const history = await this.prismaService.history.findMany({
       where: {
         coachId,
       },
     });
 
-    if (!historys) {
+    if (!history) {
       return null;
     }
 
-    return historys.map(PrismaHistoryMapper.toDomain);
+    return history.map(PrismaHistoryMapper.toDomain);
   }
   async findManyByAthleteId(athleteId: string): Promise<History[]> {
-    const historys = await this.prismaService.history.findMany({
+    const history = await this.prismaService.history.findMany({
       where: {
         athleteId,
       },
     });
 
-    if (!historys) {
+    if (!history) {
       return null;
     }
 
-    return historys.map(PrismaHistoryMapper.toDomain);
+    return history.map(PrismaHistoryMapper.toDomain);
   }
 
   async findManyByNormalUserId(normalUserId: string): Promise<History[]> {
-    const historys = await this.prismaService.history.findMany({
+    const history = await this.prismaService.history.findMany({
       where: {
         normalUserId,
       },
     });
 
-    if (!historys) {
+    if (!history) {
       return null;
     }
 
-    return historys.map(PrismaHistoryMapper.toDomain);
+    return history.map(PrismaHistoryMapper.toDomain);
   }
 
   async findManyByWorkoutId(workoutId: string): Promise<History[]> {
-    const historys = await this.prismaService.history.findMany({
+    const history = await this.prismaService.history.findMany({
       where: {
         workoutId,
       },
     });
 
-    if (!historys) {
+    if (!history) {
       return null;
     }
 
-    return historys.map(PrismaHistoryMapper.toDomain);
+    return history.map(PrismaHistoryMapper.toDomain);
   }
 }
