@@ -28,7 +28,6 @@ export class FavoriteWorkoutUseCase {
     favorite,
   }: FavoriteWorkoutUseCaseRequest): Promise<FavoriteWorkoutUseCaseResponse> {
     const workoutSelected = await this.workoutRepository.findById(workoutId);
-    const history = await this.historyRepository.findManyByWorkoutId(workoutId);
 
     if (!workoutSelected) {
       return left(new ResourceNotFoundError());
@@ -40,13 +39,11 @@ export class FavoriteWorkoutUseCase {
 
     await this.workoutRepository.favoriteWorkout(workoutId, favorite);
 
-    if (history.length > 0) {
-      await this.historyRepository.updateManyByWorkoutId(
-        workoutId,
-        workoutSelected.title,
-        favorite,
-      );
-    }
+    await this.historyRepository.updateManyByWorkoutId(
+      workoutId,
+      workoutSelected.title,
+      favorite,
+    );
 
     return right(null);
   }

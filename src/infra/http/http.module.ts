@@ -50,6 +50,11 @@ import { FavoriteWorkoutUseCase } from '@/domain/gym/application/use-cases/favor
 import { FetchWorkoutByIdUseCase } from '@/domain/gym/application/use-cases/fetch-workout-by-id';
 import { FetchWorkoutExercisesUseCase } from '@/domain/gym/application/use-cases/fetch-workout-exercises';
 import { EditManyExercisesUseCase } from '@/domain/gym/application/use-cases/edit-many-exercises';
+import { FetchHistoryByIdUseCase } from '@/domain/gym/application/use-cases/fetch-history-by-id';
+import { FetchNormalUserHistoryUseCase } from '@/domain/gym/application/use-cases/fetch-normal-user-history';
+import { CreateHistoryUseCase } from '@/domain/gym/application/use-cases/create-history';
+import { DeleteNormalUserHistoryUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-history';
+import { HistoryController } from './controllers/history-controller';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -62,6 +67,7 @@ import { EditManyExercisesUseCase } from '@/domain/gym/application/use-cases/edi
     NormalUserController,
     StorageController,
     WorkoutController,
+    HistoryController,
   ],
   providers: [
     RegisterAthleteUseCase,
@@ -104,6 +110,10 @@ import { EditManyExercisesUseCase } from '@/domain/gym/application/use-cases/edi
     EditNormalUserWorkoutUseCase,
     FavoriteWorkoutUseCase,
     FetchWorkoutExercisesUseCase,
+    FetchHistoryByIdUseCase,
+    FetchNormalUserHistoryUseCase,
+    CreateHistoryUseCase,
+    DeleteNormalUserHistoryUseCase,
   ],
 })
 export class HttpModule {}

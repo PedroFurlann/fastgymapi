@@ -29,7 +29,6 @@ export class EditNormalUserWorkoutUseCase {
     workoutId,
   }: EditNormalUserWorkoutUseCaseRequest): Promise<EditNormalUserWorkoutUseCaseResponse> {
     const workoutSelected = await this.workoutRepository.findById(workoutId);
-    const history = await this.historyRepository.findManyByWorkoutId(workoutId);
 
     if (!workoutSelected) {
       return left(new ResourceNotFoundError());
@@ -43,13 +42,11 @@ export class EditNormalUserWorkoutUseCase {
 
     await this.workoutRepository.update(workoutSelected);
 
-    if (history.length > 0) {
-      await this.historyRepository.updateManyByWorkoutId(
-        workoutId,
-        title,
-        workoutSelected.favorite,
-      );
-    }
+    await this.historyRepository.updateManyByWorkoutId(
+      workoutId,
+      title,
+      workoutSelected.favorite,
+    );
 
     return right({
       workout: workoutSelected,
