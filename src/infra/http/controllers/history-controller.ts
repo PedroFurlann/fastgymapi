@@ -10,8 +10,8 @@ import { NormalUserRoleGuard } from '@/infra/auth/normal-user-role.guard';
 
 const createNormalUserHistoryBodySchema = z.object({
   elapsedTime: z.number(),
-  completedAt: z.date(),
-  workoutId: z.string(),
+  completedAt: z.coerce.date(),
+  workoutId: z.string().uuid(),
   workoutFavorite: z.boolean(),
   workoutTitle: z.string(),
 });
