@@ -46,6 +46,7 @@ describe('Edit many exercises', () => {
           workoutId: null,
           series: 5,
           repetitions: [12, 12, 10, 10, 8],
+          weights: [10, 12, 14, 16, 20],
         },
       ],
     });

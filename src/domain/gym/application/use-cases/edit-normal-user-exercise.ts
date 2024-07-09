@@ -14,6 +14,7 @@ interface EditNormalUserExerciseUseCaseRequest {
   exerciseId: string;
   series?: number;
   repetitions?: number[];
+  weights?: number[];
 }
 
 type EditNormalUserExerciseUseCaseResponse = Either<
@@ -33,6 +34,7 @@ export class EditNormalUserExerciseUseCase {
     exerciseId,
     series,
     repetitions,
+    weights,
   }: EditNormalUserExerciseUseCaseRequest): Promise<EditNormalUserExerciseUseCaseResponse> {
     const exerciseSelected = await this.exerciseRepository.findById(exerciseId);
 
@@ -50,12 +52,16 @@ export class EditNormalUserExerciseUseCase {
 
     if (!workoutId) exerciseSelected.workoutId = null;
 
+    if (series) {
+      exerciseSelected.series = series;
+    }
+
     if (repetitions.length > 0) {
       exerciseSelected.repetitions = repetitions;
     }
 
-    if (series) {
-      exerciseSelected.series = series;
+    if (weights.length > 0) {
+      exerciseSelected.weights = weights;
     }
 
     await this.exerciseRepository.update(exerciseSelected);

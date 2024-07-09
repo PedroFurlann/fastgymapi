@@ -53,5 +53,13 @@ describe('Create many exercises', () => {
       inMemoryExerciseRepository.items[1].repetitions.length ===
         inMemoryExerciseRepository.items[1].series,
     );
+    expect(
+      inMemoryExerciseRepository.items[0].weights.length ===
+        inMemoryExerciseRepository.items[0].series,
+    );
+    expect(
+      inMemoryExerciseRepository.items[1].weights.length ===
+        inMemoryExerciseRepository.items[1].series,
+    );
   });
 });

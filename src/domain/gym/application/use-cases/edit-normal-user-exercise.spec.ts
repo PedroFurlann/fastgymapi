@@ -19,6 +19,7 @@ describe('Edit Exercise', () => {
         normalUserId: new UniqueEntityID('normal-user-1'),
         series: 4,
         repetitions: [10, 10, 10, 10],
+        weights: [10, 10, 10, 10],
       },
       new UniqueEntityID('exercise-1'),
     );
@@ -34,6 +35,7 @@ describe('Edit Exercise', () => {
       workoutId: 'workout-1',
       series: 5,
       repetitions: [12, 12, 10, 10, 8],
+      weights: [10, 12, 14, 16, 20],
     });
 
     expect(inMemoryExerciseRepository.items[0]).toMatchObject({

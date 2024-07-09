@@ -52,6 +52,7 @@ export class CreateManyExercisesUseCase {
         previewUrl: exercise.previewUrl ?? null,
         series: 4,
         repetitions: [10, 10, 10, 10],
+        weights: [10, 10, 10, 10],
       });
     });
 

@@ -9,6 +9,7 @@ export class ExercisePresenter {
       category: exercise.category,
       series: exercise.series,
       repetitions: exercise.repetitions,
+      weights: exercise.weights,
       mediaUrl: exercise.mediaUrl,
       previewUrl: exercise.previewUrl,
       createdAt: exercise.createdAt,

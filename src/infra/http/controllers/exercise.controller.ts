@@ -127,6 +127,7 @@ const editManyExercisesBodySchema = z.object({
       workoutId: z.string().uuid().nullable(),
       series: z.number().nullable(),
       repetitions: z.array(z.number()).nullable(),
+      weights: z.array(z.number()).nullable(),
       category: z.enum([
         'BICEPS',
         'TRICEPS',
@@ -154,6 +155,7 @@ const editExerciseBodySchema = z.object({
   workoutId: z.string().uuid().optional(),
   series: z.number().nullable(),
   repetitions: z.array(z.number()).nullable(),
+  weights: z.array(z.number()).nullable(),
 });
 
 const editExerciseBodyValidationPipe = new ZodValidationPipe(
@@ -313,6 +315,7 @@ export class ExerciseController {
         category: exercise.category ?? null,
         workoutId: exercise.workoutId ?? null,
         series: exercise.series ?? null,
+        weights: exercise.weights ?? null,
         repetitions: exercise.repetitions ?? null,
       };
     });
@@ -329,8 +332,15 @@ export class ExerciseController {
     @Body(editExerciseBodyValidationPipe) body: EditExerciseBodySchema,
     @Param('exerciseId') exerciseId: string,
   ) {
-    const { title, description, category, workoutId, series, repetitions } =
-      body;
+    const {
+      title,
+      description,
+      category,
+      workoutId,
+      series,
+      repetitions,
+      weights,
+    } = body;
 
     const userId = user.sub;
 
@@ -342,6 +352,7 @@ export class ExerciseController {
       workoutId: workoutId ?? null,
       series: series ?? null,
       repetitions: repetitions ?? null,
+      weights: weights ?? null,
       description,
     });
 
