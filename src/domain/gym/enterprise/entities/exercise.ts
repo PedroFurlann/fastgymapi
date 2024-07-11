@@ -70,7 +70,7 @@ export class Exercise extends Entity<ExerciseProps> {
   }
 
   set weights(newWeights: number[]) {
-    this.props.repetitions = newWeights;
+    this.props.weights = newWeights;
     this.touch();
   }
 

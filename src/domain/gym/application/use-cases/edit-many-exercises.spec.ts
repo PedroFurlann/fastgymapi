@@ -17,11 +17,13 @@ describe('Edit many exercises', () => {
       workoutId: new UniqueEntityID('workout-1'),
       series: 4,
       repetitions: [10, 10, 10, 10],
+      weights: [10, 10, 10, 10],
     });
     const exercise2 = makeExercise({
       workoutId: new UniqueEntityID('workout-1'),
       series: 4,
       repetitions: [10, 10, 10, 10],
+      weights: [10, 10, 10, 10],
     });
 
     await inMemoryExerciseRepository.create(exercise1);

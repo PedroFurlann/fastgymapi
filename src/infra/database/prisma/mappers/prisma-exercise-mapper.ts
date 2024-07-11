@@ -17,6 +17,7 @@ export class PrismaExerciseMapper {
         category: raw.category,
         series: raw.series,
         repetitions: raw.repetitions,
+        weights: raw.weights,
         normalUserId: raw.normalUserId
           ? new UniqueEntityID(raw.normalUserId)
           : null,
@@ -36,6 +37,7 @@ export class PrismaExerciseMapper {
       description: exercise.description,
       series: exercise.series,
       repetitions: exercise.repetitions,
+      weights: exercise.weights,
       category: exercise.category,
       athleteId: exercise.athleteId ? exercise.athleteId.toString() : null,
       normalUserId: exercise.normalUserId

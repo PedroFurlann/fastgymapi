@@ -315,8 +315,8 @@ export class ExerciseController {
         category: exercise.category ?? null,
         workoutId: exercise.workoutId ?? null,
         series: exercise.series ?? null,
-        weights: exercise.weights ?? null,
         repetitions: exercise.repetitions ?? null,
+        weights: exercise.weights ?? null,
       };
     });
 
