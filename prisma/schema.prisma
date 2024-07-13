@@ -73,16 +73,18 @@ model Athlete {
 }
 
 model NormalUser {
-  id        String     @id @default(uuid())
-  name      String
-  email     String     @unique
-  password  String?
-  avatarUrl String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime?  @updatedAt
-  Workout   Workout[]
-  Exercise  Exercise[]
-  History   History[]
+  id                           String     @id @default(uuid())
+  name                         String
+  email                        String     @unique
+  password                     String?
+  avatarUrl                    String?
+  recoverPasswordCode          String?
+  recoverPasswordCodeExpiresIn DateTime?
+  createdAt                    DateTime   @default(now())
+  updatedAt                    DateTime?  @updatedAt
+  Workout                      Workout[]
+  Exercise                     Exercise[]
+  History                      History[]
 }
 
 model Workout {
