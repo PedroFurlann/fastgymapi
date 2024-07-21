@@ -55,9 +55,10 @@ import { FetchNormalUserHistoryUseCase } from '@/domain/gym/application/use-case
 import { CreateHistoryUseCase } from '@/domain/gym/application/use-cases/create-history';
 import { DeleteNormalUserHistoryUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-history';
 import { HistoryController } from './controllers/history-controller';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule, StorageModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule, MailModule],
   controllers: [
     RegisterController,
     AuthenticateController,
