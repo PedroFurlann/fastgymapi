@@ -9,6 +9,8 @@ export interface NormalUserProps {
   avatarUrl?: string | null;
   createdAt: Date;
   updatedAt?: Date | null;
+  recoveryPasswordCode?: string | null;
+  recoveryPasswordCodeExpiresIn?: Date | null;
 }
 
 export class NormalUser extends Entity<NormalUserProps> {
@@ -40,6 +42,24 @@ export class NormalUser extends Entity<NormalUserProps> {
 
   set avatarUrl(newAvatarUrl: string) {
     this.props.avatarUrl = newAvatarUrl;
+    this.touch();
+  }
+
+  get recoveryPasswordCode() {
+    return this.props.recoveryPasswordCode;
+  }
+
+  set recoveryPasswordCode(newRecoveryPasswordCode: string) {
+    this.props.recoveryPasswordCode = newRecoveryPasswordCode;
+    this.touch();
+  }
+
+  get recoveryPasswordCodeExpiresIn() {
+    return this.props.recoveryPasswordCodeExpiresIn;
+  }
+
+  set recoveryPasswordCodeExpiresIn(newRecoveryPasswordCodeExpiresIn: Date) {
+    this.props.recoveryPasswordCodeExpiresIn = newRecoveryPasswordCodeExpiresIn;
     this.touch();
   }
 

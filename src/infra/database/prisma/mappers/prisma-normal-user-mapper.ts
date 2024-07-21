@@ -12,22 +12,30 @@ export class PrismaNormalUserMapper {
         avatarUrl: raw.avatarUrl ? raw.avatarUrl : null,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt ? raw.updatedAt : null,
+        recoveryPasswordCode: raw.recoveryPasswordCode
+          ? raw.recoveryPasswordCode
+          : null,
+        recoveryPasswordCodeExpiresIn: raw.recoveryPasswordCodeExpiresIn
+          ? raw.recoveryPasswordCodeExpiresIn
+          : null,
       },
       new UniqueEntityID(raw.id),
     );
   }
 
   static toPersistence(
-    noramlUser: NormalUser,
+    normalUser: NormalUser,
   ): Prisma.NormalUserUncheckedCreateInput {
     return {
-      id: noramlUser.id.toString(),
-      name: noramlUser.name,
-      email: noramlUser.email,
-      password: noramlUser.password,
-      avatarUrl: noramlUser.avatarUrl,
-      createdAt: noramlUser.createdAt,
-      updatedAt: noramlUser.updatedAt,
+      id: normalUser.id.toString(),
+      name: normalUser.name,
+      email: normalUser.email,
+      password: normalUser.password,
+      avatarUrl: normalUser.avatarUrl,
+      createdAt: normalUser.createdAt,
+      updatedAt: normalUser.updatedAt,
+      recoveryPasswordCode: normalUser.recoveryPasswordCode,
+      recoveryPasswordCodeExpiresIn: normalUser.recoveryPasswordCodeExpiresIn,
     };
   }
 }
