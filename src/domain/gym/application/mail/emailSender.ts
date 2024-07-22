@@ -1,5 +1,5 @@
 export abstract class EmailSender {
-  abstract sendRecoveryPasswordEmail(
+  abstract sendRecoveryPasswordCodeEmail(
     email: string,
     recoveryPasswordCode: string,
   ): Promise<void>;

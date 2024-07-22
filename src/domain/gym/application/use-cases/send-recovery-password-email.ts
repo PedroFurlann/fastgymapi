@@ -5,13 +5,13 @@ import { UserNotFoundError } from './errors/user-not-found-error';
 import { EmailSender } from '../mail/emailSender';
 import dayjs from 'dayjs';
 
-interface SendRecoveryPasswordRequest {
+interface SendRecoveryPasswordCodeRequest {
   email: string;
 }
 
-type SendRecoveryPasswordResponse = Either<UserNotFoundError, null>;
+type SendRecoveryPasswordCodeResponse = Either<UserNotFoundError, null>;
 @Injectable()
-export class SendRecoveryPasswordUseCase {
+export class SendRecoveryPasswordCodeUseCase {
   constructor(
     private readonly normalUserRepository: NormalUserRepository,
     private readonly emailSender: EmailSender,
@@ -19,7 +19,7 @@ export class SendRecoveryPasswordUseCase {
 
   async execute({
     email,
-  }: SendRecoveryPasswordRequest): Promise<SendRecoveryPasswordResponse> {
+  }: SendRecoveryPasswordCodeRequest): Promise<SendRecoveryPasswordCodeResponse> {
     const normalUser = await this.normalUserRepository.findByEmail(email);
 
     if (!normalUser) {
@@ -46,7 +46,7 @@ export class SendRecoveryPasswordUseCase {
     );
 
     await this.normalUserRepository.update(normalUser);
-    await this.emailSender.sendRecoveryPasswordEmail(email, code);
+    await this.emailSender.sendRecoveryPasswordCodeEmail(email, code);
 
     return right(null);
   }

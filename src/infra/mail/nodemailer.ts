@@ -18,7 +18,10 @@ export class NodeMailer implements EmailSender {
     });
   }
 
-  async sendRecoveryPasswordEmail(email: string, recoveryPasswordCode: string) {
+  async sendRecoveryPasswordCodeEmail(
+    email: string,
+    recoveryPasswordCode: string,
+  ) {
     const mailOptions = {
       from: this.envService.get('EMAIL'),
       to: email,

@@ -1,7 +1,6 @@
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
 import { NormalUserRepository } from '../repositories/normal-user-repository';
-import { UserNotFoundError } from './errors/user-not-found-error';
 import dayjs from 'dayjs';
 import { InvalidRecoveryPasswordCodeError } from './errors/invalid-recovery-password-code-error';
 import { RecoveryPasswordCodeExpiredError } from './errors/recovery-password-code-expired-error';
@@ -11,7 +10,10 @@ interface ValidateRecoveryPasswordCodeRequest {
   recoveryPasswordCode: string;
 }
 
-type ValidateRecoveryPasswordCodeResponse = Either<UserNotFoundError, null>;
+type ValidateRecoveryPasswordCodeResponse = Either<
+  InvalidRecoveryPasswordCodeError | RecoveryPasswordCodeExpiredError,
+  null
+>;
 @Injectable()
 export class ValidateRecoveryPasswordCodeUseCase {
   constructor(private readonly normalUserRepository: NormalUserRepository) {}

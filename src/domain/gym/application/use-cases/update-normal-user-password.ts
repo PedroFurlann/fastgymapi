@@ -7,7 +7,7 @@ import { HashGenerator } from '../cryptography/hash-generator';
 
 interface UpdateNormalUserPasswordUseCaseRequest {
   email: string;
-  new_password: string;
+  newPassword: string;
 }
 
 type UpdateNormalUserPasswordUseCaseResponse = Either<
@@ -23,7 +23,7 @@ export class UpdateNormalUserPasswordUseCase {
 
   async execute({
     email,
-    new_password,
+    newPassword,
   }: UpdateNormalUserPasswordUseCaseRequest): Promise<UpdateNormalUserPasswordUseCaseResponse> {
     const normalUserSelected =
       await this.normalUserRepository.findByEmail(email);
@@ -36,7 +36,7 @@ export class UpdateNormalUserPasswordUseCase {
       return left(new NotAllowedError());
     }
 
-    const hashedPassword = await this.hashGenerator.hash(new_password);
+    const hashedPassword = await this.hashGenerator.hash(newPassword);
     normalUserSelected.password = hashedPassword;
 
     await this.normalUserRepository.update(normalUserSelected);

@@ -56,6 +56,9 @@ import { CreateHistoryUseCase } from '@/domain/gym/application/use-cases/create-
 import { DeleteNormalUserHistoryUseCase } from '@/domain/gym/application/use-cases/delete-normal-user-history';
 import { HistoryController } from './controllers/history-controller';
 import { MailModule } from '../mail/mail.module';
+import { SendRecoveryPasswordCodeUseCase } from '@/domain/gym/application/use-cases/send-recovery-password-email';
+import { ValidateRecoveryPasswordCodeUseCase } from '@/domain/gym/application/use-cases/validate-recovery-password-code';
+import { UpdateNormalUserPasswordUseCase } from '@/domain/gym/application/use-cases/update-normal-user-password';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, MailModule],
@@ -115,6 +118,9 @@ import { MailModule } from '../mail/mail.module';
     FetchNormalUserHistoryUseCase,
     CreateHistoryUseCase,
     DeleteNormalUserHistoryUseCase,
+    SendRecoveryPasswordCodeUseCase,
+    ValidateRecoveryPasswordCodeUseCase,
+    UpdateNormalUserPasswordUseCase,
   ],
 })
 export class HttpModule {}
