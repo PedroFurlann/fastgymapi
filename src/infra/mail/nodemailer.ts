@@ -14,8 +14,8 @@ export class NodeMailer implements EmailSender {
     const mailOptions = {
       from: this.envService.get('EMAIL'),
       to: email,
-      subject: 'Recuperação de Senha',
-      text: `Você solicitou a recuperação de senha da sua conta. Esse é seu código de verificação ${recoveryPasswordCode}, ele expira em 10 minutos!`,
+      subject: 'Redefinir Senha',
+      html: `Você solicitou a redefinição de senha da sua conta. Esse é seu código de verificação: <b style="font-size: 18px">${recoveryPasswordCode}</b>, ele expira em 10 minutos!`,
     };
 
     try {
