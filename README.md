@@ -1,1 +1,1 @@
-Fast gym API
+Fast gym web API
